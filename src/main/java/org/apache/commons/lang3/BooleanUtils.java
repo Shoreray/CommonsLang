@@ -27,7 +27,7 @@ import org.apache.commons.lang3.math.NumberUtils;
  *
  * <p>#ThreadSafe#</p>
  * @since 2.0
- * @version $Id: BooleanUtils.java 1133336 2011-06-08 10:51:27Z scolebourne $
+ * @version $Id: BooleanUtils.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class BooleanUtils {
 
@@ -226,9 +226,9 @@ public class BooleanUtils {
      * <p>NOTE: This returns null and will throw a NullPointerException if autoboxed to a boolean. </p>
      *
      * <pre>
-     *   BooleanUtils.toBoolean(new Integer(0))    = Boolean.FALSE
-     *   BooleanUtils.toBoolean(new Integer(1))    = Boolean.TRUE
-     *   BooleanUtils.toBoolean(new Integer(null)) = null
+     *   BooleanUtils.toBoolean(Integer.valueOf(0))    = Boolean.FALSE
+     *   BooleanUtils.toBoolean(Integer.valueOf(1))    = Boolean.TRUE
+     *   BooleanUtils.toBoolean(Integer.valueOf(null)) = null
      * </pre>
      *
      * @param value  the Integer to convert
@@ -273,11 +273,11 @@ public class BooleanUtils {
      * <p>Converts an Integer to a boolean specifying the conversion values.</p>
      *
      * <pre>
-     *   BooleanUtils.toBoolean(new Integer(0), new Integer(1), new Integer(0)) = false
-     *   BooleanUtils.toBoolean(new Integer(1), new Integer(1), new Integer(0)) = true
-     *   BooleanUtils.toBoolean(new Integer(2), new Integer(1), new Integer(2)) = false
-     *   BooleanUtils.toBoolean(new Integer(2), new Integer(2), new Integer(0)) = true
-     *   BooleanUtils.toBoolean(null, null, new Integer(0))                     = true
+     *   BooleanUtils.toBoolean(Integer.valueOf(0), Integer.valueOf(1), Integer.valueOf(0)) = false
+     *   BooleanUtils.toBoolean(Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(0)) = true
+     *   BooleanUtils.toBoolean(Integer.valueOf(2), Integer.valueOf(1), Integer.valueOf(2)) = false
+     *   BooleanUtils.toBoolean(Integer.valueOf(2), Integer.valueOf(2), Integer.valueOf(0)) = true
+     *   BooleanUtils.toBoolean(null, null, Integer.valueOf(0))                     = true
      * </pre>
      *
      * @param value  the Integer to convert
@@ -341,9 +341,9 @@ public class BooleanUtils {
      * <p>NOTE: This returns null and will throw a NullPointerException if autoboxed to a boolean. </p>
      *
      * <pre>
-     *   BooleanUtils.toBooleanObject(new Integer(0), new Integer(0), new Integer(2), new Integer(3)) = Boolean.TRUE
-     *   BooleanUtils.toBooleanObject(new Integer(2), new Integer(1), new Integer(2), new Integer(3)) = Boolean.FALSE
-     *   BooleanUtils.toBooleanObject(new Integer(3), new Integer(1), new Integer(2), new Integer(3)) = null
+     *   BooleanUtils.toBooleanObject(Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(2), Integer.valueOf(3)) = Boolean.TRUE
+     *   BooleanUtils.toBooleanObject(Integer.valueOf(2), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3)) = Boolean.FALSE
+     *   BooleanUtils.toBooleanObject(Integer.valueOf(3), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3)) = null
      * </pre>
      *
      * @param value  the Integer to convert
@@ -398,8 +398,8 @@ public class BooleanUtils {
      * {@code zero} is {@code false}.</p>
      *
      * <pre>
-     *   BooleanUtils.toIntegerObject(true)  = new Integer(1)
-     *   BooleanUtils.toIntegerObject(false) = new Integer(0)
+     *   BooleanUtils.toIntegerObject(true)  = Integer.valueOf(1)
+     *   BooleanUtils.toIntegerObject(false) = Integer.valueOf(0)
      * </pre>
      *
      * @param bool  the boolean to convert
@@ -416,8 +416,8 @@ public class BooleanUtils {
      * <p>{@code null} will be converted to {@code null}.</p>
      *
      * <pre>
-     *   BooleanUtils.toIntegerObject(Boolean.TRUE)  = new Integer(1)
-     *   BooleanUtils.toIntegerObject(Boolean.FALSE) = new Integer(0)
+     *   BooleanUtils.toIntegerObject(Boolean.TRUE)  = Integer.valueOf(1)
+     *   BooleanUtils.toIntegerObject(Boolean.FALSE) = Integer.valueOf(0)
      * </pre>
      *
      * @param bool  the Boolean to convert
@@ -473,8 +473,8 @@ public class BooleanUtils {
      * <p>Converts a boolean to an Integer specifying the conversion values.</p>
      *
      * <pre>
-     *   BooleanUtils.toIntegerObject(true, new Integer(1), new Integer(0))  = new Integer(1)
-     *   BooleanUtils.toIntegerObject(false, new Integer(1), new Integer(0)) = new Integer(0)
+     *   BooleanUtils.toIntegerObject(true, Integer.valueOf(1), Integer.valueOf(0))  = Integer.valueOf(1)
+     *   BooleanUtils.toIntegerObject(false, Integer.valueOf(1), Integer.valueOf(0)) = Integer.valueOf(0)
      * </pre>
      *
      * @param bool  the to convert
@@ -490,9 +490,9 @@ public class BooleanUtils {
      * <p>Converts a Boolean to an Integer specifying the conversion values.</p>
      *
      * <pre>
-     *   BooleanUtils.toIntegerObject(Boolean.TRUE, new Integer(1), new Integer(0), new Integer(2))  = new Integer(1)
-     *   BooleanUtils.toIntegerObject(Boolean.FALSE, new Integer(1), new Integer(0), new Integer(2)) = new Integer(0)
-     *   BooleanUtils.toIntegerObject(null, new Integer(1), new Integer(0), new Integer(2))          = new Integer(2)
+     *   BooleanUtils.toIntegerObject(Boolean.TRUE, Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(2))  = Integer.valueOf(1)
+     *   BooleanUtils.toIntegerObject(Boolean.FALSE, Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(2)) = Integer.valueOf(0)
+     *   BooleanUtils.toIntegerObject(null, Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(2))          = Integer.valueOf(2)
      * </pre>
      *
      * @param bool  the Boolean to convert
@@ -867,15 +867,154 @@ public class BooleanUtils {
         return bool ? trueString : falseString;
     }
 
-    // xor methods
+    // logical operations
     // ----------------------------------------------------------------------
+    /**
+     * <p>Performs an and on a set of booleans.</p>
+     *
+     * <pre>
+     *   BooleanUtils.and(true, true)         = true
+     *   BooleanUtils.and(false, false)       = false
+     *   BooleanUtils.and(true, false)        = false
+     *   BooleanUtils.and(true, true, false)  = false
+     *   BooleanUtils.and(true, true, true)   = true
+     * </pre>
+     *
+     * @param array  an array of {@code boolean}s
+     * @return {@code true} if the and is successful.
+     * @throws IllegalArgumentException if {@code array} is {@code null}
+     * @throws IllegalArgumentException if {@code array} is empty.
+     * @since 3.0.1
+     */
+    public static boolean and(boolean... array) {
+        // Validates input
+        if (array == null) {
+            throw new IllegalArgumentException("The Array must not be null");
+        }
+        if (array.length == 0) {
+            throw new IllegalArgumentException("Array is empty");
+        }
+        for (boolean element : array) {
+            if (!element) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * <p>Performs an and on an array of Booleans.</p>
+     *
+     * <pre>
+     *   BooleanUtils.and(Boolean.TRUE, Boolean.TRUE)                 = Boolean.TRUE
+     *   BooleanUtils.and(Boolean.FALSE, Boolean.FALSE)               = Boolean.FALSE
+     *   BooleanUtils.and(Boolean.TRUE, Boolean.FALSE)                = Boolean.FALSE
+     *   BooleanUtils.and(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE)   = Boolean.TRUE
+     *   BooleanUtils.and(Boolean.FALSE, Boolean.FALSE, Boolean.TRUE) = Boolean.FALSE
+     *   BooleanUtils.and(Boolean.TRUE, Boolean.FALSE, Boolean.TRUE)  = Boolean.FALSE
+     * </pre>
+     *
+     * @param array  an array of {@code Boolean}s
+     * @return {@code true} if the and is successful.
+     * @throws IllegalArgumentException if {@code array} is {@code null}
+     * @throws IllegalArgumentException if {@code array} is empty.
+     * @throws IllegalArgumentException if {@code array} contains a {@code null}
+     * @since 3.0.1
+     */
+    public static Boolean and(Boolean... array) {
+        if (array == null) {
+            throw new IllegalArgumentException("The Array must not be null");
+        }
+        if (array.length == 0) {
+            throw new IllegalArgumentException("Array is empty");
+        }
+        try {
+            boolean[] primitive = ArrayUtils.toPrimitive(array);
+            return and(primitive) ? Boolean.TRUE : Boolean.FALSE;
+        } catch (NullPointerException ex) {
+            throw new IllegalArgumentException("The array must not contain any null elements");
+        }
+    }
+
+    /**
+     * <p>Performs an or on a set of booleans.</p>
+     *
+     * <pre>
+     *   BooleanUtils.or(true, true)          = true
+     *   BooleanUtils.or(false, false)        = false
+     *   BooleanUtils.or(true, false)         = true
+     *   BooleanUtils.or(true, true, false)   = true
+     *   BooleanUtils.or(true, true, true)    = true
+     *   BooleanUtils.or(false, false, false) = false
+     * </pre>
+     *
+     * @param array  an array of {@code boolean}s
+     * @return {@code true} if the or is successful.
+     * @throws IllegalArgumentException if {@code array} is {@code null}
+     * @throws IllegalArgumentException if {@code array} is empty.
+     * @since 3.0.1
+     */
+    public static boolean or(boolean... array) {
+        // Validates input
+        if (array == null) {
+            throw new IllegalArgumentException("The Array must not be null");
+        }
+        if (array.length == 0) {
+            throw new IllegalArgumentException("Array is empty");
+        }
+        for (boolean element : array) {
+            if (element) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * <p>Performs an or on an array of Booleans.</p>
+     *
+     * <pre>
+     *   BooleanUtils.or(Boolean.TRUE, Boolean.TRUE)                  = Boolean.TRUE
+     *   BooleanUtils.or(Boolean.FALSE, Boolean.FALSE)                = Boolean.FALSE
+     *   BooleanUtils.or(Boolean.TRUE, Boolean.FALSE)                 = Boolean.TRUE
+     *   BooleanUtils.or(Boolean.TRUE, Boolean.TRUE, Boolean.TRUE)    = Boolean.TRUE
+     *   BooleanUtils.or(Boolean.FALSE, Boolean.FALSE, Boolean.TRUE)  = Boolean.TRUE
+     *   BooleanUtils.or(Boolean.TRUE, Boolean.FALSE, Boolean.TRUE)   = Boolean.TRUE
+     *   BooleanUtils.or(Boolean.FALSE, Boolean.FALSE, Boolean.FALSE) = Boolean.FALSE
+     * </pre>
+     *
+     * @param array  an array of {@code Boolean}s
+     * @return {@code true} if the or is successful.
+     * @throws IllegalArgumentException if {@code array} is {@code null}
+     * @throws IllegalArgumentException if {@code array} is empty.
+     * @throws IllegalArgumentException if {@code array} contains a {@code null}
+     * @since 3.0.1
+     */
+    public static Boolean or(Boolean... array) {
+        if (array == null) {
+            throw new IllegalArgumentException("The Array must not be null");
+        }
+        if (array.length == 0) {
+            throw new IllegalArgumentException("Array is empty");
+        }
+        try {
+            boolean[] primitive = ArrayUtils.toPrimitive(array);
+            return or(primitive) ? Boolean.TRUE : Boolean.FALSE;
+        } catch (NullPointerException ex) {
+            throw new IllegalArgumentException("The array must not contain any null elements");
+        }
+    }
+
     /**
      * <p>Performs an xor on a set of booleans.</p>
      *
      * <pre>
-     *   BooleanUtils.xor(new boolean[] { true, true })   = false
-     *   BooleanUtils.xor(new boolean[] { false, false }) = false
-     *   BooleanUtils.xor(new boolean[] { true, false })  = true
+     *   BooleanUtils.xor(true, true)   = false
+     *   BooleanUtils.xor(false, false) = false
+     *   BooleanUtils.xor(true, false)  = true
+     *   BooleanUtils.xor(true, true)   = false
+     *   BooleanUtils.xor(false, false) = false
+     *   BooleanUtils.xor(true, false)  = true
      * </pre>
      *
      * @param array  an array of {@code boolean}s
@@ -932,13 +1071,12 @@ public class BooleanUtils {
         if (array.length == 0) {
             throw new IllegalArgumentException("Array is empty");
         }
-        boolean[] primitive = null;
         try {
-            primitive = ArrayUtils.toPrimitive(array);
+            boolean[] primitive = ArrayUtils.toPrimitive(array);
+            return xor(primitive) ? Boolean.TRUE : Boolean.FALSE;
         } catch (NullPointerException ex) {
             throw new IllegalArgumentException("The array must not contain any null elements");
         }
-        return xor(primitive) ? Boolean.TRUE : Boolean.FALSE;
     }
 
 }

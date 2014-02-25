@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 /**
  * Unit tests {@link org.apache.commons.lang3.ArrayUtils}.
  *
- * @version $Id: ArrayUtilsTest.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: ArrayUtilsTest.java 1153490 2011-08-03 13:53:35Z ggregory $
  */
 public class ArrayUtilsTest extends TestCase {
 
@@ -2438,12 +2438,12 @@ public class ArrayUtilsTest extends TestCase {
         
         assertTrue(Arrays.equals(
             new short[] {Short.MIN_VALUE, Short.MAX_VALUE, (short)9999999},
-            ArrayUtils.toPrimitive(new Short[] {new Short(Short.MIN_VALUE), 
-                new Short(Short.MAX_VALUE), new Short((short)9999999)}))
+            ArrayUtils.toPrimitive(new Short[] {Short.valueOf(Short.MIN_VALUE), 
+                Short.valueOf(Short.MAX_VALUE), Short.valueOf((short)9999999)}))
         );
 
         try {
-            ArrayUtils.toPrimitive(new Short[] {new Short(Short.MIN_VALUE), null});
+            ArrayUtils.toPrimitive(new Short[] {Short.valueOf(Short.MIN_VALUE), null});
             fail();
         } catch (NullPointerException ex) {}
     }
@@ -2457,14 +2457,14 @@ public class ArrayUtilsTest extends TestCase {
         
         assertTrue(Arrays.equals(
             new short[] {Short.MIN_VALUE, Short.MAX_VALUE, (short)9999999},
-            ArrayUtils.toPrimitive(new Short[] {new Short(Short.MIN_VALUE), 
-                new Short(Short.MAX_VALUE), new Short((short)9999999)}, Short.MIN_VALUE))
+            ArrayUtils.toPrimitive(new Short[] {Short.valueOf(Short.MIN_VALUE), 
+                Short.valueOf(Short.MAX_VALUE), Short.valueOf((short)9999999)}, Short.MIN_VALUE))
         );
         
         assertTrue(Arrays.equals(
             new short[] {Short.MIN_VALUE, Short.MAX_VALUE, (short)9999999},
-            ArrayUtils.toPrimitive(new Short[] {new Short(Short.MIN_VALUE), null, 
-                new Short((short)9999999)}, Short.MAX_VALUE))
+            ArrayUtils.toPrimitive(new Short[] {Short.valueOf(Short.MIN_VALUE), null, 
+                Short.valueOf((short)9999999)}, Short.MAX_VALUE))
         );
     }
 
@@ -2476,8 +2476,8 @@ public class ArrayUtilsTest extends TestCase {
         ArrayUtils.toObject(new short[0]));
         
         assertTrue(Arrays.equals(
-            new Short[] {new Short(Short.MIN_VALUE), new Short(Short.MAX_VALUE), 
-                new Short((short)9999999)},
+            new Short[] {Short.valueOf(Short.MIN_VALUE), Short.valueOf(Short.MAX_VALUE), 
+                Short.valueOf((short)9999999)},
             ArrayUtils.toObject(new short[] {Short.MIN_VALUE, Short.MAX_VALUE, 
                 (short)9999999}))
         );
@@ -2491,12 +2491,12 @@ public class ArrayUtilsTest extends TestCase {
          assertSame(ArrayUtils.EMPTY_INT_ARRAY, ArrayUtils.toPrimitive(new Integer[0]));
          assertTrue(Arrays.equals(
              new int[] {Integer.MIN_VALUE, Integer.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Integer[] {new Integer(Integer.MIN_VALUE), 
-                 new Integer(Integer.MAX_VALUE), new Integer(9999999)}))
+             ArrayUtils.toPrimitive(new Integer[] {Integer.valueOf(Integer.MIN_VALUE), 
+                 Integer.valueOf(Integer.MAX_VALUE), Integer.valueOf(9999999)}))
          );
 
          try {
-             ArrayUtils.toPrimitive(new Integer[] {new Integer(Integer.MIN_VALUE), null});
+             ArrayUtils.toPrimitive(new Integer[] {Integer.valueOf(Integer.MIN_VALUE), null});
              fail();
          } catch (NullPointerException ex) {}
      }
@@ -2508,12 +2508,12 @@ public class ArrayUtilsTest extends TestCase {
          ArrayUtils.toPrimitive(new Integer[0], 1));
          assertTrue(Arrays.equals(
              new int[] {Integer.MIN_VALUE, Integer.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Integer[] {new Integer(Integer.MIN_VALUE), 
-                 new Integer(Integer.MAX_VALUE), new Integer(9999999)},1)));
+             ArrayUtils.toPrimitive(new Integer[] {Integer.valueOf(Integer.MIN_VALUE), 
+                 Integer.valueOf(Integer.MAX_VALUE), Integer.valueOf(9999999)},1)));
          assertTrue(Arrays.equals(
              new int[] {Integer.MIN_VALUE, Integer.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Integer[] {new Integer(Integer.MIN_VALUE), 
-                 null, new Integer(9999999)}, Integer.MAX_VALUE))
+             ArrayUtils.toPrimitive(new Integer[] {Integer.valueOf(Integer.MIN_VALUE), 
+                 null, Integer.valueOf(9999999)}, Integer.MAX_VALUE))
          );
      }
      
@@ -2533,9 +2533,9 @@ public class ArrayUtilsTest extends TestCase {
         assertTrue(
             Arrays.equals(
                 new Integer[] {
-                    new Integer(Integer.MIN_VALUE),
-                    new Integer(Integer.MAX_VALUE),
-                    new Integer(9999999)},
+                    Integer.valueOf(Integer.MIN_VALUE),
+                    Integer.valueOf(Integer.MAX_VALUE),
+                    Integer.valueOf(9999999)},
             ArrayUtils.toObject(
                 new int[] { Integer.MIN_VALUE, Integer.MAX_VALUE, 9999999 })));
     }
@@ -2551,12 +2551,12 @@ public class ArrayUtilsTest extends TestCase {
          
          assertTrue(Arrays.equals(
              new long[] {Long.MIN_VALUE, Long.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Long[] {new Long(Long.MIN_VALUE), 
-                 new Long(Long.MAX_VALUE), new Long(9999999)}))
+             ArrayUtils.toPrimitive(new Long[] {Long.valueOf(Long.MIN_VALUE), 
+                 Long.valueOf(Long.MAX_VALUE), Long.valueOf(9999999)}))
          );
 
          try {
-             ArrayUtils.toPrimitive(new Long[] {new Long(Long.MIN_VALUE), null});
+             ArrayUtils.toPrimitive(new Long[] {Long.valueOf(Long.MIN_VALUE), null});
              fail();
          } catch (NullPointerException ex) {}
      }
@@ -2570,13 +2570,13 @@ public class ArrayUtilsTest extends TestCase {
          
          assertTrue(Arrays.equals(
              new long[] {Long.MIN_VALUE, Long.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Long[] {new Long(Long.MIN_VALUE), 
-                 new Long(Long.MAX_VALUE), new Long(9999999)},1)));
+             ArrayUtils.toPrimitive(new Long[] {Long.valueOf(Long.MIN_VALUE), 
+                 Long.valueOf(Long.MAX_VALUE), Long.valueOf(9999999)},1)));
          
          assertTrue(Arrays.equals(
              new long[] {Long.MIN_VALUE, Long.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Long[] {new Long(Long.MIN_VALUE), 
-                 null, new Long(9999999)}, Long.MAX_VALUE))
+             ArrayUtils.toPrimitive(new Long[] {Long.valueOf(Long.MIN_VALUE), 
+                 null, Long.valueOf(9999999)}, Long.MAX_VALUE))
          );
      }
      
@@ -2591,9 +2591,9 @@ public class ArrayUtilsTest extends TestCase {
         assertTrue(
             Arrays.equals(
                 new Long[] {
-                    new Long(Long.MIN_VALUE),
-                    new Long(Long.MAX_VALUE),
-                    new Long(9999999)},
+                    Long.valueOf(Long.MIN_VALUE),
+                    Long.valueOf(Long.MAX_VALUE),
+                    Long.valueOf(9999999)},
             ArrayUtils.toObject(
                 new long[] { Long.MIN_VALUE, Long.MAX_VALUE, 9999999 })));
     }
@@ -2609,12 +2609,12 @@ public class ArrayUtilsTest extends TestCase {
          
          assertTrue(Arrays.equals(
              new float[] {Float.MIN_VALUE, Float.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Float[] {new Float(Float.MIN_VALUE), 
-                 new Float(Float.MAX_VALUE), new Float(9999999)}))
+             ArrayUtils.toPrimitive(new Float[] {Float.valueOf(Float.MIN_VALUE), 
+                 Float.valueOf(Float.MAX_VALUE), Float.valueOf(9999999)}))
          );
 
          try {
-             ArrayUtils.toPrimitive(new Float[] {new Float(Float.MIN_VALUE), null});
+             ArrayUtils.toPrimitive(new Float[] {Float.valueOf(Float.MIN_VALUE), null});
              fail();
          } catch (NullPointerException ex) {}
      }
@@ -2628,13 +2628,13 @@ public class ArrayUtilsTest extends TestCase {
          
          assertTrue(Arrays.equals(
              new float[] {Float.MIN_VALUE, Float.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Float[] {new Float(Float.MIN_VALUE), 
-                 new Float(Float.MAX_VALUE), new Float(9999999)},1)));
+             ArrayUtils.toPrimitive(new Float[] {Float.valueOf(Float.MIN_VALUE), 
+                 Float.valueOf(Float.MAX_VALUE), Float.valueOf(9999999)},1)));
          
          assertTrue(Arrays.equals(
              new float[] {Float.MIN_VALUE, Float.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Float[] {new Float(Float.MIN_VALUE), 
-                 null, new Float(9999999)}, Float.MAX_VALUE))
+             ArrayUtils.toPrimitive(new Float[] {Float.valueOf(Float.MIN_VALUE), 
+                 null, Float.valueOf(9999999)}, Float.MAX_VALUE))
          );
      }
      
@@ -2649,9 +2649,9 @@ public class ArrayUtilsTest extends TestCase {
         assertTrue(
             Arrays.equals(
                 new Float[] {
-                    new Float(Float.MIN_VALUE),
-                    new Float(Float.MAX_VALUE),
-                    new Float(9999999)},
+                    Float.valueOf(Float.MIN_VALUE),
+                    Float.valueOf(Float.MAX_VALUE),
+                    Float.valueOf(9999999)},
             ArrayUtils.toObject(
                 new float[] { Float.MIN_VALUE, Float.MAX_VALUE, 9999999 })));
     }
@@ -2667,12 +2667,12 @@ public class ArrayUtilsTest extends TestCase {
          
          assertTrue(Arrays.equals(
              new double[] {Double.MIN_VALUE, Double.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Double[] {new Double(Double.MIN_VALUE), 
-                 new Double(Double.MAX_VALUE), new Double(9999999)}))
+             ArrayUtils.toPrimitive(new Double[] {Double.valueOf(Double.MIN_VALUE), 
+                 Double.valueOf(Double.MAX_VALUE), Double.valueOf(9999999)}))
          );
 
          try {
-             ArrayUtils.toPrimitive(new Float[] {new Float(Float.MIN_VALUE), null});
+             ArrayUtils.toPrimitive(new Float[] {Float.valueOf(Float.MIN_VALUE), null});
              fail();
          } catch (NullPointerException ex) {}
      }
@@ -2686,13 +2686,13 @@ public class ArrayUtilsTest extends TestCase {
          
          assertTrue(Arrays.equals(
              new double[] {Double.MIN_VALUE, Double.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Double[] {new Double(Double.MIN_VALUE), 
-                 new Double(Double.MAX_VALUE), new Double(9999999)},1)));
+             ArrayUtils.toPrimitive(new Double[] {Double.valueOf(Double.MIN_VALUE), 
+                 Double.valueOf(Double.MAX_VALUE), Double.valueOf(9999999)},1)));
          
          assertTrue(Arrays.equals(
              new double[] {Double.MIN_VALUE, Double.MAX_VALUE, 9999999},
-             ArrayUtils.toPrimitive(new Double[] {new Double(Double.MIN_VALUE), 
-                 null, new Double(9999999)}, Double.MAX_VALUE))
+             ArrayUtils.toPrimitive(new Double[] {Double.valueOf(Double.MIN_VALUE), 
+                 null, Double.valueOf(9999999)}, Double.MAX_VALUE))
          );
      }
      
@@ -2707,9 +2707,9 @@ public class ArrayUtilsTest extends TestCase {
         assertTrue(
             Arrays.equals(
                 new Double[] {
-                    new Double(Double.MIN_VALUE),
-                    new Double(Double.MAX_VALUE),
-                    new Double(9999999)},
+                    Double.valueOf(Double.MIN_VALUE),
+                    Double.valueOf(Double.MAX_VALUE),
+                    Double.valueOf(9999999)},
             ArrayUtils.toObject(
                 new double[] { Double.MIN_VALUE, Double.MAX_VALUE, 9999999 })));
     }

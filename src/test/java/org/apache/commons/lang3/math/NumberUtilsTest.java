@@ -17,28 +17,26 @@
 package org.apache.commons.lang3.math;
 
 import static org.apache.commons.lang3.JavaVersion.JAVA_1_3;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.lang3.SystemUtils;
+
+import org.junit.Test;
 
 /**
  * Unit tests {@link org.apache.commons.lang3.math.NumberUtils}.
  *
- * @version $Id: NumberUtilsTest.java 1144929 2011-07-10 18:26:16Z ggregory $
+ * @version $Id: NumberUtilsTest.java 1153490 2011-08-03 13:53:35Z ggregory $
  */
-public class NumberUtilsTest extends TestCase {
-
-    public NumberUtilsTest(String name) {
-        super(name);
-    }
+public class NumberUtilsTest {
 
     //-----------------------------------------------------------------------
+    @Test
     public void testConstructor() {
         assertNotNull(new NumberUtils());
         Constructor<?>[] cons = NumberUtils.class.getDeclaredConstructors();
@@ -53,6 +51,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toInt(String)}.
      */
+    @Test
     public void testToIntString() {
         assertTrue("toInt(String) 1 failed", NumberUtils.toInt("12345") == 12345);
         assertTrue("toInt(String) 2 failed", NumberUtils.toInt("abc") == 0);
@@ -63,6 +62,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toInt(String, int)}.
      */
+    @Test
     public void testToIntStringI() {
         assertTrue("toInt(String,int) 1 failed", NumberUtils.toInt("12345", 5) == 12345);
         assertTrue("toInt(String,int) 2 failed", NumberUtils.toInt("1234.5", 5) == 5);
@@ -71,6 +71,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toLong(String)}.
      */
+    @Test
     public void testToLongString() {
         assertTrue("toLong(String) 1 failed", NumberUtils.toLong("12345") == 12345l);
         assertTrue("toLong(String) 2 failed", NumberUtils.toLong("abc") == 0l);
@@ -85,6 +86,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toLong(String, long)}.
      */
+    @Test
     public void testToLongStringL() {
         assertTrue("toLong(String,long) 1 failed", NumberUtils.toLong("12345", 5l) == 12345l);
         assertTrue("toLong(String,long) 2 failed", NumberUtils.toLong("1234.5", 5l) == 5l);
@@ -93,6 +95,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toFloat(String)}.
      */
+    @Test
     public void testToFloatString() {
         assertTrue("toFloat(String) 1 failed", NumberUtils.toFloat("-1.2345") == -1.2345f);
         assertTrue("toFloat(String) 2 failed", NumberUtils.toFloat("1.2345") == 1.2345f);
@@ -106,6 +109,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toFloat(String, float)}.
      */
+    @Test
     public void testToFloatStringF() {
         assertTrue("toFloat(String,int) 1 failed", NumberUtils.toFloat("1.2345", 5.1f) == 1.2345f);
         assertTrue("toFloat(String,int) 2 failed", NumberUtils.toFloat("a", 5.0f) == 5.0f);
@@ -114,6 +118,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toDouble(String)}.
      */
+    @Test
     public void testStringToDoubleString() {
         assertTrue("toDouble(String) 1 failed", NumberUtils.toDouble("-1.2345") == -1.2345d);
         assertTrue("toDouble(String) 2 failed", NumberUtils.toDouble("1.2345") == 1.2345d);
@@ -127,6 +132,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toDouble(String, double)}.
      */
+    @Test
     public void testStringToDoubleStringD() {
         assertTrue("toDouble(String,int) 1 failed", NumberUtils.toDouble("1.2345", 5.1d) == 1.2345d);
         assertTrue("toDouble(String,int) 2 failed", NumberUtils.toDouble("a", 5.0d) == 5.0d);
@@ -135,6 +141,7 @@ public class NumberUtilsTest extends TestCase {
      /**
      * Test for {@link NumberUtils#toByte(String)}.
      */
+    @Test
     public void testToByteString() {
         assertTrue("toByte(String) 1 failed", NumberUtils.toByte("123") == 123);
         assertTrue("toByte(String) 2 failed", NumberUtils.toByte("abc") == 0);
@@ -145,6 +152,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toByte(String, byte)}.
      */
+    @Test
     public void testToByteStringI() {
         assertTrue("toByte(String,byte) 1 failed", NumberUtils.toByte("123", (byte) 5) == 123);
         assertTrue("toByte(String,byte) 2 failed", NumberUtils.toByte("12.3", (byte) 5) == 5);
@@ -153,6 +161,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toShort(String)}.
      */
+    @Test
     public void testToShortString() {
         assertTrue("toShort(String) 1 failed", NumberUtils.toShort("12345") == 12345);
         assertTrue("toShort(String) 2 failed", NumberUtils.toShort("abc") == 0);
@@ -163,31 +172,33 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#toShort(String, short)}.
      */
+    @Test
     public void testToShortStringI() {
         assertTrue("toShort(String,short) 1 failed", NumberUtils.toShort("12345", (short) 5) == 12345);
         assertTrue("toShort(String,short) 2 failed", NumberUtils.toShort("1234.5", (short) 5) == 5);
     }
 
+    @Test
     public void testCreateNumber() {
         // a lot of things can go wrong
-        assertEquals("createNumber(String) 1 failed", new Float("1234.5"), NumberUtils.createNumber("1234.5"));
-        assertEquals("createNumber(String) 2 failed", new Integer("12345"), NumberUtils.createNumber("12345"));
-        assertEquals("createNumber(String) 3 failed", new Double("1234.5"), NumberUtils.createNumber("1234.5D"));
-        assertEquals("createNumber(String) 3 failed", new Double("1234.5"), NumberUtils.createNumber("1234.5d"));
-        assertEquals("createNumber(String) 4 failed", new Float("1234.5"), NumberUtils.createNumber("1234.5F"));
-        assertEquals("createNumber(String) 4 failed", new Float("1234.5"), NumberUtils.createNumber("1234.5f"));
-        assertEquals("createNumber(String) 5 failed", new Long(Integer.MAX_VALUE + 1L), NumberUtils.createNumber(""
+        assertEquals("createNumber(String) 1 failed", Float.valueOf("1234.5"), NumberUtils.createNumber("1234.5"));
+        assertEquals("createNumber(String) 2 failed", Integer.valueOf("12345"), NumberUtils.createNumber("12345"));
+        assertEquals("createNumber(String) 3 failed", Double.valueOf("1234.5"), NumberUtils.createNumber("1234.5D"));
+        assertEquals("createNumber(String) 3 failed", Double.valueOf("1234.5"), NumberUtils.createNumber("1234.5d"));
+        assertEquals("createNumber(String) 4 failed", Float.valueOf("1234.5"), NumberUtils.createNumber("1234.5F"));
+        assertEquals("createNumber(String) 4 failed", Float.valueOf("1234.5"), NumberUtils.createNumber("1234.5f"));
+        assertEquals("createNumber(String) 5 failed", Long.valueOf(Integer.MAX_VALUE + 1L), NumberUtils.createNumber(""
             + (Integer.MAX_VALUE + 1L)));
-        assertEquals("createNumber(String) 6 failed", new Long(12345), NumberUtils.createNumber("12345L"));
-        assertEquals("createNumber(String) 6 failed", new Long(12345), NumberUtils.createNumber("12345l"));
-        assertEquals("createNumber(String) 7 failed", new Float("-1234.5"), NumberUtils.createNumber("-1234.5"));
-        assertEquals("createNumber(String) 8 failed", new Integer("-12345"), NumberUtils.createNumber("-12345"));
+        assertEquals("createNumber(String) 6 failed", Long.valueOf(12345), NumberUtils.createNumber("12345L"));
+        assertEquals("createNumber(String) 6 failed", Long.valueOf(12345), NumberUtils.createNumber("12345l"));
+        assertEquals("createNumber(String) 7 failed", Float.valueOf("-1234.5"), NumberUtils.createNumber("-1234.5"));
+        assertEquals("createNumber(String) 8 failed", Integer.valueOf("-12345"), NumberUtils.createNumber("-12345"));
         assertTrue("createNumber(String) 9 failed", 0xFADE == NumberUtils.createNumber("0xFADE").intValue());
         assertTrue("createNumber(String) 10 failed", -0xFADE == NumberUtils.createNumber("-0xFADE").intValue());
-        assertEquals("createNumber(String) 11 failed", new Double("1.1E200"), NumberUtils.createNumber("1.1E200"));
-        assertEquals("createNumber(String) 12 failed", new Float("1.1E20"), NumberUtils.createNumber("1.1E20"));
-        assertEquals("createNumber(String) 13 failed", new Double("-1.1E200"), NumberUtils.createNumber("-1.1E200"));
-        assertEquals("createNumber(String) 14 failed", new Double("1.1E-200"), NumberUtils.createNumber("1.1E-200"));
+        assertEquals("createNumber(String) 11 failed", Double.valueOf("1.1E200"), NumberUtils.createNumber("1.1E200"));
+        assertEquals("createNumber(String) 12 failed", Float.valueOf("1.1E20"), NumberUtils.createNumber("1.1E20"));
+        assertEquals("createNumber(String) 13 failed", Double.valueOf("-1.1E200"), NumberUtils.createNumber("-1.1E200"));
+        assertEquals("createNumber(String) 14 failed", Double.valueOf("1.1E-200"), NumberUtils.createNumber("1.1E-200"));
         assertEquals("createNumber(null) failed", null, NumberUtils.createNumber(null));
         assertEquals("createNumber(String) failed", new BigInteger("12345678901234567890"), NumberUtils
                 .createNumber("12345678901234567890L"));
@@ -197,15 +208,15 @@ public class NumberUtilsTest extends TestCase {
             assertEquals("createNumber(String) 15 failed", new BigDecimal("1.1E-700"), NumberUtils
                     .createNumber("1.1E-700F"));
         }
-        assertEquals("createNumber(String) 16 failed", new Long("10" + Integer.MAX_VALUE), NumberUtils
+        assertEquals("createNumber(String) 16 failed", Long.valueOf("10" + Integer.MAX_VALUE), NumberUtils
                 .createNumber("10" + Integer.MAX_VALUE + "L"));
-        assertEquals("createNumber(String) 17 failed", new Long("10" + Integer.MAX_VALUE), NumberUtils
+        assertEquals("createNumber(String) 17 failed", Long.valueOf("10" + Integer.MAX_VALUE), NumberUtils
                 .createNumber("10" + Integer.MAX_VALUE));
         assertEquals("createNumber(String) 18 failed", new BigInteger("10" + Long.MAX_VALUE), NumberUtils
                 .createNumber("10" + Long.MAX_VALUE));
 
         // LANG-521
-        assertEquals("createNumber(String) LANG-521 failed", new Float("2."), NumberUtils.createNumber("2."));
+        assertEquals("createNumber(String) LANG-521 failed", Float.valueOf("2."), NumberUtils.createNumber("2."));
 
         // LANG-638
         assertFalse("createNumber(String) succeeded", checkCreateNumber("1eE"));
@@ -215,8 +226,9 @@ public class NumberUtilsTest extends TestCase {
                     .createNumber("" + Double.MAX_VALUE));
     }
 
+    @Test
     public void testCreateFloat() {
-        assertEquals("createFloat(String) failed", new Float("1234.5"), NumberUtils.createFloat("1234.5"));
+        assertEquals("createFloat(String) failed", Float.valueOf("1234.5"), NumberUtils.createFloat("1234.5"));
         assertEquals("createFloat(null) failed", null, NumberUtils.createFloat(null));
         this.testCreateFloatFailure("");
         this.testCreateFloatFailure(" ");
@@ -234,8 +246,9 @@ public class NumberUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testCreateDouble() {
-        assertEquals("createDouble(String) failed", new Double("1234.5"), NumberUtils.createDouble("1234.5"));
+        assertEquals("createDouble(String) failed", Double.valueOf("1234.5"), NumberUtils.createDouble("1234.5"));
         assertEquals("createDouble(null) failed", null, NumberUtils.createDouble(null));
         this.testCreateDoubleFailure("");
         this.testCreateDoubleFailure(" ");
@@ -253,8 +266,9 @@ public class NumberUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testCreateInteger() {
-        assertEquals("createInteger(String) failed", new Integer("12345"), NumberUtils.createInteger("12345"));
+        assertEquals("createInteger(String) failed", Integer.valueOf("12345"), NumberUtils.createInteger("12345"));
         assertEquals("createInteger(null) failed", null, NumberUtils.createInteger(null));
         this.testCreateIntegerFailure("");
         this.testCreateIntegerFailure(" ");
@@ -272,8 +286,9 @@ public class NumberUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testCreateLong() {
-        assertEquals("createLong(String) failed", new Long("12345"), NumberUtils.createLong("12345"));
+        assertEquals("createLong(String) failed", Long.valueOf("12345"), NumberUtils.createLong("12345"));
         assertEquals("createLong(null) failed", null, NumberUtils.createLong(null));
         this.testCreateLongFailure("");
         this.testCreateLongFailure(" ");
@@ -291,6 +306,7 @@ public class NumberUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testCreateBigInteger() {
         assertEquals("createBigInteger(String) failed", new BigInteger("12345"), NumberUtils.createBigInteger("12345"));
         assertEquals("createBigInteger(null) failed", null, NumberUtils.createBigInteger(null));
@@ -310,6 +326,7 @@ public class NumberUtilsTest extends TestCase {
         }
     }
 
+    @Test
     public void testCreateBigDecimal() {
         assertEquals("createBigDecimal(String) failed", new BigDecimal("1234.5"), NumberUtils.createBigDecimal("1234.5"));
         assertEquals("createBigDecimal(null) failed", null, NumberUtils.createBigDecimal(null));
@@ -331,18 +348,18 @@ public class NumberUtilsTest extends TestCase {
 
     // min/max tests
     // ----------------------------------------------------------------------
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinLong_nullArray() {
+        NumberUtils.min((long[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinLong_emptyArray() {
+        NumberUtils.min(new long[0]);
+    }
+
+    @Test
     public void testMinLong() {
-        final long[] l = null;
-        try {
-            NumberUtils.min(l);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.min(new long[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "min(long[]) failed for array length 1",
             5,
@@ -357,18 +374,18 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(-10, NumberUtils.min(new long[] { -5, 0, -10, 5, 10 }));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinInt_nullArray() {
+        NumberUtils.min((int[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinInt_emptyArray() {
+        NumberUtils.min(new int[0]);
+    }
+
+    @Test
     public void testMinInt() {
-        final int[] i = null;
-        try {
-            NumberUtils.min(i);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.min(new int[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "min(int[]) failed for array length 1",
             5,
@@ -383,18 +400,18 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(-10, NumberUtils.min(new int[] { -5, 0, -10, 5, 10 }));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinShort_nullArray() {
+        NumberUtils.min((short[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinShort_emptyArray() {
+        NumberUtils.min(new short[0]);
+    }
+
+    @Test
     public void testMinShort() {
-        final short[] s = null;
-        try {
-            NumberUtils.min(s);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.min(new short[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "min(short[]) failed for array length 1",
             5,
@@ -409,18 +426,18 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(-10, NumberUtils.min(new short[] { -5, 0, -10, 5, 10 }));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinByte_nullArray() {
+        NumberUtils.min((byte[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinByte_emptyArray() {
+        NumberUtils.min(new byte[0]);
+    }
+
+    @Test
     public void testMinByte() {
-        final byte[] b = null;
-        try {
-            NumberUtils.min(b);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.min(new byte[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "min(byte[]) failed for array length 1",
             5,
@@ -435,18 +452,18 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(-10, NumberUtils.min(new byte[] { -5, 0, -10, 5, 10 }));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinDouble_nullArray() {
+        NumberUtils.min((double[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinDouble_emptyArray() {
+        NumberUtils.min(new double[0]);
+    }
+
+    @Test
     public void testMinDouble() {
-        final double[] d = null;
-        try {
-            NumberUtils.min(d);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.min(new double[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "min(double[]) failed for array length 1",
             5.12,
@@ -468,18 +485,18 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(-10, NumberUtils.min(new double[] { -5, 0, -10, 5, 10 }), 0.0001);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinFloat_nullArray() {
+        NumberUtils.min((float[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMinFloat_emptyArray() {
+        NumberUtils.min(new float[0]);
+    }
+
+    @Test
     public void testMinFloat() {
-        final float[] f = null;
-        try {
-            NumberUtils.min(f);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.min(new float[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "min(float[]) failed for array length 1",
             5.9f,
@@ -501,18 +518,18 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(-10, NumberUtils.min(new float[] { -5, 0, -10, 5, 10 }), 0.0001f);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxLong_nullArray() {
+        NumberUtils.max((long[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxLong_emptyArray() {
+        NumberUtils.max(new long[0]);
+    }
+
+    @Test
     public void testMaxLong() {
-        final long[] l = null;
-        try {
-            NumberUtils.max(l);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.max(new long[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "max(long[]) failed for array length 1",
             5,
@@ -531,18 +548,18 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(10, NumberUtils.max(new long[] { -5, 0, 10, 5, -10 }));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxInt_nullArray() {
+        NumberUtils.max((int[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxInt_emptyArray() {
+        NumberUtils.max(new int[0]);
+    }
+
+    @Test
     public void testMaxInt() {
-        final int[] i = null;
-        try {
-            NumberUtils.max(i);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.max(new int[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "max(int[]) failed for array length 1",
             5,
@@ -561,18 +578,18 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(10, NumberUtils.max(new int[] { -5, 0, 10, 5, -10 }));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxShort_nullArray() {
+        NumberUtils.max((short[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxShort_emptyArray() {
+        NumberUtils.max(new short[0]);
+    }
+
+    @Test
     public void testMaxShort() {
-        final short[] s = null;
-        try {
-            NumberUtils.max(s);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.max(new short[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "max(short[]) failed for array length 1",
             5,
@@ -591,18 +608,18 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(10, NumberUtils.max(new short[] { -5, 0, 10, 5, -10 }));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxByte_nullArray() {
+        NumberUtils.max((byte[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxByte_emptyArray() {
+        NumberUtils.max(new byte[0]);
+    }
+
+    @Test
     public void testMaxByte() {
-        final byte[] b = null;
-        try {
-            NumberUtils.max(b);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.max(new byte[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "max(byte[]) failed for array length 1",
             5,
@@ -621,6 +638,17 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(10, NumberUtils.max(new byte[] { -5, 0, 10, 5, -10 }));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxDouble_nullArray() {
+        NumberUtils.max((double[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxDouble_emptyArray() {
+        NumberUtils.max(new double[0]);
+    }
+
+    @Test
     public void testMaxDouble() {
         final double[] d = null;
         try {
@@ -654,18 +682,18 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(10, NumberUtils.max(new double[] { -5, 0, 10, 5, -10 }), 0.0001);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxFloat_nullArray() {
+        NumberUtils.max((float[]) null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMaxFloat_emptyArray() {
+        NumberUtils.max(new float[0]);
+    }
+
+    @Test
     public void testMaxFloat() {
-        final float[] f = null;
-        try {
-            NumberUtils.max(f);
-            fail("No exception was thrown for null input.");
-        } catch (IllegalArgumentException ex) {}
-
-        try {
-            NumberUtils.max(new float[0]);
-            fail("No exception was thrown for empty input.");
-        } catch (IllegalArgumentException ex) {}
-
         assertEquals(
             "max(float[]) failed for array length 1",
             5.1f,
@@ -687,6 +715,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(10, NumberUtils.max(new float[] { -5, 0, 10, 5, -10 }), 0.0001f);
     }
 
+    @Test
     public void testMinimumLong() {
         assertEquals("minimum(long,long,long) 1 failed", 12345L, NumberUtils.min(12345L, 12345L + 1L, 12345L + 2L));
         assertEquals("minimum(long,long,long) 2 failed", 12345L, NumberUtils.min(12345L + 1L, 12345L, 12345 + 2L));
@@ -695,6 +724,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals("minimum(long,long,long) 5 failed", 12345L, NumberUtils.min(12345L, 12345L, 12345L));
     }
 
+    @Test
     public void testMinimumInt() {
         assertEquals("minimum(int,int,int) 1 failed", 12345, NumberUtils.min(12345, 12345 + 1, 12345 + 2));
         assertEquals("minimum(int,int,int) 2 failed", 12345, NumberUtils.min(12345 + 1, 12345, 12345 + 2));
@@ -703,6 +733,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals("minimum(int,int,int) 5 failed", 12345, NumberUtils.min(12345, 12345, 12345));
     }
 
+    @Test
     public void testMinimumShort() {
         short low = 1234;
         short mid = 1234 + 1;
@@ -713,6 +744,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals("minimum(short,short,short) 1 failed", low, NumberUtils.min(low, mid, low));
     }
 
+    @Test
     public void testMinimumByte() {
         byte low = 123;
         byte mid = 123 + 1;
@@ -723,6 +755,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals("minimum(byte,byte,byte) 1 failed", low, NumberUtils.min(low, mid, low));
     }
 
+    @Test
     public void testMinimumDouble() {
         double low = 12.3;
         double mid = 12.3 + 1;
@@ -734,6 +767,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(mid, NumberUtils.min(high, mid, high), 0.0001);
     }
 
+    @Test
     public void testMinimumFloat() {
         float low = 12.3f;
         float mid = 12.3f + 1;
@@ -745,6 +779,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(mid, NumberUtils.min(high, mid, high), 0.0001f);
     }
 
+    @Test
     public void testMaximumLong() {
         assertEquals("maximum(long,long,long) 1 failed", 12345L, NumberUtils.max(12345L, 12345L - 1L, 12345L - 2L));
         assertEquals("maximum(long,long,long) 2 failed", 12345L, NumberUtils.max(12345L - 1L, 12345L, 12345L - 2L));
@@ -753,6 +788,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals("maximum(long,long,long) 5 failed", 12345L, NumberUtils.max(12345L, 12345L, 12345L));
     }
 
+    @Test
     public void testMaximumInt() {
         assertEquals("maximum(int,int,int) 1 failed", 12345, NumberUtils.max(12345, 12345 - 1, 12345 - 2));
         assertEquals("maximum(int,int,int) 2 failed", 12345, NumberUtils.max(12345 - 1, 12345, 12345 - 2));
@@ -761,6 +797,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals("maximum(int,int,int) 5 failed", 12345, NumberUtils.max(12345, 12345, 12345));
     }
 
+    @Test
     public void testMaximumShort() {
         short low = 1234;
         short mid = 1234 + 1;
@@ -771,6 +808,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals("maximum(short,short,short) 1 failed", high, NumberUtils.max(high, mid, high));
     }
 
+    @Test
     public void testMaximumByte() {
         byte low = 123;
         byte mid = 123 + 1;
@@ -781,6 +819,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals("maximum(byte,byte,byte) 1 failed", high, NumberUtils.max(high, mid, high));
     }
 
+    @Test
     public void testMaximumDouble() {
         double low = 12.3;
         double mid = 12.3 + 1;
@@ -792,6 +831,7 @@ public class NumberUtilsTest extends TestCase {
         assertEquals(high, NumberUtils.max(high, mid, high), 0.0001);
     }
 
+    @Test
     public void testMaximumFloat() {
         float low = 12.3f;
         float mid = 12.3f + 1;
@@ -804,6 +844,7 @@ public class NumberUtilsTest extends TestCase {
     }
 
     // Testing JDK against old Lang functionality
+    @Test
     public void testCompareDouble() {
         assertTrue(Double.compare(Double.NaN, Double.NaN) == 0);
         assertTrue(Double.compare(Double.NaN, Double.POSITIVE_INFINITY) == +1);
@@ -896,6 +937,7 @@ public class NumberUtilsTest extends TestCase {
         assertTrue(Double.compare(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY) == 0);
     }
 
+    @Test
     public void testCompareFloat() {
         assertTrue(Float.compare(Float.NaN, Float.NaN) == 0);
         assertTrue(Float.compare(Float.NaN, Float.POSITIVE_INFINITY) == +1);
@@ -988,6 +1030,7 @@ public class NumberUtilsTest extends TestCase {
         assertTrue(Float.compare(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY) == 0);
     }
 
+    @Test
     public void testIsDigits() {
         assertEquals("isDigits(null) failed", false, NumberUtils.isDigits(null));
         assertEquals("isDigits('') failed", false, NumberUtils.isDigits(""));
@@ -1001,6 +1044,7 @@ public class NumberUtilsTest extends TestCase {
      * Tests isNumber(String) and tests that createNumber(String) returns
      * a valid number iff isNumber(String) returns false.
      */
+    @Test
     public void testIsNumber() {
         String val = "12345";
         assertTrue("isNumber(String) 1 failed", NumberUtils.isNumber(val));
@@ -1157,6 +1201,7 @@ public class NumberUtilsTest extends TestCase {
     }
 
     @SuppressWarnings("cast") // suppress instanceof warning check
+    @Test
     public void testConstants() {
         assertTrue(NumberUtils.LONG_ZERO instanceof Long);
         assertTrue(NumberUtils.LONG_ONE instanceof Long);
@@ -1197,12 +1242,14 @@ public class NumberUtilsTest extends TestCase {
         assertTrue(NumberUtils.FLOAT_MINUS_ONE.floatValue() == -1.0f);
     }
 
+    @Test
     public void testLang300() {
         NumberUtils.createNumber("-1l");
         NumberUtils.createNumber("01l");
         NumberUtils.createNumber("1l");
     }
 
+    @Test
     public void testLang381() {
         assertTrue(Double.isNaN(NumberUtils.min(1.2, 2.5, Double.NaN)));
         assertTrue(Double.isNaN(NumberUtils.max(1.2, 2.5, Double.NaN)));

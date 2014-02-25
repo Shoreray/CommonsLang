@@ -27,7 +27,7 @@ import org.junit.Test;
 /**
  * Test class for {@code ConstantInitializer}.
  *
- * @version $Id: ConstantInitializerTest.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: ConstantInitializerTest.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class ConstantInitializerTest {
     /** Constant for the object managed by the initializer. */
@@ -81,7 +81,7 @@ public class ConstantInitializerTest {
     public void testEqualsTrue() {
         checkEquals(init, true);
         ConstantInitializer<Integer> init2 = new ConstantInitializer<Integer>(
-                new Integer(VALUE.intValue()));
+                Integer.valueOf(VALUE.intValue()));
         checkEquals(init2, true);
         init = new ConstantInitializer<Integer>(null);
         init2 = new ConstantInitializer<Integer>(null);

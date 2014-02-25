@@ -22,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * JUnit tests for ContextedRuntimeException.
- *
  */
 public class ContextedRuntimeExceptionTest extends AbstractExceptionContextTest<ContextedRuntimeException> {
     
@@ -82,10 +81,18 @@ public class ContextedRuntimeExceptionTest extends AbstractExceptionContextTest<
         .addContextValue("test1", null)
         .addContextValue("test2", "some value")
         .addContextValue("test Date", new Date())
-        .addContextValue("test Nbr", new Integer(5))
+        .addContextValue("test Nbr", Integer.valueOf(5))
         .addContextValue("test Poorly written obj", new ObjectWithFaultyToString());
         
         String message = exceptionContext.getMessage();
         assertTrue(message != null);
+    }
+
+    public void testRawMessage() {
+        assertEquals(Exception.class.getName() + ": " + TEST_MESSAGE, exceptionContext.getRawMessage());
+        exceptionContext = new ContextedRuntimeException(TEST_MESSAGE_2, new Exception(TEST_MESSAGE), new DefaultExceptionContext());
+        assertEquals(TEST_MESSAGE_2, exceptionContext.getRawMessage());
+        exceptionContext = new ContextedRuntimeException(null, new Exception(TEST_MESSAGE), new DefaultExceptionContext());
+        assertNull(exceptionContext.getRawMessage());
     }
 }

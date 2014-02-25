@@ -23,7 +23,7 @@ import junit.framework.TestCase;
  * {@link org.apache.commons.lang3.builder.EqualsBuilderTest} to insure that equal
  * objects must have equal hash codes.
  * 
- * @version $Id: HashCodeBuilderAndEqualsBuilderTest.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: HashCodeBuilderAndEqualsBuilderTest.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class HashCodeBuilderAndEqualsBuilderTest extends TestCase {
 
@@ -38,8 +38,8 @@ public class HashCodeBuilderAndEqualsBuilderTest extends TestCase {
     //-----------------------------------------------------------------------
 
     public void testInteger(boolean testTransients) {
-        Integer i1 = new Integer(12345);
-        Integer i2 = new Integer(12345);
+        Integer i1 = Integer.valueOf(12345);
+        Integer i2 = Integer.valueOf(12345);
         assertEqualsAndHashCodeContract(i1, i2, testTransients);
     }
 

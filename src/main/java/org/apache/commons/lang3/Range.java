@@ -28,7 +28,7 @@ import java.util.Comparator;
  * <p>#ThreadSafe# if the objects and comparator are thread-safe</p>
  * 
  * @since 3.0
- * @version $Id: Range.java 1142401 2011-07-03 08:30:12Z bayard $
+ * @version $Id: Range.java 1147537 2011-07-17 06:10:37Z mbenson $
  */
 public final class Range<T> implements Serializable {
 
@@ -369,6 +369,26 @@ public final class Range<T> implements Serializable {
             return false;
         }
         return isBefore(otherRange.minimum);
+    }
+
+    /**
+     * Calculate the intersection of {@code this} and an overlapping Range.
+     * @param other overlapping Range
+     * @return range representing the intersection of {@code this} and {@code other} ({@code this} if equal)
+     * @throws IllegalArgumentException if {@code other} does not overlap {@code this}
+     * @since 3.0.1
+     */
+    public Range<T> intersectionWith(Range<T> other) {
+        if (!this.isOverlappedBy(other)) {
+            throw new IllegalArgumentException(String.format(
+                "Cannot calculate intersection with non-overlapping range %s", other));
+        }
+        if (this.equals(other)) {
+            return this;
+        }
+        T min = getComparator().compare(minimum, other.minimum) < 0 ? other.minimum : minimum;
+        T max = getComparator().compare(maximum, other.maximum) < 0 ? maximum : other.maximum;
+        return between(min, max, getComparator());
     }
 
     // Basics

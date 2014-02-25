@@ -26,11 +26,11 @@ import org.apache.commons.lang3.builder.ToStringStyleTest.Person;
 /**
  * Unit tests {@link org.apache.commons.lang3.builder.ToStringStyle}.
  *
- * @version $Id: StandardToStringStyleTest.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: StandardToStringStyleTest.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class StandardToStringStyleTest extends TestCase {
 
-    private final Integer base = new Integer(5);
+    private final Integer base = Integer.valueOf(5);
     private final String baseStr = "Integer";
     
     private static final StandardToStringStyle STYLE = new StandardToStringStyle();
@@ -80,8 +80,8 @@ public class StandardToStringStyleTest extends TestCase {
     }
     
     public void testObject() {
-        Integer i3 = new Integer(3);
-        Integer i4 = new Integer(4);
+        Integer i3 = Integer.valueOf(3);
+        Integer i4 = Integer.valueOf(4);
         assertEquals(baseStr + "[%NULL%]", new ToStringBuilder(base).append((Object) null).toString());
         assertEquals(baseStr + "[3]", new ToStringBuilder(base).append(i3).toString());
         assertEquals(baseStr + "[a=%NULL%]", new ToStringBuilder(base).append("a", (Object) null).toString());

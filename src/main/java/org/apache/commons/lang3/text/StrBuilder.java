@@ -67,7 +67,7 @@ import org.apache.commons.lang3.SystemUtils;
  * the interface. 
  *
  * @since 2.2
- * @version $Id: StrBuilder.java 1144929 2011-07-10 18:26:16Z ggregory $
+ * @version $Id: StrBuilder.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class StrBuilder implements CharSequence, Appendable {
 
@@ -186,7 +186,7 @@ public class StrBuilder implements CharSequence, Appendable {
 
     /**
      * Updates the length of the builder by either dropping the last characters
-     * or adding filler of unicode zero.
+     * or adding filler of Unicode zero.
      *
      * @param length  the length to set to, must be zero or positive
      * @return this, to enable chaining
@@ -2514,7 +2514,7 @@ public class StrBuilder implements CharSequence, Appendable {
 //            size = -1;
 //            nullText = null;
 //            return (String) con.newInstance(
-//                new Object[] {new Integer(0), new Integer(size), buffer});
+//                new Object[] {Integer.valueOf(0), Integer.valueOf(size), buffer});
 //            
 //        } catch (Exception ex) {
 //            ex.printStackTrace();

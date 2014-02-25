@@ -21,7 +21,7 @@ package org.apache.commons.lang3.mutable;
  * 
  * @see Integer
  * @since 2.1
- * @version $Id: MutableInt.java 1096472 2011-04-25 13:28:06Z mbenson $
+ * @version $Id: MutableInt.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class MutableInt extends Number implements Comparable<MutableInt>, Mutable<Number> {
 
@@ -82,7 +82,7 @@ public class MutableInt extends Number implements Comparable<MutableInt>, Mutabl
      * @return the value as a Integer, never null
      */
     public Integer getValue() {
-        return new Integer(this.value);
+        return Integer.valueOf(this.value);
     }
 
     /**

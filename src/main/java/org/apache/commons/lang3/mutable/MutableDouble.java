@@ -21,7 +21,7 @@ package org.apache.commons.lang3.mutable;
  * 
  * @see Double
  * @since 2.1
- * @version $Id: MutableDouble.java 1096472 2011-04-25 13:28:06Z mbenson $
+ * @version $Id: MutableDouble.java 1153490 2011-08-03 13:53:35Z ggregory $
  */
 public class MutableDouble extends Number implements Comparable<MutableDouble>, Mutable<Number> {
 
@@ -82,7 +82,7 @@ public class MutableDouble extends Number implements Comparable<MutableDouble>, 
      * @return the value as a Double, never null
      */
     public Double getValue() {
-        return new Double(this.value);
+        return Double.valueOf(this.value);
     }
 
     /**

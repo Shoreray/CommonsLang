@@ -82,7 +82,7 @@ import org.apache.commons.lang3.ArrayUtils;
  * </table>
  *
  * @since 2.2
- * @version $Id: StrTokenizer.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: StrTokenizer.java 1153241 2011-08-02 18:49:52Z ggregory $
  */
 public class StrTokenizer implements ListIterator<String>, Cloneable {
 
@@ -773,12 +773,10 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
                 }
                 
                 // check for quote, and thus back into quoting mode
-                if (quoteLen > 0) {
-                    if (isQuote(chars, pos, len, quoteStart, quoteLen)) {
-                        quoting = true;
-                        pos += quoteLen;
-                        continue;
-                    }
+                if (quoteLen > 0 && isQuote(chars, pos, len, quoteStart, quoteLen)) {
+                    quoting = true;
+                    pos += quoteLen;
+                    continue;
                 }
                 
                 // check for ignored (outside quotes), and ignore

@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 /**
  * Test cases for the {@link Fraction} class
  *
- * @version $Id: FractionTest.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: FractionTest.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class FractionTest extends TestCase {
     
@@ -1220,7 +1220,7 @@ public class FractionTest extends TestCase {
         f1 = Fraction.getFraction(3, 5);
         assertEquals(false, f1.equals(null));
         assertEquals(false, f1.equals(new Object()));
-        assertEquals(false, f1.equals(new Integer(6)));
+        assertEquals(false, f1.equals(Integer.valueOf(6)));
         
         f1 = Fraction.getFraction(3, 5);
         f2 = Fraction.getFraction(2, 5);

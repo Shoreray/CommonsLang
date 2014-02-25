@@ -17,13 +17,16 @@
 package org.apache.commons.lang3;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 /**
  * <p>Operations on arrays, primitive arrays (like {@code int[]}) and
@@ -36,7 +39,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * <p>#ThreadSafe#</p>
  * @since 2.0
- * @version $Id: ArrayUtils.java 1089730 2011-04-07 04:14:33Z bayard $
+ * @version $Id: ArrayUtils.java 1154216 2011-08-05 13:57:16Z mbenson $
  */
 public class ArrayUtils {
 
@@ -285,9 +288,9 @@ public class ArrayUtils {
      * <p>Note, this method makes only sense to provide arguments of the same type so that the
      * compiler can deduce the type of the array itself. While it is possible to select the
      * type explicitly like in
-     * <code>Number[] array = ArrayUtils.&lt;Number&gt;toArray(new Integer(42), new Double(Math.PI))</code>,
+     * <code>Number[] array = ArrayUtils.&lt;Number&gt;toArray(Integer.valueOf(42), Double.valueOf(Math.PI))</code>,
      * there is no real advantage when compared to
-     * <code>new Number[] {new Integer(42), new Double(Math.PI)}</code>.</p>
+     * <code>new Number[] {Integer.valueOf(42), Double.valueOf(Math.PI)}</code>.</p>
      *
      * @param  <T>   the array's element type
      * @param  items  the varargs array items, null allowed
@@ -4310,7 +4313,7 @@ public class ArrayUtils {
 
     /**
      * <p>Removes the element at the specified position from the specified array.
-     * All subsequent elements are shifted to the left (substracts one from
+     * All subsequent elements are shifted to the left (subtracts one from
      * their indices).</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4345,7 +4348,7 @@ public class ArrayUtils {
     /**
      * <p>Removes the first occurrence of the specified element from the
      * specified array. All subsequent elements are shifted to the left
-     * (substracts one from their indices). If the array doesn't contains
+     * (subtracts one from their indices). If the array doesn't contains
      * such an element, no elements are removed from the array.</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4378,7 +4381,7 @@ public class ArrayUtils {
 
     /**
      * <p>Removes the element at the specified position from the specified array.
-     * All subsequent elements are shifted to the left (substracts one from
+     * All subsequent elements are shifted to the left (subtracts one from
      * their indices).</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4411,7 +4414,7 @@ public class ArrayUtils {
     /**
      * <p>Removes the first occurrence of the specified element from the
      * specified array. All subsequent elements are shifted to the left
-     * (substracts one from their indices). If the array doesn't contains
+     * (subtracts one from their indices). If the array doesn't contains
      * such an element, no elements are removed from the array.</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4443,7 +4446,7 @@ public class ArrayUtils {
 
     /**
      * <p>Removes the element at the specified position from the specified array.
-     * All subsequent elements are shifted to the left (substracts one from
+     * All subsequent elements are shifted to the left (subtracts one from
      * their indices).</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4476,7 +4479,7 @@ public class ArrayUtils {
     /**
      * <p>Removes the first occurrence of the specified element from the
      * specified array. All subsequent elements are shifted to the left
-     * (substracts one from their indices). If the array doesn't contains
+     * (subtracts one from their indices). If the array doesn't contains
      * such an element, no elements are removed from the array.</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4508,7 +4511,7 @@ public class ArrayUtils {
 
     /**
      * <p>Removes the element at the specified position from the specified array.
-     * All subsequent elements are shifted to the left (substracts one from
+     * All subsequent elements are shifted to the left (subtracts one from
      * their indices).</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4541,7 +4544,7 @@ public class ArrayUtils {
     /**
      * <p>Removes the first occurrence of the specified element from the
      * specified array. All subsequent elements are shifted to the left
-     * (substracts one from their indices). If the array doesn't contains
+     * (subtracts one from their indices). If the array doesn't contains
      * such an element, no elements are removed from the array.</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4573,7 +4576,7 @@ public class ArrayUtils {
 
     /**
      * <p>Removes the element at the specified position from the specified array.
-     * All subsequent elements are shifted to the left (substracts one from
+     * All subsequent elements are shifted to the left (subtracts one from
      * their indices).</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4606,7 +4609,7 @@ public class ArrayUtils {
     /**
      * <p>Removes the first occurrence of the specified element from the
      * specified array. All subsequent elements are shifted to the left
-     * (substracts one from their indices). If the array doesn't contains
+     * (subtracts one from their indices). If the array doesn't contains
      * such an element, no elements are removed from the array.</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4638,7 +4641,7 @@ public class ArrayUtils {
 
     /**
      * <p>Removes the element at the specified position from the specified array.
-     * All subsequent elements are shifted to the left (substracts one from
+     * All subsequent elements are shifted to the left (subtracts one from
      * their indices).</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4671,7 +4674,7 @@ public class ArrayUtils {
     /**
      * <p>Removes the first occurrence of the specified element from the
      * specified array. All subsequent elements are shifted to the left
-     * (substracts one from their indices). If the array doesn't contains
+     * (subtracts one from their indices). If the array doesn't contains
      * such an element, no elements are removed from the array.</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4703,7 +4706,7 @@ public class ArrayUtils {
 
     /**
      * <p>Removes the element at the specified position from the specified array.
-     * All subsequent elements are shifted to the left (substracts one from
+     * All subsequent elements are shifted to the left (subtracts one from
      * their indices).</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4736,7 +4739,7 @@ public class ArrayUtils {
     /**
      * <p>Removes the first occurrence of the specified element from the
      * specified array. All subsequent elements are shifted to the left
-     * (substracts one from their indices). If the array doesn't contains
+     * (subtracts one from their indices). If the array doesn't contains
      * such an element, no elements are removed from the array.</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4768,7 +4771,7 @@ public class ArrayUtils {
 
     /**
      * <p>Removes the element at the specified position from the specified array.
-     * All subsequent elements are shifted to the left (substracts one from
+     * All subsequent elements are shifted to the left (subtracts one from
      * their indices).</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4801,7 +4804,7 @@ public class ArrayUtils {
     /**
      * <p>Removes the first occurrence of the specified element from the
      * specified array. All subsequent elements are shifted to the left
-     * (substracts one from their indices). If the array doesn't contains
+     * (subtracts one from their indices). If the array doesn't contains
      * such an element, no elements are removed from the array.</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4833,7 +4836,7 @@ public class ArrayUtils {
 
     /**
      * <p>Removes the element at the specified position from the specified array.
-     * All subsequent elements are shifted to the left (substracts one from
+     * All subsequent elements are shifted to the left (subtracts one from
      * their indices).</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4866,7 +4869,7 @@ public class ArrayUtils {
     /**
      * <p>Removes the first occurrence of the specified element from the
      * specified array. All subsequent elements are shifted to the left
-     * (substracts one from their indices). If the array doesn't contains
+     * (subtracts one from their indices). If the array doesn't contains
      * such an element, no elements are removed from the array.</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4898,7 +4901,7 @@ public class ArrayUtils {
 
     /**
      * <p>Removes the element at the specified position from the specified array.
-     * All subsequent elements are shifted to the left (substracts one from
+     * All subsequent elements are shifted to the left (subtracts one from
      * their indices).</p>
      *
      * <p>This method returns a new array with the same elements of the input
@@ -4932,4 +4935,862 @@ public class ArrayUtils {
         return result;
     }
 
+    /**
+     * <p>Removes the elements at the specified positions from the specified array.
+     * All remaining elements are shifted to the left.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except those at the specified positions. The component
+     * type of the returned array is always the same as that of the input
+     * array.</p>
+     *
+     * <p>If the input array is {@code null}, an IndexOutOfBoundsException
+     * will be thrown, because in that case no valid index can be specified.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeAll(["a", "b", "c"], 0, 2) = ["b"]
+     * ArrayUtils.removeAll(["a", "b", "c"], 1, 2) = ["a"]
+     * </pre>
+     *
+     * @param <T> the component type of the array
+     * @param array   the array to remove the element from, may not be {@code null}
+     * @param indices the positions of the elements to be removed
+     * @return A new array containing the existing elements except those
+     *         at the specified positions.
+     * @throws IndexOutOfBoundsException if any index is out of range
+     * (index < 0 || index >= array.length), or if the array is {@code null}.
+     * @since 3.0.1
+     */
+    @SuppressWarnings("unchecked")
+    // removeAll() always creates an array of the same type as its input
+    public static <T> T[] removeAll(T[] array, int... indices) {
+        return (T[]) removeAll((Object) array, clone(indices));
+    }
+
+    /**
+     * <p>Removes occurrences of specified elements, in specified quantities,
+     * from the specified array. All subsequent elements are shifted left.
+     * For any element-to-be-removed specified in greater quantities than
+     * contained in the original array, no change occurs beyond the
+     * removal of the existing matching items.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except for the earliest-encountered occurrences of the specified
+     * elements. The component type of the returned array is always the same
+     * as that of the input array.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeElements(null, "a", "b")            = null
+     * ArrayUtils.removeElements([], "a", "b")              = []
+     * ArrayUtils.removeElements(["a"], "b", "c")           = ["a"]
+     * ArrayUtils.removeElements(["a", "b"], "a", "c")      = ["b"]
+     * ArrayUtils.removeElements(["a", "b", "a"], "a")      = ["b", "a"]
+     * ArrayUtils.removeElements(["a", "b", "a"], "a", "a") = ["b"]
+     * </pre>
+     *
+     * @param <T> the component type of the array
+     * @param array  the array to remove the element from, may be {@code null}
+     * @param values the elements to be removed
+     * @return A new array containing the existing elements except the
+     *         earliest-encountered occurrences of the specified elements.
+     * @since 3.0.1
+     */
+    public static <T> T[] removeElements(T[] array, T... values) {
+        if (isEmpty(array) || isEmpty(values)) {
+            return clone(array);
+        }
+        HashMap<T, MutableInt> occurrences = new HashMap<T, MutableInt>(values.length);
+        for (T v : values) {
+            MutableInt count = occurrences.get(v);
+            if (count == null) {
+                occurrences.put(v, new MutableInt(1));
+            } else {
+                count.increment();
+            }
+        }
+        HashSet<Integer> toRemove = new HashSet<Integer>();
+        for (Map.Entry<T, MutableInt> e : occurrences.entrySet()) {
+            T v = e.getKey();
+            int found = 0;
+            for (int i = 0, ct = e.getValue().intValue(); i < ct; i++) {
+                found = indexOf(array, v, found);
+                if (found < 0) {
+                    break;
+                }
+                toRemove.add(found++);
+            }
+        }
+        return removeAll(array, extractIndices(toRemove));
+    }
+
+    /**
+     * <p>Removes the elements at the specified positions from the specified array.
+     * All remaining elements are shifted to the left.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except those at the specified positions. The component
+     * type of the returned array is always the same as that of the input
+     * array.</p>
+     *
+     * <p>If the input array is {@code null}, an IndexOutOfBoundsException
+     * will be thrown, because in that case no valid index can be specified.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeAll([1], 0)             = []
+     * ArrayUtils.removeAll([2, 6], 0)          = [6]
+     * ArrayUtils.removeAll([2, 6], 0, 1)       = []
+     * ArrayUtils.removeAll([2, 6, 3], 1, 2)    = [2]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 2)    = [6]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 1, 2) = []
+     * </pre>
+     *
+     * @param array   the array to remove the element from, may not be {@code null}
+     * @param indices the positions of the elements to be removed
+     * @return A new array containing the existing elements except those
+     *         at the specified positions.
+     * @throws IndexOutOfBoundsException if any index is out of range
+     * (index < 0 || index >= array.length), or if the array is {@code null}.
+     * @since 3.0.1
+     */
+    public static byte[] removeAll(byte[] array, int... indices) {
+        return (byte[]) removeAll((Object) array, clone(indices));
+    }
+
+    /**
+     * <p>Removes occurrences of specified elements, in specified quantities,
+     * from the specified array. All subsequent elements are shifted left.
+     * For any element-to-be-removed specified in greater quantities than
+     * contained in the original array, no change occurs beyond the
+     * removal of the existing matching items.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except for the earliest-encountered occurrences of the specified
+     * elements. The component type of the returned array is always the same
+     * as that of the input array.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeElements(null, 1, 2)      = null
+     * ArrayUtils.removeElements([], 1, 2)        = []
+     * ArrayUtils.removeElements([1], 2, 3)       = [1]
+     * ArrayUtils.removeElements([1, 3], 1, 2)    = [3]
+     * ArrayUtils.removeElements([1, 3, 1], 1)    = [3, 1]
+     * ArrayUtils.removeElements([1, 3, 1], 1, 1) = [3]
+     * </pre>
+     *
+     * @param array  the array to remove the element from, may be {@code null}
+     * @param values the elements to be removed
+     * @return A new array containing the existing elements except the
+     *         earliest-encountered occurrences of the specified elements.
+     * @since 3.0.1
+     */
+    public static byte[] removeElements(byte[] array, byte... values) {
+        if (isEmpty(array) || isEmpty(values)) {
+            return clone(array);
+        }
+        HashMap<Byte, MutableInt> occurrences = new HashMap<Byte, MutableInt>(values.length);
+        for (byte v : values) {
+            Byte boxed = Byte.valueOf(v);
+            MutableInt count = occurrences.get(boxed);
+            if (count == null) {
+                occurrences.put(boxed, new MutableInt(1));
+            } else {
+                count.increment();
+            }
+        }
+        HashSet<Integer> toRemove = new HashSet<Integer>();
+        for (Map.Entry<Byte, MutableInt> e : occurrences.entrySet()) {
+            Byte v = e.getKey();
+            int found = 0;
+            for (int i = 0, ct = e.getValue().intValue(); i < ct; i++) {
+                found = indexOf(array, v.byteValue(), found);
+                if (found < 0) {
+                    break;
+                }
+                toRemove.add(found++);
+            }
+        }
+        return removeAll(array, extractIndices(toRemove));
+    }
+
+    /**
+     * <p>Removes the elements at the specified positions from the specified array.
+     * All remaining elements are shifted to the left.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except those at the specified positions. The component
+     * type of the returned array is always the same as that of the input
+     * array.</p>
+     *
+     * <p>If the input array is {@code null}, an IndexOutOfBoundsException
+     * will be thrown, because in that case no valid index can be specified.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeAll([1], 0)             = []
+     * ArrayUtils.removeAll([2, 6], 0)          = [6]
+     * ArrayUtils.removeAll([2, 6], 0, 1)       = []
+     * ArrayUtils.removeAll([2, 6, 3], 1, 2)    = [2]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 2)    = [6]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 1, 2) = []
+     * </pre>
+     *
+     * @param array   the array to remove the element from, may not be {@code null}
+     * @param indices the positions of the elements to be removed
+     * @return A new array containing the existing elements except those
+     *         at the specified positions.
+     * @throws IndexOutOfBoundsException if any index is out of range
+     * (index < 0 || index >= array.length), or if the array is {@code null}.
+     * @since 3.0.1
+     */
+    public static short[] removeAll(short[] array, int... indices) {
+        return (short[]) removeAll((Object) array, clone(indices));
+    }
+
+    /**
+     * <p>Removes occurrences of specified elements, in specified quantities,
+     * from the specified array. All subsequent elements are shifted left.
+     * For any element-to-be-removed specified in greater quantities than
+     * contained in the original array, no change occurs beyond the
+     * removal of the existing matching items.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except for the earliest-encountered occurrences of the specified
+     * elements. The component type of the returned array is always the same
+     * as that of the input array.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeElements(null, 1, 2)      = null
+     * ArrayUtils.removeElements([], 1, 2)        = []
+     * ArrayUtils.removeElements([1], 2, 3)       = [1]
+     * ArrayUtils.removeElements([1, 3], 1, 2)    = [3]
+     * ArrayUtils.removeElements([1, 3, 1], 1)    = [3, 1]
+     * ArrayUtils.removeElements([1, 3, 1], 1, 1) = [3]
+     * </pre>
+     *
+     * @param array  the array to remove the element from, may be {@code null}
+     * @param values the elements to be removed
+     * @return A new array containing the existing elements except the
+     *         earliest-encountered occurrences of the specified elements.
+     * @since 3.0.1
+     */
+    public static short[] removeElements(short[] array, short... values) {
+        if (isEmpty(array) || isEmpty(values)) {
+            return clone(array);
+        }
+        HashMap<Short, MutableInt> occurrences = new HashMap<Short, MutableInt>(values.length);
+        for (short v : values) {
+            Short boxed = Short.valueOf(v);
+            MutableInt count = occurrences.get(boxed);
+            if (count == null) {
+                occurrences.put(boxed, new MutableInt(1));
+            } else {
+                count.increment();
+            }
+        }
+        HashSet<Integer> toRemove = new HashSet<Integer>();
+        for (Map.Entry<Short, MutableInt> e : occurrences.entrySet()) {
+            Short v = e.getKey();
+            int found = 0;
+            for (int i = 0, ct = e.getValue().intValue(); i < ct; i++) {
+                found = indexOf(array, v.shortValue(), found);
+                if (found < 0) {
+                    break;
+                }
+                toRemove.add(found++);
+            }
+        }
+        return removeAll(array, extractIndices(toRemove));
+    }
+
+    /**
+     * <p>Removes the elements at the specified positions from the specified array.
+     * All remaining elements are shifted to the left.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except those at the specified positions. The component
+     * type of the returned array is always the same as that of the input
+     * array.</p>
+     *
+     * <p>If the input array is {@code null}, an IndexOutOfBoundsException
+     * will be thrown, because in that case no valid index can be specified.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeAll([1], 0)             = []
+     * ArrayUtils.removeAll([2, 6], 0)          = [6]
+     * ArrayUtils.removeAll([2, 6], 0, 1)       = []
+     * ArrayUtils.removeAll([2, 6, 3], 1, 2)    = [2]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 2)    = [6]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 1, 2) = []
+     * </pre>
+     *
+     * @param array   the array to remove the element from, may not be {@code null}
+     * @param indices the positions of the elements to be removed
+     * @return A new array containing the existing elements except those
+     *         at the specified positions.
+     * @throws IndexOutOfBoundsException if any index is out of range
+     * (index < 0 || index >= array.length), or if the array is {@code null}.
+     * @since 3.0.1
+     */
+    public static int[] removeAll(int[] array, int... indices) {
+        return (int[]) removeAll((Object) array, clone(indices));
+    }
+
+    /**
+     * <p>Removes occurrences of specified elements, in specified quantities,
+     * from the specified array. All subsequent elements are shifted left.
+     * For any element-to-be-removed specified in greater quantities than
+     * contained in the original array, no change occurs beyond the
+     * removal of the existing matching items.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except for the earliest-encountered occurrences of the specified
+     * elements. The component type of the returned array is always the same
+     * as that of the input array.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeElements(null, 1, 2)      = null
+     * ArrayUtils.removeElements([], 1, 2)        = []
+     * ArrayUtils.removeElements([1], 2, 3)       = [1]
+     * ArrayUtils.removeElements([1, 3], 1, 2)    = [3]
+     * ArrayUtils.removeElements([1, 3, 1], 1)    = [3, 1]
+     * ArrayUtils.removeElements([1, 3, 1], 1, 1) = [3]
+     * </pre>
+     *
+     * @param array  the array to remove the element from, may be {@code null}
+     * @param values the elements to be removed
+     * @return A new array containing the existing elements except the
+     *         earliest-encountered occurrences of the specified elements.
+     * @since 3.0.1
+     */
+    public static int[] removeElements(int[] array, int... values) {
+        if (isEmpty(array) || isEmpty(values)) {
+            return clone(array);
+        }
+        HashMap<Integer, MutableInt> occurrences = new HashMap<Integer, MutableInt>(values.length);
+        for (int v : values) {
+            Integer boxed = Integer.valueOf(v);
+            MutableInt count = occurrences.get(boxed);
+            if (count == null) {
+                occurrences.put(boxed, new MutableInt(1));
+            } else {
+                count.increment();
+            }
+        }
+        HashSet<Integer> toRemove = new HashSet<Integer>();
+        for (Map.Entry<Integer, MutableInt> e : occurrences.entrySet()) {
+            Integer v = e.getKey();
+            int found = 0;
+            for (int i = 0, ct = e.getValue().intValue(); i < ct; i++) {
+                found = indexOf(array, v.intValue(), found);
+                if (found < 0) {
+                    break;
+                }
+                toRemove.add(found++);
+            }
+        }
+        return removeAll(array, extractIndices(toRemove));
+    }
+
+    /**
+     * <p>Removes the elements at the specified positions from the specified array.
+     * All remaining elements are shifted to the left.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except those at the specified positions. The component
+     * type of the returned array is always the same as that of the input
+     * array.</p>
+     *
+     * <p>If the input array is {@code null}, an IndexOutOfBoundsException
+     * will be thrown, because in that case no valid index can be specified.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeAll([1], 0)             = []
+     * ArrayUtils.removeAll([2, 6], 0)          = [6]
+     * ArrayUtils.removeAll([2, 6], 0, 1)       = []
+     * ArrayUtils.removeAll([2, 6, 3], 1, 2)    = [2]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 2)    = [6]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 1, 2) = []
+     * </pre>
+     *
+     * @param array   the array to remove the element from, may not be {@code null}
+     * @param indices the positions of the elements to be removed
+     * @return A new array containing the existing elements except those
+     *         at the specified positions.
+     * @throws IndexOutOfBoundsException if any index is out of range
+     * (index < 0 || index >= array.length), or if the array is {@code null}.
+     * @since 3.0.1
+     */
+    public static char[] removeAll(char[] array, int... indices) {
+        return (char[]) removeAll((Object) array, clone(indices));
+    }
+
+    /**
+     * <p>Removes occurrences of specified elements, in specified quantities,
+     * from the specified array. All subsequent elements are shifted left.
+     * For any element-to-be-removed specified in greater quantities than
+     * contained in the original array, no change occurs beyond the
+     * removal of the existing matching items.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except for the earliest-encountered occurrences of the specified
+     * elements. The component type of the returned array is always the same
+     * as that of the input array.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeElements(null, 1, 2)      = null
+     * ArrayUtils.removeElements([], 1, 2)        = []
+     * ArrayUtils.removeElements([1], 2, 3)       = [1]
+     * ArrayUtils.removeElements([1, 3], 1, 2)    = [3]
+     * ArrayUtils.removeElements([1, 3, 1], 1)    = [3, 1]
+     * ArrayUtils.removeElements([1, 3, 1], 1, 1) = [3]
+     * </pre>
+     *
+     * @param array  the array to remove the element from, may be {@code null}
+     * @param values the elements to be removed
+     * @return A new array containing the existing elements except the
+     *         earliest-encountered occurrences of the specified elements.
+     * @since 3.0.1
+     */
+    public static char[] removeElements(char[] array, char... values) {
+        if (isEmpty(array) || isEmpty(values)) {
+            return clone(array);
+        }
+        HashMap<Character, MutableInt> occurrences = new HashMap<Character, MutableInt>(values.length);
+        for (char v : values) {
+            Character boxed = Character.valueOf(v);
+            MutableInt count = occurrences.get(boxed);
+            if (count == null) {
+                occurrences.put(boxed, new MutableInt(1));
+            } else {
+                count.increment();
+            }
+        }
+        HashSet<Integer> toRemove = new HashSet<Integer>();
+        for (Map.Entry<Character, MutableInt> e : occurrences.entrySet()) {
+            Character v = e.getKey();
+            int found = 0;
+            for (int i = 0, ct = e.getValue().intValue(); i < ct; i++) {
+                found = indexOf(array, v.charValue(), found);
+                if (found < 0) {
+                    break;
+                }
+                toRemove.add(found++);
+            }
+        }
+        return removeAll(array, extractIndices(toRemove));
+    }
+
+    /**
+     * <p>Removes the elements at the specified positions from the specified array.
+     * All remaining elements are shifted to the left.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except those at the specified positions. The component
+     * type of the returned array is always the same as that of the input
+     * array.</p>
+     *
+     * <p>If the input array is {@code null}, an IndexOutOfBoundsException
+     * will be thrown, because in that case no valid index can be specified.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeAll([1], 0)             = []
+     * ArrayUtils.removeAll([2, 6], 0)          = [6]
+     * ArrayUtils.removeAll([2, 6], 0, 1)       = []
+     * ArrayUtils.removeAll([2, 6, 3], 1, 2)    = [2]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 2)    = [6]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 1, 2) = []
+     * </pre>
+     *
+     * @param array   the array to remove the element from, may not be {@code null}
+     * @param indices the positions of the elements to be removed
+     * @return A new array containing the existing elements except those
+     *         at the specified positions.
+     * @throws IndexOutOfBoundsException if any index is out of range
+     * (index < 0 || index >= array.length), or if the array is {@code null}.
+     * @since 3.0.1
+     */
+    public static long[] removeAll(long[] array, int... indices) {
+        return (long[]) removeAll((Object) array, clone(indices));
+    }
+
+    /**
+     * <p>Removes occurrences of specified elements, in specified quantities,
+     * from the specified array. All subsequent elements are shifted left.
+     * For any element-to-be-removed specified in greater quantities than
+     * contained in the original array, no change occurs beyond the
+     * removal of the existing matching items.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except for the earliest-encountered occurrences of the specified
+     * elements. The component type of the returned array is always the same
+     * as that of the input array.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeElements(null, 1, 2)      = null
+     * ArrayUtils.removeElements([], 1, 2)        = []
+     * ArrayUtils.removeElements([1], 2, 3)       = [1]
+     * ArrayUtils.removeElements([1, 3], 1, 2)    = [3]
+     * ArrayUtils.removeElements([1, 3, 1], 1)    = [3, 1]
+     * ArrayUtils.removeElements([1, 3, 1], 1, 1) = [3]
+     * </pre>
+     *
+     * @param array  the array to remove the element from, may be {@code null}
+     * @param values the elements to be removed
+     * @return A new array containing the existing elements except the
+     *         earliest-encountered occurrences of the specified elements.
+     * @since 3.0.1
+     */
+    public static long[] removeElements(long[] array, long... values) {
+        if (isEmpty(array) || isEmpty(values)) {
+            return clone(array);
+        }
+        HashMap<Long, MutableInt> occurrences = new HashMap<Long, MutableInt>(values.length);
+        for (long v : values) {
+            Long boxed = Long.valueOf(v);
+            MutableInt count = occurrences.get(boxed);
+            if (count == null) {
+                occurrences.put(boxed, new MutableInt(1));
+            } else {
+                count.increment();
+            }
+        }
+        HashSet<Integer> toRemove = new HashSet<Integer>();
+        for (Map.Entry<Long, MutableInt> e : occurrences.entrySet()) {
+            Long v = e.getKey();
+            int found = 0;
+            for (int i = 0, ct = e.getValue().intValue(); i < ct; i++) {
+                found = indexOf(array, v.longValue(), found);
+                if (found < 0) {
+                    break;
+                }
+                toRemove.add(found++);
+            }
+        }
+        return removeAll(array, extractIndices(toRemove));
+    }
+
+    /**
+     * <p>Removes the elements at the specified positions from the specified array.
+     * All remaining elements are shifted to the left.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except those at the specified positions. The component
+     * type of the returned array is always the same as that of the input
+     * array.</p>
+     *
+     * <p>If the input array is {@code null}, an IndexOutOfBoundsException
+     * will be thrown, because in that case no valid index can be specified.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeAll([1], 0)             = []
+     * ArrayUtils.removeAll([2, 6], 0)          = [6]
+     * ArrayUtils.removeAll([2, 6], 0, 1)       = []
+     * ArrayUtils.removeAll([2, 6, 3], 1, 2)    = [2]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 2)    = [6]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 1, 2) = []
+     * </pre>
+     *
+     * @param array   the array to remove the element from, may not be {@code null}
+     * @param indices the positions of the elements to be removed
+     * @return A new array containing the existing elements except those
+     *         at the specified positions.
+     * @throws IndexOutOfBoundsException if any index is out of range
+     * (index < 0 || index >= array.length), or if the array is {@code null}.
+     * @since 3.0.1
+     */
+    public static float[] removeAll(float[] array, int... indices) {
+        return (float[]) removeAll((Object) array, clone(indices));
+    }
+
+    /**
+     * <p>Removes occurrences of specified elements, in specified quantities,
+     * from the specified array. All subsequent elements are shifted left.
+     * For any element-to-be-removed specified in greater quantities than
+     * contained in the original array, no change occurs beyond the
+     * removal of the existing matching items.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except for the earliest-encountered occurrences of the specified
+     * elements. The component type of the returned array is always the same
+     * as that of the input array.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeElements(null, 1, 2)      = null
+     * ArrayUtils.removeElements([], 1, 2)        = []
+     * ArrayUtils.removeElements([1], 2, 3)       = [1]
+     * ArrayUtils.removeElements([1, 3], 1, 2)    = [3]
+     * ArrayUtils.removeElements([1, 3, 1], 1)    = [3, 1]
+     * ArrayUtils.removeElements([1, 3, 1], 1, 1) = [3]
+     * </pre>
+     *
+     * @param array  the array to remove the element from, may be {@code null}
+     * @param values the elements to be removed
+     * @return A new array containing the existing elements except the
+     *         earliest-encountered occurrences of the specified elements.
+     * @since 3.0.1
+     */
+    public static float[] removeElements(float[] array, float... values) {
+        if (isEmpty(array) || isEmpty(values)) {
+            return clone(array);
+        }
+        HashMap<Float, MutableInt> occurrences = new HashMap<Float, MutableInt>(values.length);
+        for (float v : values) {
+            Float boxed = Float.valueOf(v);
+            MutableInt count = occurrences.get(boxed);
+            if (count == null) {
+                occurrences.put(boxed, new MutableInt(1));
+            } else {
+                count.increment();
+            }
+        }
+        HashSet<Integer> toRemove = new HashSet<Integer>();
+        for (Map.Entry<Float, MutableInt> e : occurrences.entrySet()) {
+            Float v = e.getKey();
+            int found = 0;
+            for (int i = 0, ct = e.getValue().intValue(); i < ct; i++) {
+                found = indexOf(array, v.floatValue(), found);
+                if (found < 0) {
+                    break;
+                }
+                toRemove.add(found++);
+            }
+        }
+        return removeAll(array, extractIndices(toRemove));
+    }
+
+    /**
+     * <p>Removes the elements at the specified positions from the specified array.
+     * All remaining elements are shifted to the left.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except those at the specified positions. The component
+     * type of the returned array is always the same as that of the input
+     * array.</p>
+     *
+     * <p>If the input array is {@code null}, an IndexOutOfBoundsException
+     * will be thrown, because in that case no valid index can be specified.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeAll([1], 0)             = []
+     * ArrayUtils.removeAll([2, 6], 0)          = [6]
+     * ArrayUtils.removeAll([2, 6], 0, 1)       = []
+     * ArrayUtils.removeAll([2, 6, 3], 1, 2)    = [2]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 2)    = [6]
+     * ArrayUtils.removeAll([2, 6, 3], 0, 1, 2) = []
+     * </pre>
+     *
+     * @param array   the array to remove the element from, may not be {@code null}
+     * @param indices the positions of the elements to be removed
+     * @return A new array containing the existing elements except those
+     *         at the specified positions.
+     * @throws IndexOutOfBoundsException if any index is out of range
+     * (index < 0 || index >= array.length), or if the array is {@code null}.
+     * @since 3.0.1
+     */
+    public static double[] removeAll(double[] array, int... indices) {
+        return (double[]) removeAll((Object) array, clone(indices));
+    }
+
+    /**
+     * <p>Removes occurrences of specified elements, in specified quantities,
+     * from the specified array. All subsequent elements are shifted left.
+     * For any element-to-be-removed specified in greater quantities than
+     * contained in the original array, no change occurs beyond the
+     * removal of the existing matching items.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except for the earliest-encountered occurrences of the specified
+     * elements. The component type of the returned array is always the same
+     * as that of the input array.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeElements(null, 1, 2)      = null
+     * ArrayUtils.removeElements([], 1, 2)        = []
+     * ArrayUtils.removeElements([1], 2, 3)       = [1]
+     * ArrayUtils.removeElements([1, 3], 1, 2)    = [3]
+     * ArrayUtils.removeElements([1, 3, 1], 1)    = [3, 1]
+     * ArrayUtils.removeElements([1, 3, 1], 1, 1) = [3]
+     * </pre>
+     *
+     * @param array  the array to remove the element from, may be {@code null}
+     * @param values the elements to be removed
+     * @return A new array containing the existing elements except the
+     *         earliest-encountered occurrences of the specified elements.
+     * @since 3.0.1
+     */
+    public static double[] removeElements(double[] array, double... values) {
+        if (isEmpty(array) || isEmpty(values)) {
+            return clone(array);
+        }
+        HashMap<Double, MutableInt> occurrences = new HashMap<Double, MutableInt>(values.length);
+        for (double v : values) {
+            Double boxed = Double.valueOf(v);
+            MutableInt count = occurrences.get(boxed);
+            if (count == null) {
+                occurrences.put(boxed, new MutableInt(1));
+            } else {
+                count.increment();
+            }
+        }
+        HashSet<Integer> toRemove = new HashSet<Integer>();
+        for (Map.Entry<Double, MutableInt> e : occurrences.entrySet()) {
+            Double v = e.getKey();
+            int found = 0;
+            for (int i = 0, ct = e.getValue().intValue(); i < ct; i++) {
+                found = indexOf(array, v.doubleValue(), found);
+                if (found < 0) {
+                    break;
+                }
+                toRemove.add(found++);
+            }
+        }
+        return removeAll(array, extractIndices(toRemove));
+    }
+
+    /**
+     * <p>Removes the elements at the specified positions from the specified array.
+     * All remaining elements are shifted to the left.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except those at the specified positions. The component
+     * type of the returned array is always the same as that of the input
+     * array.</p>
+     *
+     * <p>If the input array is {@code null}, an IndexOutOfBoundsException
+     * will be thrown, because in that case no valid index can be specified.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeAll([true, false, true], 0, 2) = [false]
+     * ArrayUtils.removeAll([true, false, true], 1, 2) = [true]
+     * </pre>
+     *
+     * @param array   the array to remove the element from, may not be {@code null}
+     * @param indices the positions of the elements to be removed
+     * @return A new array containing the existing elements except those
+     *         at the specified positions.
+     * @throws IndexOutOfBoundsException if any index is out of range
+     * (index < 0 || index >= array.length), or if the array is {@code null}.
+     * @since 3.0.1
+     */
+    public static boolean[] removeAll(boolean[] array, int... indices) {
+        return (boolean[]) removeAll((Object) array, clone(indices));
+    }
+
+    /**
+     * <p>Removes occurrences of specified elements, in specified quantities,
+     * from the specified array. All subsequent elements are shifted left.
+     * For any element-to-be-removed specified in greater quantities than
+     * contained in the original array, no change occurs beyond the
+     * removal of the existing matching items.</p>
+     *
+     * <p>This method returns a new array with the same elements of the input
+     * array except for the earliest-encountered occurrences of the specified
+     * elements. The component type of the returned array is always the same
+     * as that of the input array.</p>
+     *
+     * <pre>
+     * ArrayUtils.removeElements(null, true, false)               = null
+     * ArrayUtils.removeElements([], true, false)                 = []
+     * ArrayUtils.removeElements([true], false, false)            = [true]
+     * ArrayUtils.removeElements([true, false], true, true)       = [false]
+     * ArrayUtils.removeElements([true, false, true], true)       = [false, true]
+     * ArrayUtils.removeElements([true, false, true], true, true) = [false]
+     * </pre>
+     *
+     * @param array  the array to remove the element from, may be {@code null}
+     * @param values the elements to be removed
+     * @return A new array containing the existing elements except the
+     *         earliest-encountered occurrences of the specified elements.
+     * @since 3.0.1
+     */
+    public static boolean[] removeElements(boolean[] array, boolean... values) {
+        if (isEmpty(array) || isEmpty(values)) {
+            return clone(array);
+        }
+        HashMap<Boolean, MutableInt> occurrences = new HashMap<Boolean, MutableInt>(values.length);
+        for (boolean v : values) {
+            Boolean boxed = Boolean.valueOf(v);
+            MutableInt count = occurrences.get(boxed);
+            if (count == null) {
+                occurrences.put(boxed, new MutableInt(1));
+            } else {
+                count.increment();
+            }
+        }
+        HashSet<Integer> toRemove = new HashSet<Integer>();
+        for (Map.Entry<Boolean, MutableInt> e : occurrences.entrySet()) {
+            Boolean v = e.getKey();
+            int found = 0;
+            for (int i = 0, ct = e.getValue().intValue(); i < ct; i++) {
+                found = indexOf(array, v.booleanValue(), found);
+                if (found < 0) {
+                    break;
+                }
+                toRemove.add(found++);
+            }
+        }
+        return removeAll(array, extractIndices(toRemove));
+    }
+
+    /**
+     * Removes multiple array elements specified by index.
+     * @param array source
+     * @param indices to remove, WILL BE SORTED--so only clones of user-owned arrays!
+     * @return new array of same type minus elements specified by unique values of {@code indices}
+     * @since 3.0.1
+     */
+    private static Object removeAll(Object array, int... indices) {
+        int length = getLength(array);
+        int diff = 0;
+
+        if (isNotEmpty(indices)) {
+            Arrays.sort(indices);
+
+            int i = indices.length;
+            int prevIndex = length;
+            while (--i >= 0) {
+                int index = indices[i];
+                if (index < 0 || index >= length) {
+                    throw new IndexOutOfBoundsException("Index: " + index + ", Length: " + length);
+                }
+                if (index >= prevIndex) {
+                    continue;
+                }
+                diff++;
+                prevIndex = index;
+            }
+        }
+        Object result = Array.newInstance(array.getClass().getComponentType(), length - diff);
+        if (diff < length) {
+            int end = length;
+            int dest = length - diff;
+            for (int i = indices.length - 1; i >= 0; i--) {
+                int index = indices[i];
+                if (end - index > 1) {
+                    int cp = end - index - 1;
+                    dest -= cp;
+                    System.arraycopy(array, index + 1, result, dest, cp);
+                }
+                end = index;
+            }
+            if (end > 0) {
+                System.arraycopy(array, 0, result, 0, end);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Extract a set of Integer indices into an int[].
+     * @param coll {@code HashSet} of {@code Integer}
+     * @return int[]
+     * @since 3.0.1
+     */
+    private static int[] extractIndices(HashSet<Integer> coll) {
+        int[] result = new int[coll.size()];
+        int i = 0;
+        for (Integer index : coll) {
+            result[i++] = index.intValue();
+        }
+        return result;
+    }
 }

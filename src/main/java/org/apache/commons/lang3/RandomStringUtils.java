@@ -21,7 +21,7 @@ import java.util.Random;
 /**
  * <p>Operations for random {@code String}s.</p>
  * <p>Currently <em>private high surrogate</em> characters are ignored. 
- * These are unicode characters that fall between the values 56192 (db80)
+ * These are Unicode characters that fall between the values 56192 (db80)
  * and 56319 (dbff) as we don't know how to handle them. 
  * High and low surrogates are correctly dealt with - that is if a 
  * high surrogate is randomly chosen, 55296 (d800) to 56191 (db7f) 
@@ -31,7 +31,7 @@ import java.util.Random;
  *
  * <p>#ThreadSafe#</p>
  * @since 1.0
- * @version $Id: RandomStringUtils.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: RandomStringUtils.java 1148520 2011-07-19 20:53:23Z ggregory $
  */
 public class RandomStringUtils {
 

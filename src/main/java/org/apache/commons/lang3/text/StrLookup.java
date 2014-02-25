@@ -32,7 +32,7 @@ import java.util.Map;
  * key as a primary key, and looked up the value on demand from the database
  *
  * @since 2.2
- * @version $Id: StrLookup.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: StrLookup.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public abstract class StrLookup<V> {
 
@@ -122,7 +122,7 @@ public abstract class StrLookup<V> {
      * the underlying data, by converting it as necessary. For example:
      * <pre>
      * Map<String, Object> map = new HashMap<String, Object>();
-     * map.put("number", new Integer(2));
+     * map.put("number", Integer.valueOf(2));
      * assertEquals("2", StrLookup.mapLookup(map).lookup("number"));
      * </pre>
      * @param key  the key to be looked up, may be null

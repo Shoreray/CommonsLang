@@ -104,7 +104,7 @@ import java.util.regex.Pattern;
  * <p>#ThreadSafe#</p>
  * @see java.lang.String
  * @since 1.0
- * @version $Id: StringUtils.java 1144929 2011-07-10 18:26:16Z ggregory $
+ * @version $Id: StringUtils.java 1153241 2011-08-02 18:49:52Z ggregory $
  */
 //@Immutable
 public class StringUtils {
@@ -3907,7 +3907,7 @@ public class StringUtils {
      *            the Strings to replace them with, no-op if null
      * @return the text with any replacements processed, {@code null} if
      *         null String input
-     * @throws IndexOutOfBoundsException
+     * @throws IllegalArgumentException
      *             if the lengths of the arrays are not the same (null is ok,
      *             and/or size 0)
      * @since 2.4
@@ -3924,8 +3924,7 @@ public class StringUtils {
      * <p>
      * A {@code null} reference passed to this method is a no-op, or if
      * any "search string" or "string to replace" is null, that replace will be
-     * ignored. This will not repeat. For repeating replaces, call the
-     * overloaded method.
+     * ignored. 
      * </p>
      *
      * <pre>
@@ -3941,7 +3940,7 @@ public class StringUtils {
      *  (example of how it repeats)
      *  StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"d", "t"}, false) = "dcte"
      *  StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"d", "t"}, true) = "tcte"
-     *  StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"d", "ab"}, true) = IllegalArgumentException
+     *  StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"d", "ab"}, true) = IllegalStateException
      *  StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"d", "ab"}, false) = "dcabe"
      * </pre>
      *
@@ -3953,10 +3952,10 @@ public class StringUtils {
      *            the Strings to replace them with, no-op if null
      * @return the text with any replacements processed, {@code null} if
      *         null String input
-     * @throws IllegalArgumentException
+     * @throws IllegalStateException
      *             if the search is repeating and there is an endless loop due
      *             to outputs of one being inputs to another
-     * @throws IndexOutOfBoundsException
+     * @throws IllegalArgumentException
      *             if the lengths of the arrays are not the same (null is ok,
      *             and/or size 0)
      * @since 2.4
@@ -3992,7 +3991,7 @@ public class StringUtils {
      *  (example of how it repeats)
      *  StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"d", "t"}, false) = "dcte"
      *  StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"d", "t"}, true) = "tcte"
-     *  StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"d", "ab"}, *) = IllegalArgumentException
+     *  StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"d", "ab"}, *) = IllegalStateException
      * </pre>
      *
      * @param text
@@ -4008,10 +4007,10 @@ public class StringUtils {
      *            loop
      * @return the text with any replacements processed, {@code null} if
      *         null String input
-     * @throws IllegalArgumentException
+     * @throws IllegalStateException
      *             if the search is repeating and there is an endless loop due
      *             to outputs of one being inputs to another
-     * @throws IndexOutOfBoundsException
+     * @throws IllegalArgumentException
      *             if the lengths of the arrays are not the same (null is ok,
      *             and/or size 0)
      * @since 2.4
@@ -4029,7 +4028,8 @@ public class StringUtils {
 
         // if recursing, this shouldn't be less than 0
         if (timeToLive < 0) {
-            throw new IllegalStateException("TimeToLive of " + timeToLive + " is less than 0: " + text);
+            throw new IllegalStateException("Aborting to protect against StackOverflowError - " +
+                                            "output of one loop is the input of another");
         }
 
         int searchLength = searchList.length;
@@ -4425,10 +4425,8 @@ public class StringUtils {
         int lastIdx = strLen - 1;
         String ret = str.substring(0, lastIdx);
         char last = str.charAt(lastIdx);
-        if (last == CharUtils.LF) {
-            if (ret.charAt(lastIdx - 1) == CharUtils.CR) {
-                return ret.substring(0, lastIdx - 1);
-            }
+        if (last == CharUtils.LF && ret.charAt(lastIdx - 1) == CharUtils.CR) {
+            return ret.substring(0, lastIdx - 1);
         }
         return ret;
     }

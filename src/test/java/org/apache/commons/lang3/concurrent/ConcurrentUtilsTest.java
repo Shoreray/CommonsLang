@@ -35,7 +35,7 @@ import org.junit.Test;
 /**
  * Test class for {@link ConcurrentUtils}.
  *
- * @version $Id: ConcurrentUtilsTest.java 1071401 2011-02-16 21:20:27Z oheger $
+ * @version $Id: ConcurrentUtilsTest.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class ConcurrentUtilsTest {
     /**
@@ -380,7 +380,7 @@ public class ConcurrentUtilsTest {
      */
     @Test
     public void testConstantFuture_Integer() throws Exception {
-        Integer value = new Integer(5);
+        Integer value = Integer.valueOf(5);
         Future<Integer> test = ConcurrentUtils.constantFuture(value);
         assertTrue(test.isDone());
         assertSame(value, test.get());

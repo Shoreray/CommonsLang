@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 /**
  * Test class for StrLookup.
  *
- * @version $Id: StrLookupTest.java 892118 2009-12-18 03:39:13Z sebb $
+ * @version $Id: StrLookupTest.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class StrLookupTest extends TestCase {
 
@@ -51,7 +51,7 @@ public class StrLookupTest extends TestCase {
     public void testMapLookup() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("key", "value");
-        map.put("number", new Integer(2));
+        map.put("number", Integer.valueOf(2));
         assertEquals("value", StrLookup.mapLookup(map).lookup("key"));
         assertEquals("2", StrLookup.mapLookup(map).lookup("number"));
         assertEquals(null, StrLookup.mapLookup(map).lookup(null));

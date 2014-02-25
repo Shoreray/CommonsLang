@@ -29,7 +29,7 @@ import org.apache.commons.lang3.SystemUtils;
 /**
  * Unit tests for {@link org.apache.commons.lang3.text.StrBuilder}.
  *
- * @version $Id: StrBuilderAppendInsertTest.java 892118 2009-12-18 03:39:13Z sebb $
+ * @version $Id: StrBuilderAppendInsertTest.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class StrBuilderAppendInsertTest extends TestCase {
 
@@ -462,7 +462,7 @@ public class StrBuilderAppendInsertTest extends TestCase {
         sb.appendln(FOO);
         assertEquals(SEP + "foo" + SEP, sb.toString());
 
-        sb.appendln(new Integer(6));
+        sb.appendln(Integer.valueOf(6));
         assertEquals(SEP + "foo" + SEP + "6" + SEP, sb.toString());
     }
 

@@ -34,7 +34,7 @@ import org.apache.commons.lang3.text.translate.UnicodeUnescaper;
  *
  * <p>#ThreadSafe#</p>
  * @since 2.0
- * @version $Id: StringEscapeUtils.java 1142151 2011-07-02 04:06:23Z bayard $
+ * @version $Id: StringEscapeUtils.java 1148520 2011-07-19 20:53:23Z ggregory $
  */
 public class StringEscapeUtils {
 
@@ -493,10 +493,10 @@ public class StringEscapeUtils {
      * <p>Supports only the five basic XML entities (gt, lt, quot, amp, apos).
      * Does not support DTDs or external entities.</p>
      *
-     * <p>Note that unicode characters greater than 0x7f are as of 3.0, no longer 
+     * <p>Note that Unicode characters greater than 0x7f are as of 3.0, no longer 
      *    escaped. If you still wish this functionality, you can achieve it 
      *    via the following: 
-     * {@code StringEscapeUtils.ESCAPE_XML.with( new UnicodeEscaper(Range.between(0x7f, Integer.MAX_VALUE)) );}</p>
+     * {@code StringEscapeUtils.ESCAPE_XML.with( NumericEntityEscaper.between(0x7f, Integer.MAX_VALUE) );}</p>
      *
      * @param input  the {@code String} to escape, may be null
      * @return a new escaped {@code String}, {@code null} if null string input
@@ -516,8 +516,8 @@ public class StringEscapeUtils {
      * <p>Supports only the five basic XML entities (gt, lt, quot, amp, apos).
      * Does not support DTDs or external entities.</p>
      *
-     * <p>Note that numerical \\u unicode codes are unescaped to their respective 
-     *    unicode characters. This may change in future releases. </p>
+     * <p>Note that numerical \\u Unicode codes are unescaped to their respective 
+     *    Unicode characters. This may change in future releases. </p>
      *
      * @param input  the {@code String} to unescape, may be null
      * @return a new unescaped {@code String}, {@code null} if null string input

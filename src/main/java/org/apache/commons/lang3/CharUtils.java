@@ -25,7 +25,7 @@ package org.apache.commons.lang3;
  * 
  * <p>#ThreadSafe#</p>
  * @since 2.1
- * @version $Id: CharUtils.java 1095955 2011-04-22 15:57:37Z ggregory $
+ * @version $Id: CharUtils.java 1153229 2011-08-02 18:04:51Z ggregory $
  */
 public class CharUtils {
     
@@ -48,7 +48,6 @@ public class CharUtils {
         "\u0078\u0079\u007a\u007b\u007c\u007d\u007e\u007f";
     
     private static final String[] CHAR_STRING_ARRAY = new String[128];
-    private static final Character[] CHAR_ARRAY = new Character[128];
     
     /**
      * {@code \u000a} linefeed LF ('\n').
@@ -72,7 +71,6 @@ public class CharUtils {
     static {
         for (int i = 127; i >= 0; i--) {
             CHAR_STRING_ARRAY[i] = CHAR_STRING.substring(i, i + 1);
-            CHAR_ARRAY[i] = new Character((char) i);
         }
     }
 
@@ -99,14 +97,13 @@ public class CharUtils {
      *   CharUtils.toCharacterObject('A')  = 'A'
      * </pre>
      *
+     * @deprecated Java 5 introduced {@link Character#valueOf(char)} which caches chars 0 through 127.
      * @param ch  the character to convert
      * @return a Character of the specified character
      */
+    @Deprecated
     public static Character toCharacterObject(char ch) {
-        if (ch < CHAR_ARRAY.length) {
-            return CHAR_ARRAY[ch];
-        }
-        return new Character(ch);
+        return Character.valueOf(ch);
     }
     
     /**
@@ -130,7 +127,7 @@ public class CharUtils {
         if (StringUtils.isEmpty(str)) {
             return null;
         }
-        return toCharacterObject(str.charAt(0));
+        return Character.valueOf(str.charAt(0));
     }
     
     //-----------------------------------------------------------------------
@@ -358,7 +355,7 @@ public class CharUtils {
     
     //--------------------------------------------------------------------------
     /**
-     * <p>Converts the string to the unicode format '\u0020'.</p>
+     * <p>Converts the string to the Unicode format '\u0020'.</p>
      * 
      * <p>This format is the Java source code format.</p>
      *
@@ -368,7 +365,7 @@ public class CharUtils {
      * </pre>
      * 
      * @param ch  the character to convert
-     * @return the escaped unicode string
+     * @return the escaped Unicode string
      */
     public static String unicodeEscaped(char ch) {
         if (ch < 0x10) {
@@ -382,7 +379,7 @@ public class CharUtils {
     }
     
     /**
-     * <p>Converts the string to the unicode format '\u0020'.</p>
+     * <p>Converts the string to the Unicode format '\u0020'.</p>
      * 
      * <p>This format is the Java source code format.</p>
      * 
@@ -395,7 +392,7 @@ public class CharUtils {
      * </pre>
      * 
      * @param ch  the character to convert, may be null
-     * @return the escaped unicode string, null if null input
+     * @return the escaped Unicode string, null if null input
      */
     public static String unicodeEscaped(Character ch) {
         if (ch == null) {

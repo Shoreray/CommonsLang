@@ -21,7 +21,7 @@ package org.apache.commons.lang3.mutable;
  * 
  * @see Float
  * @since 2.1
- * @version $Id: MutableFloat.java 1096472 2011-04-25 13:28:06Z mbenson $
+ * @version $Id: MutableFloat.java 1153490 2011-08-03 13:53:35Z ggregory $
  */
 public class MutableFloat extends Number implements Comparable<MutableFloat>, Mutable<Number> {
 
@@ -82,7 +82,7 @@ public class MutableFloat extends Number implements Comparable<MutableFloat>, Mu
      * @return the value as a Float, never null
      */
     public Float getValue() {
-        return new Float(this.value);
+        return Float.valueOf(this.value);
     }
 
     /**

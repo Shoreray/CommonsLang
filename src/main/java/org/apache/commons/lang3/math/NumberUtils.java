@@ -25,28 +25,28 @@ import org.apache.commons.lang3.StringUtils;
  * <p>Provides extra functionality for Java Number classes.</p>
  *
  * @since 2.0
- * @version $Id: NumberUtils.java 1089736 2011-04-07 04:39:33Z bayard $
+ * @version $Id: NumberUtils.java 1153490 2011-08-03 13:53:35Z ggregory $
  */
 public class NumberUtils {
     
     /** Reusable Long constant for zero. */
-    public static final Long LONG_ZERO = new Long(0L);
+    public static final Long LONG_ZERO = Long.valueOf(0L);
     /** Reusable Long constant for one. */
-    public static final Long LONG_ONE = new Long(1L);
+    public static final Long LONG_ONE = Long.valueOf(1L);
     /** Reusable Long constant for minus one. */
-    public static final Long LONG_MINUS_ONE = new Long(-1L);
+    public static final Long LONG_MINUS_ONE = Long.valueOf(-1L);
     /** Reusable Integer constant for zero. */
-    public static final Integer INTEGER_ZERO = new Integer(0);
+    public static final Integer INTEGER_ZERO = Integer.valueOf(0);
     /** Reusable Integer constant for one. */
-    public static final Integer INTEGER_ONE = new Integer(1);
+    public static final Integer INTEGER_ONE = Integer.valueOf(1);
     /** Reusable Integer constant for minus one. */
-    public static final Integer INTEGER_MINUS_ONE = new Integer(-1);
+    public static final Integer INTEGER_MINUS_ONE = Integer.valueOf(-1);
     /** Reusable Short constant for zero. */
-    public static final Short SHORT_ZERO = new Short((short) 0);
+    public static final Short SHORT_ZERO = Short.valueOf((short) 0);
     /** Reusable Short constant for one. */
-    public static final Short SHORT_ONE = new Short((short) 1);
+    public static final Short SHORT_ONE = Short.valueOf((short) 1);
     /** Reusable Short constant for minus one. */
-    public static final Short SHORT_MINUS_ONE = new Short((short) -1);
+    public static final Short SHORT_MINUS_ONE = Short.valueOf((short) -1);
     /** Reusable Byte constant for zero. */
     public static final Byte BYTE_ZERO = Byte.valueOf((byte) 0);
     /** Reusable Byte constant for one. */
@@ -54,17 +54,17 @@ public class NumberUtils {
     /** Reusable Byte constant for minus one. */
     public static final Byte BYTE_MINUS_ONE = Byte.valueOf((byte) -1);
     /** Reusable Double constant for zero. */
-    public static final Double DOUBLE_ZERO = new Double(0.0d);
+    public static final Double DOUBLE_ZERO = Double.valueOf(0.0d);
     /** Reusable Double constant for one. */
-    public static final Double DOUBLE_ONE = new Double(1.0d);
+    public static final Double DOUBLE_ONE = Double.valueOf(1.0d);
     /** Reusable Double constant for minus one. */
-    public static final Double DOUBLE_MINUS_ONE = new Double(-1.0d);
+    public static final Double DOUBLE_MINUS_ONE = Double.valueOf(-1.0d);
     /** Reusable Float constant for zero. */
-    public static final Float FLOAT_ZERO = new Float(0.0f);
+    public static final Float FLOAT_ZERO = Float.valueOf(0.0f);
     /** Reusable Float constant for one. */
-    public static final Float FLOAT_ONE = new Float(1.0f);
+    public static final Float FLOAT_ONE = Float.valueOf(1.0f);
     /** Reusable Float constant for minus one. */
-    public static final Float FLOAT_MINUS_ONE = new Float(-1.0f);
+    public static final Float FLOAT_MINUS_ONE = Float.valueOf(-1.0f);
 
     /**
      * <p><code>NumberUtils</code> instances should NOT be constructed in standard programming.
@@ -388,23 +388,23 @@ public class NumberUtils {
     // Byte.valueOf(String)
     // Double.valueOf(String)
     // Float.valueOf(String)
-    // new Float(String)
+    // Float.valueOf(String)
     // Integer.valueOf(String,int radix)
     // Integer.valueOf(String)
     // Integer.decode(String)
     // Integer.getInteger(String)
     // Integer.getInteger(String,int val)
     // Integer.getInteger(String,Integer val)
-    // new Integer(String)
-    // new Double(String)
+    // Integer.valueOf(String)
+    // Double.valueOf(String)
     // new Byte(String)
-    // new Long(String)
+    // Long.valueOf(String)
     // Long.getLong(String)
     // Long.getLong(String,int)
     // Long.getLong(String,Integer)
     // Long.valueOf(String,int)
     // Long.valueOf(String)
-    // new Short(String)
+    // Short.valueOf(String)
     // Short.decode(String)
     // Short.valueOf(String,int)
     // Short.valueOf(String)
@@ -1281,7 +1281,7 @@ public class NumberUtils {
      * <code>false</code>.</p>
      *
      * @param str  the <code>String</code> to check
-     * @return <code>true</code> if str contains only unicode numeric
+     * @return <code>true</code> if str contains only Unicode numeric
      */
     public static boolean isDigits(String str) {
         if (StringUtils.isEmpty(str)) {
@@ -1320,22 +1320,20 @@ public class NumberUtils {
         boolean foundDigit = false;
         // deal with any possible sign up front
         int start = (chars[0] == '-') ? 1 : 0;
-        if (sz > start + 1) {
-            if (chars[start] == '0' && chars[start + 1] == 'x') {
-                int i = start + 2;
-                if (i == sz) {
-                    return false; // str == "0x"
-                }
-                // checking hex (it can't be anything else)
-                for (; i < chars.length; i++) {
-                    if ((chars[i] < '0' || chars[i] > '9')
-                        && (chars[i] < 'a' || chars[i] > 'f')
-                        && (chars[i] < 'A' || chars[i] > 'F')) {
-                        return false;
-                    }
-                }
-                return true;
+        if (sz > start + 1 && chars[start] == '0' && chars[start + 1] == 'x') {
+            int i = start + 2;
+            if (i == sz) {
+                return false; // str == "0x"
             }
+            // checking hex (it can't be anything else)
+            for (; i < chars.length; i++) {
+                if ((chars[i] < '0' || chars[i] > '9')
+                    && (chars[i] < 'a' || chars[i] > 'f')
+                    && (chars[i] < 'A' || chars[i] > 'F')) {
+                    return false;
+                }
+            }
+            return true;
         }
         sz--; // don't want to loop to the last char, check it afterwords
               // for type qualifiers
@@ -1411,5 +1409,5 @@ public class NumberUtils {
         // found digit it to make sure weird stuff like '.' and '1E-' doesn't pass
         return !allowSigns && foundDigit;
     }
-    
+
 }

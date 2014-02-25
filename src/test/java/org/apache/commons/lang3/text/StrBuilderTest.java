@@ -28,7 +28,7 @@ import org.apache.commons.lang3.ArrayUtils;
 /**
  * Unit tests for {@link org.apache.commons.lang3.text.StrBuilder}.
  * 
- * @version $Id: StrBuilderTest.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: StrBuilderTest.java 1153484 2011-08-03 13:39:42Z ggregory $
  */
 public class StrBuilderTest extends TestCase {
 
@@ -1704,7 +1704,7 @@ public class StrBuilderTest extends TestCase {
         assertEquals(true, sb1.equals(sb2));
         assertEquals(true, sb1.equals((Object) sb2));
         
-        assertEquals(false, sb1.equals(new Integer(1)));
+        assertEquals(false, sb1.equals(Integer.valueOf(1)));
         assertEquals(false, sb1.equals("abc"));
     }
 

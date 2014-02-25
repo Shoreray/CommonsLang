@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
  * </pre>
  *
  * <p>#ThreadSafe#</p>
- * @version $Id: Validate.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: Validate.java 1153490 2011-08-03 13:53:35Z ggregory $
  * @see java.lang.String#format(String, Object...)
  * @since 2.0
  */
@@ -129,7 +129,7 @@ public class Validate {
      */
     public static void isTrue(boolean expression, String message, double value) {
         if (expression == false) {
-            throw new IllegalArgumentException(String.format(message, new Double(value)));
+            throw new IllegalArgumentException(String.format(message, Double.valueOf(value)));
         }
     }
 

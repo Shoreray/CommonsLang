@@ -142,14 +142,14 @@ available in the <a href="userguide.html#lang.concurrent.">user guide</a>.</p>
 </pre>
 <p>Here we see that <code>ESCAPE_XML</code> is a '<code>CharSequenceTranslator</code>', which in turn is made up of two lookup translators based on the basic XML escapes and another to escape apostrophes. This shows one way to combine translators. Another can be shown by looking at the example to achieve the old XML escaping functionality (escaping non-ASCII): </p>
 <pre>
-          StringEscapeUtils.ESCAPE_XML.with( new UnicodeEscaper(Range.between(0x7f, Integer.MAX_VALUE) ) );
+          StringEscapeUtils.ESCAPE_XML.with( NumericEntityEscaper.between(0x7f, Integer.MAX_VALUE) );
 </pre>
 <p>That takes the standard Commons Lang provided escape functionality, and adds on another translation layer. Another JIRA requested option was to also escape non-printable ASCII, this is now achievable with a modification of the above: </p>
 <pre>
           StringEscapeUtils.ESCAPE_XML.with(
               new AggregateTranslator(
-                  new UnicodeEscaper(Range.between(0, 31)),
-                  new UnicodeEscaper(Range.between(0x80, Integer.MAX_VALUE))
+                  NumericEntityEscaper.between(0, 31),
+                  NumericEntityEscaper.between(0x80, Integer.MAX_VALUE)
               )
           )
 </pre>
@@ -184,7 +184,7 @@ available in the <a href="userguide.html#lang.concurrent.">user guide</a>.</p>
 <ul>
 <li>StringUtils.isAlpha, isNumeric and isAlphanumeric now all return false when passed an empty String. Previously they returned true. </li>
 <li>SystemUtils.isJavaVersionAtLeast now relies on the <code>java.specification.version</code> and not the <code>java.version</code> System property. </li>
-<li>StringEscapeUtils.escapeXml and escapeHtml no longer escape high value unicode characters by default. The text.translate package is available to recreate the old behaviour. </li>
+<li>StringEscapeUtils.escapeXml and escapeHtml no longer escape high value Unicode characters by default. The text.translate package is available to recreate the old behaviour. </li>
 </ul>
 </section>
 

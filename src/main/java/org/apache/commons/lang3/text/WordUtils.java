@@ -27,7 +27,7 @@ import org.apache.commons.lang3.SystemUtils;
  * Each method documents its behaviour in more detail.</p>
  * 
  * @since 2.0
- * @version $Id: WordUtils.java 1144929 2011-07-10 18:26:16Z ggregory $
+ * @version $Id: WordUtils.java 1148520 2011-07-19 20:53:23Z ggregory $
  */
 public class WordUtils {
 
@@ -150,7 +150,7 @@ public class WordUtils {
      *
      * <p>Whitespace is defined by {@link Character#isWhitespace(char)}.
      * A <code>null</code> input String returns <code>null</code>.
-     * Capitalization uses the unicode title case, normally equivalent to
+     * Capitalization uses the Unicode title case, normally equivalent to
      * upper case.</p>
      *
      * <pre>
@@ -179,7 +179,7 @@ public class WordUtils {
      * delimiter will be capitalized. </p>
      *
      * <p>A <code>null</code> input String returns <code>null</code>.
-     * Capitalization uses the unicode title case, normally equivalent to
+     * Capitalization uses the Unicode title case, normally equivalent to
      * upper case.</p>
      *
      * <pre>
@@ -224,7 +224,7 @@ public class WordUtils {
      *
      * <p>Whitespace is defined by {@link Character#isWhitespace(char)}.
      * A <code>null</code> input String returns <code>null</code>.
-     * Capitalization uses the unicode title case, normally equivalent to
+     * Capitalization uses the Unicode title case, normally equivalent to
      * upper case.</p>
      *
      * <pre>
@@ -250,7 +250,7 @@ public class WordUtils {
      * delimiter will be capitalized. </p>
      *
      * <p>A <code>null</code> input String returns <code>null</code>.
-     * Capitalization uses the unicode title case, normally equivalent to
+     * Capitalization uses the Unicode title case, normally equivalent to
      * upper case.</p>
      *
      * <pre>

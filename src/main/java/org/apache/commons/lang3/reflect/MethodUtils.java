@@ -42,7 +42,7 @@ import org.apache.commons.lang3.ClassUtils;
  * If this call fails then the method may fail.</p>
  *
  * @since 2.5
- * @version $Id: MethodUtils.java 1144929 2011-07-10 18:26:16Z ggregory $
+ * @version $Id: MethodUtils.java 1153241 2011-08-02 18:49:52Z ggregory $
  */
 public class MethodUtils {
 
@@ -517,22 +517,16 @@ public class MethodUtils {
         Method bestMatch = null;
         Method[] methods = cls.getMethods();
         for (Method method : methods) {
-            if (method.getName().equals(methodName)) {
-                // compare parameters
-                if (ClassUtils.isAssignable(parameterTypes, method
-                        .getParameterTypes(), true)) {
-                    // get accessible version of method
-                    Method accessibleMethod = getAccessibleMethod(method);
-                    if (accessibleMethod != null) {
-                        if (bestMatch == null
-                                || MemberUtils.compareParameterTypes(
-                                        accessibleMethod.getParameterTypes(),
-                                        bestMatch.getParameterTypes(),
-                                        parameterTypes) < 0) {
-                            bestMatch = accessibleMethod;
-                        }
-                    }
-                }
+            // compare name and parameters
+            if (method.getName().equals(methodName) && ClassUtils.isAssignable(parameterTypes, method.getParameterTypes(), true)) {
+                // get accessible version of method
+                Method accessibleMethod = getAccessibleMethod(method);
+                if (accessibleMethod != null && (bestMatch == null || MemberUtils.compareParameterTypes(
+                            accessibleMethod.getParameterTypes(),
+                            bestMatch.getParameterTypes(),
+                            parameterTypes) < 0)) {
+                        bestMatch = accessibleMethod;
+                 }
             }
         }
         if (bestMatch != null) {

@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * JUnit tests.
  * 
- * @version $Id: MutableObjectTest.java 892118 2009-12-18 03:39:13Z sebb $
+ * @version $Id: MutableObjectTest.java 1153490 2011-08-03 13:53:35Z ggregory $
  * @see MutableShort
  */
 public class MutableObjectTest extends TestCase {
@@ -34,7 +34,7 @@ public class MutableObjectTest extends TestCase {
     public void testConstructors() {
         assertEquals(null, new MutableObject<String>().getValue());
         
-        Integer i = new Integer(6);
+        Integer i = Integer.valueOf(6);
         assertSame(i, new MutableObject<Integer>(i).getValue());
         assertSame("HI", new MutableObject<String>("HI").getValue());
         assertSame(null, new MutableObject<Object>(null).getValue());
@@ -88,7 +88,7 @@ public class MutableObjectTest extends TestCase {
 
     public void testToString() {
         assertEquals("HI", new MutableObject<String>("HI").toString());
-        assertEquals("10.0", new MutableObject<Double>(new Double(10)).toString());
+        assertEquals("10.0", new MutableObject<Double>(Double.valueOf(10)).toString());
         assertEquals("null", new MutableObject<Object>(null).toString());
     }
 

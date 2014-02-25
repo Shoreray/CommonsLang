@@ -21,7 +21,7 @@ package org.apache.commons.lang3.mutable;
  * 
  * @see Long
  * @since 2.1
- * @version $Id: MutableLong.java 1096472 2011-04-25 13:28:06Z mbenson $
+ * @version $Id: MutableLong.java 1153487 2011-08-03 13:44:51Z ggregory $
  */
 public class MutableLong extends Number implements Comparable<MutableLong>, Mutable<Number> {
 
@@ -82,7 +82,7 @@ public class MutableLong extends Number implements Comparable<MutableLong>, Muta
      * @return the value as a Long, never null
      */
     public Long getValue() {
-        return new Long(this.value);
+        return Long.valueOf(this.value);
     }
 
     /**
