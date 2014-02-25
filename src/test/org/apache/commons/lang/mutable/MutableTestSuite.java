@@ -18,18 +18,23 @@
 package org.apache.commons.lang.mutable;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 /**
  * JUnit tests.
  * 
- * @version $Id: MutableTestSuite.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: MutableTestSuite.java 475111 2006-11-15 04:11:55Z bayard $
  */
-public class MutableTestSuite {
+public class MutableTestSuite extends TestCase {
 
     public static void main(String[] args) {
         TestRunner.run(suite());
+    }
+
+    public MutableTestSuite(String name) {
+        super(name);
     }
 
     public static Test suite() {
@@ -45,9 +50,6 @@ public class MutableTestSuite {
         suite.addTest(MutableObjectTest.suite());
 
         return suite;
-    }
-
-    private MutableTestSuite() {
     }
 
 }

@@ -26,10 +26,9 @@ import junit.textui.TestRunner;
 /**
  * Unit tests for {@link StringEscapeUtils}.
  *
- * @author of original StringUtilsTest.testEscape = ?
  * @author <a href="mailto:alex@purpletech.com">Alexander Day Chaffee</a>
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
- * @version $Id: EntitiesTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: EntitiesTest.java 471630 2006-11-06 04:14:45Z bayard $
  */
 public class EntitiesTest extends TestCase
 {
@@ -196,6 +195,14 @@ public class EntitiesTest extends TestCase
         Entities.fillWithHtml40Entities(e);
         assertEquals("&nbsp;", e.escape("\u00A0"));
     }
+
+    public void testNumberOverflow() throws Exception {
+        doTestUnescapeEntity("&#12345678;", "&#12345678;");
+        doTestUnescapeEntity("x&#12345678;y", "x&#12345678;y");
+        doTestUnescapeEntity("&#x12345678;", "&#x12345678;");
+        doTestUnescapeEntity("x&#x12345678;y", "x&#x12345678;y");
+    }
+
 
 }
 

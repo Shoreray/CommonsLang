@@ -19,6 +19,7 @@ package org.apache.commons.lang.time;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -210,5 +211,33 @@ public class DateFormatUtilsTest extends TestCase {
                         DateFormatUtils.SMTP_DATETIME_FORMAT.getLocale());
         assertEquals("Sun, 08 Jun 2003 13:11:12 +0000", text);
     }
+
+    /*
+    public void testLang312() {
+        String pattern = "dd/MM/yyyy";
+        String expected = "19/04/1948";
+        TimeZone timeZone = TimeZone.getTimeZone("CET");
+        Locale locale = Locale.GERMANY;
+
+        // show Calendar is good
+        Calendar cal = Calendar.getInstance(timeZone, locale);
+        cal.set(1948, 3, 19);
+        assertEquals(expected, DateFormatUtils.format( cal.getTime(), pattern, timeZone, locale ) );
+
+        Date date = new Date(48, 3, 19);
+
+        // test JDK
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(pattern, locale);
+        sdf.setTimeZone(timeZone);
+// There's nothing we can do if the JDK fails, so just going to pring a warning in this case
+//        assertEquals(expected, sdf.format( date ) );
+        if( ! expected.equals( sdf.format( date ) ) ) {
+            System.out.println("WARNING: JDK test failed - testLang312()");
+        }
+
+        // test Commons
+        assertEquals(expected, DateFormatUtils.format( date, pattern, timeZone, locale ) );
+    }
+    */
 
 }

@@ -27,9 +27,7 @@ import org.apache.commons.lang.exception.NestableRuntimeException;
  * Java, Java Script, HTML, XML, and SQL.</p>
  *
  * @author Apache Jakarta Turbine
- * @author GenerationJavaCore library
  * @author Purple Technology
- * @author <a href="mailto:bayard@generationjava.com">Henri Yandell</a>
  * @author <a href="mailto:alex@purpletech.com">Alexander Day Chaffee</a>
  * @author Antony Riley
  * @author Helge Tesgaard
@@ -38,7 +36,7 @@ import org.apache.commons.lang.exception.NestableRuntimeException;
  * @author Phil Steitz
  * @author Pete Gieser
  * @since 2.0
- * @version $Id: StringEscapeUtils.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StringEscapeUtils.java 471626 2006-11-06 04:02:09Z bayard $
  */
 public class StringEscapeUtils {
 

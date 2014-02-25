@@ -43,10 +43,9 @@ package org.apache.commons.lang.time;
  * 3. resume() may only be called if the watch has been suspend()<br />
  * 4. start() cannot be called twice without calling reset()</p>
  *
- * @author Henri Yandell
  * @author Stephen Colebourne
  * @since 2.0
- * @version $Id: StopWatch.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StopWatch.java 504351 2007-02-06 22:49:50Z bayard $
  */
 public class StopWatch {
 
@@ -116,7 +115,9 @@ public class StopWatch {
         if(this.runningState != STATE_RUNNING && this.runningState != STATE_SUSPENDED) {
             throw new IllegalStateException("Stopwatch is not running. ");
         }
-        stopTime = System.currentTimeMillis();
+        if(this.runningState == STATE_RUNNING) {
+            stopTime = System.currentTimeMillis();
+        }
         this.runningState = STATE_STOPPED;
     }
 

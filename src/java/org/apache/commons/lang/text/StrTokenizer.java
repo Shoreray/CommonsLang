@@ -83,7 +83,7 @@ import java.util.NoSuchElementException;
  * @author Stephen Colebourne
  * @author Gary D. Gregory
  * @since 2.2
- * @version $Id: StrTokenizer.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StrTokenizer.java 491653 2007-01-01 22:03:58Z ggregory $
  */
 public class StrTokenizer implements ListIterator, Cloneable {
 
@@ -1099,6 +1099,7 @@ public class StrTokenizer implements ListIterator, Cloneable {
      * @throws CloneNotSupportedException if there is a problem cloning
      */
     Object cloneReset() throws CloneNotSupportedException {
+        // this method exists to enable 100% test coverage
         StrTokenizer cloned = (StrTokenizer) super.clone();
         if (cloned.chars != null) {
             cloned.chars = (char[]) cloned.chars.clone();
@@ -1116,9 +1117,8 @@ public class StrTokenizer implements ListIterator, Cloneable {
     public String toString() {
         if (tokens == null) {
             return "StrTokenizer[not tokenized yet]";
-        } else {
-            return "StrTokenizer" + getTokenList();
         }
+        return "StrTokenizer" + getTokenList();
     }
 
 }

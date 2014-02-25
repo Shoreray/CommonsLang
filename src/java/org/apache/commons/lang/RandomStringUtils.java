@@ -28,14 +28,12 @@ import java.util.Random;
  * 56320 (dc00) to 57343 (dfff) then it is placed after a randomly 
  * chosen high surrogate. </p>
  *
- * @author GenerationJava Core library
- * @author <a href="mailto:bayard@generationjava.com">Henri Yandell</a>
  * @author <a href="mailto:steven@caswell.name">Steven Caswell</a>
  * @author Stephen Colebourne
  * @author Gary Gregory
  * @author Phil Steitz
  * @since 1.0
- * @version $Id: RandomStringUtils.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: RandomStringUtils.java 471626 2006-11-06 04:02:09Z bayard $
  */
 public class RandomStringUtils {
 

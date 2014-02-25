@@ -28,13 +28,12 @@ import java.util.Set;
  *
  * <p>Instances are immutable, but instances of subclasses may not be.</p>
  *
- * @author Henri Yandell
  * @author Stephen Colebourne
  * @author Phil Steitz
  * @author Pete Gieser
  * @author Gary Gregory
  * @since 1.0
- * @version $Id: CharSet.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: CharSet.java 471626 2006-11-06 04:02:09Z bayard $
  */
 public class CharSet implements Serializable {
 

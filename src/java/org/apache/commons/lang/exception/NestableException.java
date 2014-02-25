@@ -85,7 +85,7 @@ import java.io.PrintWriter;
  * @author <a href="mailto:knielsen@apache.org">Kasper Nielsen</a>
  * @author <a href="mailto:steven@caswell.name">Steven Caswell</a>
  * @since 1.0
- * @version $Id: NestableException.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: NestableException.java 491651 2007-01-01 22:01:32Z ggregory $
  */
 public class NestableException extends Exception implements Nestable {
     
@@ -181,9 +181,8 @@ public class NestableException extends Exception implements Nestable {
     public String getMessage(int index) {
         if (index == 0) {
             return super.getMessage();
-        } else {
-            return delegate.getMessage(index);
         }
+        return delegate.getMessage(index);
     }
 
     /**

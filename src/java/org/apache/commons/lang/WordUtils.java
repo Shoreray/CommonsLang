@@ -24,12 +24,11 @@ package org.apache.commons.lang;
  * Each method documents its behaviour in more detail.</p>
  * 
  * @author Apache Jakarta Velocity
- * @author Henri Yandell
  * @author Stephen Colebourne
  * @author <a href="mailto:hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @author Gary Gregory
  * @since 2.0
- * @version $Id: WordUtils.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: WordUtils.java 471626 2006-11-06 04:02:09Z bayard $
  */
 public class WordUtils {
 

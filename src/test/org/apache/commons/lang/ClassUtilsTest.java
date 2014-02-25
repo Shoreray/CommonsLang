@@ -38,7 +38,7 @@ import junit.textui.TestRunner;
  *
  * @author Stephen Colebourne
  * @author Gary D. Gregory
- * @version $Id: ClassUtilsTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: ClassUtilsTest.java 501606 2007-01-30 22:26:38Z bayard $
  */
 public class ClassUtilsTest extends TestCase {
 
@@ -499,30 +499,6 @@ public class ClassUtilsTest extends TestCase {
 
     private void assertGetClassThrowsClassNotFound( String className ) throws Exception {
         assertGetClassThrowsException( className, ClassNotFoundException.class );
-    }
-
-    /**
-     * Creates a new instance of URLClassLoader with the system class loader's URLs and a <code>null</code> parent
-     * class loader.
-     * 
-     * @see ClassLoader#getSystemClassLoader()
-     * @see URLClassLoader#newInstance(URL[], ClassLoader)
-     * @return the resulting class loader
-     */
-    public static ClassLoader newSystemClassLoader() throws SecurityException, IllegalArgumentException {
-        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
-        ClassLoader myClassLoader = ClassUtilsTest.class.getClassLoader();
-        if (!(myClassLoader instanceof URLClassLoader)) {
-            fail("Need a better test set up.");
-        }
-        if (!(systemClassLoader instanceof URLClassLoader)) {
-            fail("Need a better test set up.");
-        }
-        if (!myClassLoader.equals(systemClassLoader)) {
-            fail("Need a better test set up?");            
-        }
-        URLClassLoader urlScl = (URLClassLoader) myClassLoader;
-        return URLClassLoader.newInstance(urlScl.getURLs(), null);
     }
 
     // Show the Java bug: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4071957

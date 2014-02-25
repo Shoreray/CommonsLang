@@ -19,13 +19,15 @@ package org.apache.commons.lang.mutable;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.BooleanUtils;
+
 /**
  * A mutable <code>boolean</code> wrapper.
  * 
  * @see Boolean
  * @since 2.2
  * @author Apache Software Foundation
- * @version $Id: MutableBoolean.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: MutableBoolean.java 491052 2006-12-29 17:16:37Z scolebourne $
  */
 public class MutableBoolean implements Mutable, Serializable, Comparable {
 
@@ -121,7 +123,7 @@ public class MutableBoolean implements Mutable, Serializable, Comparable {
      * @return the value as a Boolean
      */
     public Object getValue() {
-        return new Boolean(this.value);
+        return BooleanUtils.toBooleanObject(this.value);
     }
 
     /**

@@ -16,6 +16,9 @@
  */
 package org.apache.commons.lang.time;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.FieldPosition;
@@ -64,7 +67,7 @@ import org.apache.commons.lang.Validate;
  * @author Stephen Colebourne
  * @author Nikolay Metchev
  * @since 2.0
- * @version $Id: FastDateFormat.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: FastDateFormat.java 504349 2007-02-06 22:44:33Z bayard $
  */
 public class FastDateFormat extends Format {
     // A lot of the speed in this class comes from caching, but some comes
@@ -134,11 +137,11 @@ public class FastDateFormat extends Format {
     /**
      * The parsed rules.
      */
-    private Rule[] mRules;
+    private transient Rule[] mRules;
     /**
      * The estimated maximum length.
      */
-    private int mMaxLengthEstimate;
+    private transient int mMaxLengthEstimate;
 
     //-----------------------------------------------------------------------
     /**
@@ -1012,6 +1015,21 @@ public class FastDateFormat extends Format {
      */
     public String toString() {
         return "FastDateFormat[" + mPattern + "]";
+    }
+
+    // Serializing
+    //-----------------------------------------------------------------------
+    /**
+     * Create the object after serialization. This implementation reinitializes the 
+     * transient properties.
+     *
+     * @param in ObjectInputStream from which the object is being deserialized.
+     * @throws IOException if there is an IO issue.
+     * @throws ClassNotFoundException if a class cannot be found.
+     */
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        init();
     }
     
     // Rules

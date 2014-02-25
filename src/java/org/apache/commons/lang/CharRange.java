@@ -23,12 +23,11 @@ import java.io.Serializable;
  * 
  * <p>Instances are immutable.</p>
  *
- * @author Henri Yandell
  * @author Stephen Colebourne
  * @author Chris Feldhacker
  * @author Gary Gregory
  * @since 1.0
- * @version $Id: CharRange.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: CharRange.java 471626 2006-11-06 04:02:09Z bayard $
  */
 public final class CharRange implements Serializable {
 

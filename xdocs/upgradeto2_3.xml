@@ -1,10 +1,32 @@
-$Id: RELEASE-NOTES.txt 504353 2007-02-06 22:52:29Z bayard $
+<?xml version="1.0"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
 
-                        Commons Lang Package
-                            Version 2.3
-                           Release Notes
+     http://www.apache.org/licenses/LICENSE-2.0
 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<document>
+ <properties>
+  <title>Upgrade from 2.2 to 2.3</title>
+  <author email="commons-dev@jakarta.apache.org">Commons Documentation Team</author>
+ </properties>
+<body>
 
+<section name="Upgrade">
+<p>
+These are the release notes and advice for upgrading Commons-Lang from
+version 2.2 to version 2.3.
+<source>
 INTRODUCTION:
 
 This document contains the release notes for the 2.3 version of Apache 
@@ -64,7 +86,7 @@ BUG FIXES IN 2.3:
     * [LANG-279] - HashCodeBuilder throws java.lang.StackOverflowError when an object contains a cycle.
     * [LANG-281] - DurationFormatUtils returns wrong result
     * [LANG-286] - Serialization - not backwards compatible
-    * [LANG-292] - unescapeXml("&12345678;") should be "&12345678;"
+    * [LANG-292] - unescapeXml("&amp;12345678;") should be "&amp;12345678;"
     * [LANG-294] - StrBuilder.replaceAll and StrBuilder.deleteAll can throw ArrayIndexOutOfBoundsException.
     * [LANG-295] - StrBuilder contains usages of thisBuf.length when they should use size
     * [LANG-299] - Bug in method appendFixedWidthPadRight of class StrBuilder causes an ArrayIndexOutOfBoundsException
@@ -88,3 +110,9 @@ IMPROVEMENTS IN 2.3:
     * [LANG-310] - BooleanUtils isNotTrue/isNotFalse
     * [LANG-314] - Tests fail to pass when building with Maven 2
 
+</source>
+</p>
+</section>
+
+</body>
+</document>

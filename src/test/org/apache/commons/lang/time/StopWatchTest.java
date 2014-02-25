@@ -25,7 +25,7 @@ import junit.textui.TestRunner;
  * TestCase for StopWatch.
  *
  * @author Stephen Colebourne
- * @version $Id: StopWatchTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StopWatchTest.java 504351 2007-02-06 22:49:50Z bayard $
  */
 public class StopWatchTest extends TestCase {
 
@@ -106,6 +106,18 @@ public class StopWatchTest extends TestCase {
         assertTrue(suspendTime < 700);
         assertTrue(totalTime >= 1000);
         assertTrue(totalTime < 1300);
+    }
+
+    public void testLang315() {
+        StopWatch watch = new StopWatch();
+        watch.start();
+            try {Thread.sleep(200);} catch (InterruptedException ex) {}
+        watch.suspend();
+        long suspendTime = watch.getTime();
+            try {Thread.sleep(200);} catch (InterruptedException ex) {}
+        watch.stop();
+        long totalTime = watch.getTime();
+        assertTrue( suspendTime == totalTime );
     }
 
     // test bad states

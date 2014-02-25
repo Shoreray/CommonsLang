@@ -36,7 +36,7 @@ import junit.textui.TestRunner;
  *
  * @author Chris Hyzer
  * @author Stephen Colebourne
- * @version $Id: LocaleUtilsTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: LocaleUtilsTest.java 489749 2006-12-22 20:34:37Z bayard $
  */
 public class LocaleUtilsTest extends TestCase {
 
@@ -73,6 +73,13 @@ public class LocaleUtilsTest extends TestCase {
         TestSuite suite = new TestSuite(LocaleUtilsTest.class);
         suite.setName("LocaleUtilsTest Tests");
         return suite;
+    }
+
+    public void setUp() throws Exception {
+        super.setUp();
+
+        // Testing #LANG-304. Must be called before availableLocaleSet is called.
+        LocaleUtils.isAvailableLocale(Locale.getDefault());
     }
 
     //-----------------------------------------------------------------------

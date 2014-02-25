@@ -27,11 +27,10 @@ import junit.textui.TestRunner;
 /**
  * Unit tests {@link org.apache.commons.lang.CharSetUtils}.
  *
- * @author <a href="mailto:bayard@generationjava.com">Henri Yandell</a>
  * @author <a href="mailto:ridesmet@users.sourceforge.net">Ringo De Smet</a>
  * @author Stephen Colebourne
  * @author Gary D. Gregory
- * @version $Id: CharSetUtilsTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: CharSetUtilsTest.java 471626 2006-11-06 04:02:09Z bayard $
  */
 public class CharSetUtilsTest extends TestCase {
     

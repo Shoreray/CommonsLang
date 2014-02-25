@@ -88,7 +88,7 @@ import org.apache.commons.lang.ObjectUtils;
  * @author Gary Gregory
  * @author Pete Gieser
  * @since 1.0
- * @version $Id: ToStringBuilder.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: ToStringBuilder.java 492354 2007-01-03 23:48:10Z scolebourne $
  */
 public class ToStringBuilder {
 
@@ -118,6 +118,8 @@ public class ToStringBuilder {
     /**
      * <p>Forwards to <code>ReflectionToStringBuilder</code>.</p>
      * 
+     * @param object  the Object to be output
+     * @return the String result
      * @see ReflectionToStringBuilder#toString(Object)
      */
     public static String reflectionToString(Object object) {
@@ -127,6 +129,9 @@ public class ToStringBuilder {
     /**
      * <p>Forwards to <code>ReflectionToStringBuilder</code>.</p>
      * 
+     * @param object  the Object to be output
+     * @param style  the style of the <code>toString</code> to create, may be <code>null</code>
+     * @return the String result
      * @see ReflectionToStringBuilder#toString(Object,ToStringStyle)
      */
     public static String reflectionToString(Object object, ToStringStyle style) {
@@ -136,6 +141,10 @@ public class ToStringBuilder {
     /**
      * <p>Forwards to <code>ReflectionToStringBuilder</code>.</p>
      * 
+     * @param object  the Object to be output
+     * @param style  the style of the <code>toString</code> to create, may be <code>null</code>
+     * @param outputTransients  whether to include transient fields
+     * @return the String result
      * @see ReflectionToStringBuilder#toString(Object,ToStringStyle,boolean)
      */
     public static String reflectionToString(Object object, ToStringStyle style, boolean outputTransients) {
@@ -145,6 +154,11 @@ public class ToStringBuilder {
     /**
      * <p>Forwards to <code>ReflectionToStringBuilder</code>.</p>
      * 
+     * @param object  the Object to be output
+     * @param style  the style of the <code>toString</code> to create, may be <code>null</code>
+     * @param outputTransients  whether to include transient fields
+     * @param reflectUpToClass  the superclass to reflect up to (inclusive), may be <code>null</code>
+     * @return the String result
      * @see ReflectionToStringBuilder#toString(Object,ToStringStyle,boolean,boolean,Class)
      * @since 2.0
      */
@@ -443,11 +457,11 @@ public class ToStringBuilder {
      * <p>Append to the <code>toString</code> an <code>Object</code>
      * value.</p>
      *
-     * @param object  the value to add to the <code>toString</code>
+     * @param obj  the value to add to the <code>toString</code>
      * @return this
      */
-    public ToStringBuilder append(Object object) {
-        style.append(buffer, null, object, null);
+    public ToStringBuilder append(Object obj) {
+        style.append(buffer, null, obj, null);
         return this;
     }
 
@@ -819,11 +833,11 @@ public class ToStringBuilder {
      * value.</p>
      *
      * @param fieldName  the field name
-     * @param object  the value to add to the <code>toString</code>
+     * @param obj  the value to add to the <code>toString</code>
      * @return this
      */
-    public ToStringBuilder append(String fieldName, Object object) {
-        style.append(buffer, fieldName, object, null);
+    public ToStringBuilder append(String fieldName, Object obj) {
+        style.append(buffer, fieldName, obj, null);
         return this;
     }
 
@@ -832,13 +846,13 @@ public class ToStringBuilder {
      * value.</p>
      *
      * @param fieldName  the field name
-     * @param object  the value to add to the <code>toString</code>
+     * @param obj  the value to add to the <code>toString</code>
      * @param fullDetail  <code>true</code> for detail,
      *  <code>false</code> for summary info
      * @return this
      */
-    public ToStringBuilder append(String fieldName, Object object, boolean fullDetail) {
-        style.append(buffer, fieldName, object, BooleanUtils.toBooleanObject(fullDetail));
+    public ToStringBuilder append(String fieldName, Object obj, boolean fullDetail) {
+        style.append(buffer, fieldName, obj, BooleanUtils.toBooleanObject(fullDetail));
         return this;
     }
 

@@ -25,7 +25,7 @@ import java.io.PrintWriter;
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @see org.apache.commons.lang.exception.NestableException
  * @since 1.0
- * @version $Id: NestableError.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: NestableError.java 491650 2007-01-01 22:00:14Z ggregory $
  */
 public class NestableError extends Error implements Nestable {
 
@@ -121,9 +121,8 @@ public class NestableError extends Error implements Nestable {
     public String getMessage(int index) {
         if (index == 0) {
             return super.getMessage();
-        } else {
-            return delegate.getMessage(index);
         }
+        return delegate.getMessage(index);
     }
 
     /**

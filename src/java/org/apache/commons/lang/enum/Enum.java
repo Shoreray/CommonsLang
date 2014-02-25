@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.WeakHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -234,7 +235,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Chris Webb
  * @author Mike Bowler
  * @since 1.0
- * @version $Id: Enum.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: Enum.java 447975 2006-09-19 21:20:56Z bayard $
  */
 public abstract class Enum implements Comparable, Serializable {
 
@@ -255,7 +256,7 @@ public abstract class Enum implements Comparable, Serializable {
     /**
      * <code>Map</code>, key of class name, value of <code>Entry</code>.
      */
-    private static final Map cEnumClasses = new HashMap();
+    private static final Map cEnumClasses = new WeakHashMap();
     
     /**
      * The string representation of the Enum.

@@ -35,7 +35,7 @@ import java.util.Set;
  *
  * @author Stephen Colebourne
  * @since 2.2
- * @version $Id: LocaleUtils.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: LocaleUtils.java 489749 2006-12-22 20:34:37Z bayard $
  */
 public class LocaleUtils {
 
@@ -220,7 +220,7 @@ public class LocaleUtils {
      * @return true if the locale is a known locale
      */
     public static boolean isAvailableLocale(Locale locale) {
-        return cAvailableLocaleSet.contains(locale);
+        return availableLocaleList().contains(locale);
     }
 
     //-----------------------------------------------------------------------

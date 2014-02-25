@@ -29,7 +29,7 @@ import junit.textui.TestRunner;
  *
  * @author Stephen Colebourne
  * @author Matthew Hawthorne
- * @version $Id: BooleanUtilsTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: BooleanUtilsTest.java 492361 2007-01-04 00:10:13Z scolebourne $
  */
 public class BooleanUtilsTest extends TestCase {
 
@@ -79,10 +79,23 @@ public class BooleanUtilsTest extends TestCase {
         assertEquals(false, BooleanUtils.isTrue((Boolean) null));
     }
 
+    public void test_isNotTrue_Boolean() {
+        assertEquals(false, BooleanUtils.isNotTrue(Boolean.TRUE));
+        assertEquals(true, BooleanUtils.isNotTrue(Boolean.FALSE));
+        assertEquals(true, BooleanUtils.isNotTrue((Boolean) null));
+    }
+
+    //-----------------------------------------------------------------------
     public void test_isFalse_Boolean() {
         assertEquals(false, BooleanUtils.isFalse(Boolean.TRUE));
         assertEquals(true, BooleanUtils.isFalse(Boolean.FALSE));
         assertEquals(false, BooleanUtils.isFalse((Boolean) null));
+    }
+
+    public void test_isNotFalse_Boolean() {
+        assertEquals(true, BooleanUtils.isNotFalse(Boolean.TRUE));
+        assertEquals(false, BooleanUtils.isNotFalse(Boolean.FALSE));
+        assertEquals(true, BooleanUtils.isNotFalse((Boolean) null));
     }
 
     //-----------------------------------------------------------------------

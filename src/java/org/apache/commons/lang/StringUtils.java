@@ -17,6 +17,7 @@
 package org.apache.commons.lang;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -94,11 +95,9 @@ import java.util.List;
  *
  * @see java.lang.String
  * @author <a href="http://jakarta.apache.org/turbine/">Apache Jakarta Turbine</a>
- * @author GenerationJavaCore
  * @author <a href="mailto:jon@latchkey.com">Jon S. Stevens</a>
  * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
  * @author <a href="mailto:gcoladonato@yahoo.com">Greg Coladonato</a>
- * @author <a href="mailto:bayard@generationjava.com">Henri Yandell</a>
  * @author <a href="mailto:ed@apache.org">Ed Korthof</a>
  * @author <a href="mailto:rand_mcneely@yahoo.com">Rand McNeely</a>
  * @author Stephen Colebourne
@@ -114,7 +113,7 @@ import java.util.List;
  * @author Reuben Sivan
  * @author Chris Hyzer
  * @since 1.0
- * @version $Id: StringUtils.java 442618 2006-09-12 15:29:31Z bayard $
+ * @version $Id: StringUtils.java 492377 2007-01-04 01:20:30Z scolebourne $
  */
 public class StringUtils {
     // Performance testing notes (JDK 1.4, Jul03, scolebourne)
@@ -1009,7 +1008,7 @@ public class StringUtils {
 
     /**
      * <p>Checks if String contains a search String, handling <code>null</code>.
-     * This method uses {@link String#indexOf(int)}.</p>
+     * This method uses {@link String#indexOf(String)}.</p>
      *
      * <p>A <code>null</code> String will return <code>false</code>.</p>
      *
@@ -1035,7 +1034,7 @@ public class StringUtils {
         return str.indexOf(searchStr) >= 0;
     }
 
- /**
+    /**
      * <p>Checks if String contains a search String irrespective of case,
      * handling <code>null</code>. This method uses
      * {@link #contains(String, String)}.</p>
@@ -1053,8 +1052,8 @@ public class StringUtils {
      * StringUtils.contains("abc", "Z") = false
      * </pre>
      *
-     * @param str the String to check, may be null
-     * @param searchStr the String to find, may be null
+     * @param str  the String to check, may be null
+     * @param searchStr  the String to find, may be null
      * @return true if the String contains the search String irrespective of
      * case or false if not or <code>null</code> string input
      */
@@ -1063,7 +1062,7 @@ public class StringUtils {
             return false;
         }
         return contains(str.toUpperCase(), searchStr.toUpperCase());
-    } 
+    }
 
     // IndexOfAny chars
     //-----------------------------------------------------------------------
@@ -1860,14 +1859,16 @@ public class StringUtils {
      *
      * <p>A <code>null</code> input String returns <code>null</code>.
      * A <code>null</code> open/close returns <code>null</code> (no match).
-     * An empty ("") open/close returns an empty string.</p>
+     * An empty ("") open and close returns an empty string.</p>
      *
      * <pre>
+     * StringUtils.substringBetween("wx[b]yz", "[", "]") = "b"
      * StringUtils.substringBetween(null, *, *)          = null
+     * StringUtils.substringBetween(*, null, *)          = null
+     * StringUtils.substringBetween(*, *, null)          = null
      * StringUtils.substringBetween("", "", "")          = ""
-     * StringUtils.substringBetween("", "", "tag")       = null
-     * StringUtils.substringBetween("", "tag", "tag")    = null
-     * StringUtils.substringBetween("yabcz", null, null) = null
+     * StringUtils.substringBetween("", "", "]")         = null
+     * StringUtils.substringBetween("", "[", "]")        = null
      * StringUtils.substringBetween("yabcz", "", "")     = ""
      * StringUtils.substringBetween("yabcz", "y", "z")   = "abc"
      * StringUtils.substringBetween("yabczyabcz", "y", "z")   = "abc"
@@ -1891,6 +1892,60 @@ public class StringUtils {
             }
         }
         return null;
+    }
+
+    /**
+     * <p>Searches a String for substrings delimited by a start and end tag,
+     * returning all matching substrings in an array.</p>
+     *
+     * <p>A <code>null</code> input String returns <code>null</code>.
+     * A <code>null</code> open/close returns <code>null</code> (no match).
+     * An empty ("") open/close returns <code>null</code> (no match).</p>
+     *
+     * <pre>
+     * StringUtils.substringsBetween("[a][b][c]", "[", "]") = ["a","b","c"]
+     * StringUtils.substringsBetween(null, *, *)            = null
+     * StringUtils.substringsBetween(*, null, *)            = null
+     * StringUtils.substringsBetween(*, *, null)            = null
+     * StringUtils.substringsBetween("", "[", "]")          = []
+     * </pre>
+     *
+     * @param str  the String containing the substrings, null returns null, empty returns empty
+     * @param open  the String identifying the start of the substring, empty returns null
+     * @param close  the String identifying the end of the substring, empty returns null
+     * @return a String Array of substrings, or <code>null</code> if no match
+     * @since 2.3
+     */
+    public static String[] substringsBetween(String str, String open, String close) {
+        if (str == null || isEmpty(open) || isEmpty(close)) {
+            return null;
+        }
+        int strLen = str.length();
+        if (strLen == 0) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+        int closeLen = close.length();
+        int openLen = open.length();
+        List list = new ArrayList();
+        int pos = 0;
+        while (pos < (strLen - closeLen)) {
+            int start = str.indexOf(open, pos);
+            if (start < 0) {
+                break;
+            }
+            start += openLen;
+            int end = str.indexOf(close, start);
+            if (end < 0) {
+                break;
+            }
+            list.add(str.substring(start, end));
+            pos = end + closeLen;
+        }
+        if (list.size() > 0) {
+            return (String[]) list.toArray(new String [list.size()]);
+        } else {
+            return null;
+        }
     }
 
     // Nested extraction
@@ -2549,12 +2604,50 @@ public class StringUtils {
         if (array == null) {
             return null;
         }
-        int arraySize = array.length;
-        int bufSize = (arraySize == 0 ? 0 : ((array[0] == null ? 16 : array[0].toString().length()) + 1) * arraySize);
+
+        return join(array, separator, 0, array.length);
+    }
+
+    /**
+     * <p>Joins the elements of the provided array into a single String
+     * containing the provided list of elements.</p>
+     *
+     * <p>No delimiter is added before or after the list.
+     * Null objects or empty strings within the array are represented by
+     * empty strings.</p>
+     *
+     * <pre>
+     * StringUtils.join(null, *)               = null
+     * StringUtils.join([], *)                 = ""
+     * StringUtils.join([null], *)             = ""
+     * StringUtils.join(["a", "b", "c"], ';')  = "a;b;c"
+     * StringUtils.join(["a", "b", "c"], null) = "abc"
+     * StringUtils.join([null, "", "a"], ';')  = ";;a"
+     * </pre>
+     *
+     * @param array  the array of values to join together, may be null
+     * @param separator  the separator character to use
+     * @param startIndex the first index to start joining from.  It is
+     * an error to pass in an end index past the end of the array
+     * @param endIndex the index to stop joining from (exclusive). It is
+     * an error to pass in an end index past the end of the array
+     * @return the joined String, <code>null</code> if null array input
+     * @since 2.0
+     */
+    public static String join(Object[] array, char separator, int startIndex, int endIndex) {
+        if (array == null) {
+            return null;
+        }
+        int bufSize = (endIndex - startIndex);
+        if (bufSize <= 0) {
+            return EMPTY;
+        }
+
+        bufSize *= ((array[startIndex] == null ? 16 : array[startIndex].toString().length()) + 1);
         StringBuffer buf = new StringBuffer(bufSize);
 
-        for (int i = 0; i < arraySize; i++) {
-            if (i > 0) {
+        for (int i = startIndex; i < endIndex; i++) {
+            if (i > startIndex) {
                 buf.append(separator);
             }
             if (array[i] != null) {
@@ -2563,6 +2656,7 @@ public class StringUtils {
         }
         return buf.toString();
     }
+
 
     /**
      * <p>Joins the elements of the provided array into a single String
@@ -2591,25 +2685,58 @@ public class StringUtils {
         if (array == null) {
             return null;
         }
+        return join(array, separator, 0, array.length);
+    }
+
+    /**
+     * <p>Joins the elements of the provided array into a single String
+     * containing the provided list of elements.</p>
+     *
+     * <p>No delimiter is added before or after the list.
+     * A <code>null</code> separator is the same as an empty String ("").
+     * Null objects or empty strings within the array are represented by
+     * empty strings.</p>
+     *
+     * <pre>
+     * StringUtils.join(null, *)                = null
+     * StringUtils.join([], *)                  = ""
+     * StringUtils.join([null], *)              = ""
+     * StringUtils.join(["a", "b", "c"], "--")  = "a--b--c"
+     * StringUtils.join(["a", "b", "c"], null)  = "abc"
+     * StringUtils.join(["a", "b", "c"], "")    = "abc"
+     * StringUtils.join([null, "", "a"], ',')   = ",,a"
+     * </pre>
+     *
+     * @param array  the array of values to join together, may be null
+     * @param separator  the separator character to use, null treated as ""
+     * @param startIndex the first index to start joining from.  It is
+     * an error to pass in an end index past the end of the array
+     * @param endIndex the index to stop joining from (exclusive). It is
+     * an error to pass in an end index past the end of the array
+     * @return the joined String, <code>null</code> if null array input
+     */
+    public static String join(Object[] array, String separator, int startIndex, int endIndex) {
+        if (array == null) {
+            return null;
+        }
         if (separator == null) {
             separator = EMPTY;
         }
-        int arraySize = array.length;
 
-        // ArraySize ==  0: Len = 0
-        // ArraySize > 0:   Len = NofStrings *(len(firstString) + len(separator))
+        // endIndex - startIndex > 0:   Len = NofStrings *(len(firstString) + len(separator))
         //           (Assuming that all Strings are roughly equally long)
-        int bufSize =
-            ((arraySize == 0)
-                ? 0
-                : arraySize
-                    * ((array[0] == null ? 16 : array[0].toString().length())
-                        + separator.length()));
+        int bufSize = (endIndex - startIndex);
+        if (bufSize <= 0) {
+            return EMPTY;
+        }
+
+        bufSize *= ((array[startIndex] == null ? 16 : array[startIndex].toString().length())
+                        + separator.length());
 
         StringBuffer buf = new StringBuffer(bufSize);
 
-        for (int i = 0; i < arraySize; i++) {
-            if (i > 0) {
+        for (int i = startIndex; i < endIndex; i++) {
+            if (i > startIndex) {
                 buf.append(separator);
             }
             if (array[i] != null) {
@@ -2634,19 +2761,33 @@ public class StringUtils {
      * @since 2.0
      */
     public static String join(Iterator iterator, char separator) {
+
+        // handle null, zero and one elements before building a buffer
         if (iterator == null) {
             return null;
         }
+        if (!iterator.hasNext()) {
+            return EMPTY;
+        }
+        Object first = iterator.next();
+        if (!iterator.hasNext()) {
+            return ObjectUtils.toString(first);
+        }
+
+        // two or more elements
         StringBuffer buf = new StringBuffer(256); // Java default is 16, probably too small
+        if (first != null) {
+            buf.append(first);
+        }
+
         while (iterator.hasNext()) {
+            buf.append(separator);
             Object obj = iterator.next();
             if (obj != null) {
                 buf.append(obj);
             }
-            if (iterator.hasNext()) {
-                buf.append(separator);
-            }
         }
+
         return buf.toString();
     }
 
@@ -2664,20 +2805,77 @@ public class StringUtils {
      * @return the joined String, <code>null</code> if null iterator input
      */
     public static String join(Iterator iterator, String separator) {
+
+        // handle null, zero and one elements before building a buffer
         if (iterator == null) {
             return null;
         }
+        if (!iterator.hasNext()) {
+            return EMPTY;
+        }
+        Object first = iterator.next();
+        if (!iterator.hasNext()) {
+            return ObjectUtils.toString(first);
+        }
+
+        // two or more elements
         StringBuffer buf = new StringBuffer(256); // Java default is 16, probably too small
+        if (first != null) {
+            buf.append(first);
+        }
+
         while (iterator.hasNext()) {
+            if (separator != null) {
+                buf.append(separator);
+            }
             Object obj = iterator.next();
             if (obj != null) {
                 buf.append(obj);
             }
-            if ((separator != null) && iterator.hasNext()) {
-                buf.append(separator);
-            }
         }
         return buf.toString();
+    }
+
+    /**
+     * <p>Joins the elements of the provided <code>Collection</code> into
+     * a single String containing the provided elements.</p>
+     *
+     * <p>No delimiter is added before or after the list. Null objects or empty
+     * strings within the iteration are represented by empty strings.</p>
+     *
+     * <p>See the examples here: {@link #join(Object[],char)}. </p>
+     *
+     * @param collection  the <code>Collection</code> of values to join together, may be null
+     * @param separator  the separator character to use
+     * @return the joined String, <code>null</code> if null iterator input
+     * @since 2.3
+     */
+    public static String join(Collection collection, char separator) {
+        if (collection == null) {
+            return null;
+        }
+        return join(collection.iterator(), separator);
+    }
+
+    /**
+     * <p>Joins the elements of the provided <code>Collection</code> into
+     * a single String containing the provided elements.</p>
+     *
+     * <p>No delimiter is added before or after the list.
+     * A <code>null</code> separator is the same as an empty String ("").</p>
+     *
+     * <p>See the examples here: {@link #join(Object[],String)}. </p>
+     *
+     * @param collection  the <code>Collection</code> of values to join together, may be null
+     * @param separator  the separator character to use, null treated as ""
+     * @return the joined String, <code>null</code> if null iterator input
+     * @since 2.3
+     */
+    public static String join(Collection collection, String separator) {
+        if (collection == null) {
+            return null;
+        }
+        return join(collection.iterator(), separator);
     }
 
     // Delete
@@ -4297,7 +4495,7 @@ public class StringUtils {
         }
         return true;
     }
-  
+
     /**
      * <p>Checks if the String contains only unicode digits.
      * A decimal point is not a unicode digit and returns false.</p>
@@ -4826,7 +5024,7 @@ public class StringUtils {
             for (i=1; i<=n; i++) {
                 cost = s.charAt(i-1)==t_j ? 0 : 1;
                 // minimum of cell to the left+1, to the top+1, diagonally left and up +cost
-                d[i] = Math.min(Math.min(d[i-1]+1, p[i]+1),  p[i-1]+cost);  
+                d[i] = Math.min(Math.min(d[i-1]+1, p[i]+1),  p[i-1]+cost);
             }
 
             // copy current distance counts to 'previous row' distance counts

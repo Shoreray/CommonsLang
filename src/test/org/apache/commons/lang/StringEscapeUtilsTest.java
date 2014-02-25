@@ -29,9 +29,8 @@ import junit.textui.TestRunner;
 /**
  * Unit tests for {@link StringEscapeUtils}.
  *
- * @author of original StringUtilsTest.testEscape = ?
  * @author <a href="mailto:alex@purpletech.com">Alexander Day Chaffee</a>
- * @version $Id: StringEscapeUtilsTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StringEscapeUtilsTest.java 496931 2007-01-17 03:56:33Z bayard $
  */
 public class StringEscapeUtilsTest extends TestCase {
     private final static String FOO = "foo";
@@ -325,6 +324,10 @@ public class StringEscapeUtilsTest extends TestCase {
         assertEquals("test & <", StringEscapeUtils.unescapeHtml("test & &lt;"));
         assertEquals("<P&O>", StringEscapeUtils.unescapeXml("&lt;P&O&gt;"));
         assertEquals("test & <", StringEscapeUtils.unescapeXml("test & &lt;"));
+    }
+
+    public void testLang313() {
+        assertEquals("& &", StringEscapeUtils.unescapeHtml("& &amp;"));
     }
 
 }

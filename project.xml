@@ -20,7 +20,7 @@ limitations under the License.
     <groupId>commons-lang</groupId>
     <artifactId>commons-lang</artifactId>
     <name>Lang</name>
-    <currentVersion>2.2</currentVersion>
+    <currentVersion>2.3</currentVersion>
     <inceptionYear>2001</inceptionYear>
     <shortDescription>Java Common Components</shortDescription>
     <description>
@@ -271,6 +271,9 @@ limitations under the License.
             <name>Rand McNeely</name>
         </contributor>
         <contributor>
+            <name>Dave Meikle</name>
+        </contributor>
+        <contributor>
             <name>Nikolay Metchev</name>
         </contributor>
         <contributor>
@@ -363,6 +366,12 @@ limitations under the License.
         <contributor>
             <name>Mario Winterer</name>
         </contributor>
+        <contributor>
+            <name>Stepan Koltsov</name>
+        </contributor>
+        <contributor>
+            <name>Holger Hoffstatte</name>
+        </contributor>
     </contributors>
     <!-- Lang should depend on very little -->
     <dependencies>
@@ -408,21 +417,11 @@ limitations under the License.
             <excludes>
                 <exclude>**/AllLangTestSuite.java</exclude>
             </excludes>
-            <resources>
-                <resource>
-                    <directory>${pom.build.unitTestSourceDirectory}</directory>
-                    <includes>
-                        <include>**/*.xml</include>
-                    </includes>
-                </resource>
-            </resources>
         </unitTest>
     </build>
     <reports>
-      <!--report>maven-changelog-plugin</report-->
       <!--report>maven-changes-plugin</report-->
-      <!--report>maven-developer-activity-plugin</report-->
-      <!--report>maven-file-activity-plugin</report-->
+      <!--report>maven-findbugs-plugin</report-->
       <report>maven-checkstyle-plugin</report>
       <report>maven-javadoc-plugin</report>
       <report>maven-jdepend-plugin</report>
@@ -433,6 +432,5 @@ limitations under the License.
       <!-- report>maven-jdiff-plugin</report -->
       <report>maven-pmd-plugin</report>
       <!-- <report>maven-linkcheck-plugin</report> -->
-      <!--report>maven-tasklist-plugin</report-->
     </reports>
 </project>

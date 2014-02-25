@@ -29,7 +29,7 @@ import java.io.PrintWriter;
  * @author <a href="mailto:knielsen@apache.org">Kasper Nielsen</a>
  * @author <a href="mailto:steven@caswell.name">Steven Caswell</a>
  * @since 1.0
- * @version $Id: NestableRuntimeException.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: NestableRuntimeException.java 491652 2007-01-01 22:01:57Z ggregory $
  */
 public class NestableRuntimeException extends RuntimeException implements Nestable {
     
@@ -125,9 +125,8 @@ public class NestableRuntimeException extends RuntimeException implements Nestab
     public String getMessage(int index) {
         if (index == 0) {
             return super.getMessage();
-        } else {
-            return delegate.getMessage(index);
         }
+        return delegate.getMessage(index);
     }
 
     /**

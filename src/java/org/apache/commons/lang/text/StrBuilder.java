@@ -65,7 +65,7 @@ import org.apache.commons.lang.SystemUtils;
  *
  * @author Stephen Colebourne
  * @since 2.2
- * @version $Id: StrBuilder.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StrBuilder.java 492371 2007-01-04 00:42:05Z scolebourne $
  */
 public class StrBuilder implements Cloneable {
 
@@ -733,6 +733,245 @@ public class StrBuilder implements Cloneable {
 
     //-----------------------------------------------------------------------
     /**
+     * Appends an object followed by a new line to this string builder.
+     * Appending null will call {@link #appendNull()}.
+     *
+     * @param obj  the object to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(Object obj) {
+        return append(obj).appendNewLine();
+    }
+
+    /**
+     * Appends a string followed by a new line to this string builder.
+     * Appending null will call {@link #appendNull()}.
+     *
+     * @param str  the string to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(String str) {
+        return append(str).appendNewLine();
+    }
+
+    /**
+     * Appends part of a string followed by a new line to this string builder.
+     * Appending null will call {@link #appendNull()}.
+     *
+     * @param str  the string to append
+     * @param startIndex  the start index, inclusive, must be valid
+     * @param length  the length to append, must be valid
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(String str, int startIndex, int length) {
+        return append(str, startIndex, length).appendNewLine();
+    }
+
+    /**
+     * Appends a string buffer followed by a new line to this string builder.
+     * Appending null will call {@link #appendNull()}.
+     *
+     * @param str  the string buffer to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(StringBuffer str) {
+        return append(str).appendNewLine();
+    }
+
+    /**
+     * Appends part of a string buffer followed by a new line to this string builder.
+     * Appending null will call {@link #appendNull()}.
+     *
+     * @param str  the string to append
+     * @param startIndex  the start index, inclusive, must be valid
+     * @param length  the length to append, must be valid
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(StringBuffer str, int startIndex, int length) {
+        return append(str, startIndex, length).appendNewLine();
+    }
+
+    /**
+     * Appends another string builder followed by a new line to this string builder.
+     * Appending null will call {@link #appendNull()}.
+     *
+     * @param str  the string builder to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(StrBuilder str) {
+        return append(str).appendNewLine();
+    }
+
+    /**
+     * Appends part of a string builder followed by a new line to this string builder.
+     * Appending null will call {@link #appendNull()}.
+     *
+     * @param str  the string to append
+     * @param startIndex  the start index, inclusive, must be valid
+     * @param length  the length to append, must be valid
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(StrBuilder str, int startIndex, int length) {
+        return append(str, startIndex, length).appendNewLine();
+    }
+
+    /**
+     * Appends a char array followed by a new line to the string builder.
+     * Appending null will call {@link #appendNull()}.
+     *
+     * @param chars  the char array to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(char[] chars) {
+        return append(chars).appendNewLine();
+    }
+
+    /**
+     * Appends a char array followed by a new line to the string builder.
+     * Appending null will call {@link #appendNull()}.
+     *
+     * @param chars  the char array to append
+     * @param startIndex  the start index, inclusive, must be valid
+     * @param length  the length to append, must be valid
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(char[] chars, int startIndex, int length) {
+        return append(chars, startIndex, length).appendNewLine();
+    }
+
+    /**
+     * Appends a boolean value followed by a new line to the string builder.
+     *
+     * @param value  the value to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(boolean value) {
+        return append(value).appendNewLine();
+    }
+
+    /**
+     * Appends a char value followed by a new line to the string builder.
+     *
+     * @param ch  the value to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(char ch) {
+        return append(ch).appendNewLine();
+    }
+
+    /**
+     * Appends an int value followed by a new line to the string builder using <code>String.valueOf</code>.
+     *
+     * @param value  the value to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(int value) {
+        return append(value).appendNewLine();
+    }
+
+    /**
+     * Appends a long value followed by a new line to the string builder using <code>String.valueOf</code>.
+     *
+     * @param value  the value to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(long value) {
+        return append(value).appendNewLine();
+    }
+
+    /**
+     * Appends a float value followed by a new line to the string builder using <code>String.valueOf</code>.
+     *
+     * @param value  the value to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(float value) {
+        return append(value).appendNewLine();
+    }
+
+    /**
+     * Appends a double value followed by a new line to the string builder using <code>String.valueOf</code>.
+     *
+     * @param value  the value to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendln(double value) {
+        return append(value).appendNewLine();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Appends each item in an array to the builder without any separators.
+     * Appending a null array will have no effect.
+     * Each object is appended using {@link #append(Object)}.
+     *
+     * @param array  the array to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendAll(Object[] array) {
+        if (array != null && array.length > 0) {
+            for (int i = 0; i < array.length; i++) {
+                append(array[i]);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Appends each item in a collection to the builder without any separators.
+     * Appending a null collection will have no effect.
+     * Each object is appended using {@link #append(Object)}.
+     *
+     * @param coll  the collection to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendAll(Collection coll) {
+        if (coll != null && coll.size() > 0) {
+            Iterator it = coll.iterator();
+            while (it.hasNext()) {
+                append(it.next());
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Appends each item in an iterator to the builder without any separators.
+     * Appending a null iterator will have no effect.
+     * Each object is appended using {@link #append(Object)}.
+     *
+     * @param it  the iterator to append
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendAll(Iterator it) {
+        if (it != null) {
+            while (it.hasNext()) {
+                append(it.next());
+            }
+        }
+        return this;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
      * Appends an array placing separators between each value, but
      * not before the first or after the last.
      * Appending a null array will have no effect.
@@ -797,6 +1036,115 @@ public class StrBuilder implements Cloneable {
                     append(separator);
                 }
             }
+        }
+        return this;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Appends a separator if the builder is currently non-empty.
+     * Appending a null separator will have no effect.
+     * The separator is appended using {@link #append(String)}.
+     * <p>
+     * This method is useful for adding a separator each time around the
+     * loop except the first.
+     * <pre>
+     * for (Iterator it = list.iterator(); it.hasNext(); ) {
+     *   appendSeparator(",");
+     *   append(it.next());
+     * }
+     * </pre>
+     * Note that for this simple example, you should use
+     * {@link #appendWithSeparators(Collection, String)}.
+     * 
+     * @param separator  the separator to use, null means no separator
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendSeparator(String separator) {
+        if (separator != null && size() > 0) {
+            append(separator);
+        }
+        return this;
+    }
+
+    /**
+     * Appends a separator if the builder is currently non-empty.
+     * The separator is appended using {@link #append(char)}.
+     * <p>
+     * This method is useful for adding a separator each time around the
+     * loop except the first.
+     * <pre>
+     * for (Iterator it = list.iterator(); it.hasNext(); ) {
+     *   appendSeparator(',');
+     *   append(it.next());
+     * }
+     * </pre>
+     * Note that for this simple example, you should use
+     * {@link #appendWithSeparators(Collection, String)}.
+     * 
+     * @param separator  the separator to use
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendSeparator(char separator) {
+        if (size() > 0) {
+            append(separator);
+        }
+        return this;
+    }
+
+    /**
+     * Appends a separator to the builder if the loop index is greater than zero.
+     * Appending a null separator will have no effect.
+     * The separator is appended using {@link #append(String)}.
+     * <p>
+     * This method is useful for adding a separator each time around the
+     * loop except the first.
+     * <pre>
+     * for (int i = 0; i < list.size(); i++) {
+     *   appendSeparator(",", i);
+     *   append(list.get(i));
+     * }
+     * </pre>
+     * Note that for this simple example, you should use
+     * {@link #appendWithSeparators(Collection, String)}.
+     * 
+     * @param separator  the separator to use, null means no separator
+     * @param loopIndex  the loop index
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendSeparator(String separator, int loopIndex) {
+        if (separator != null && loopIndex > 0) {
+            append(separator);
+        }
+        return this;
+    }
+
+    /**
+     * Appends a separator to the builder if the loop index is greater than zero.
+     * The separator is appended using {@link #append(char)}.
+     * <p>
+     * This method is useful for adding a separator each time around the
+     * loop except the first.
+     * <pre>
+     * for (int i = 0; i < list.size(); i++) {
+     *   appendSeparator(",", i);
+     *   append(list.get(i));
+     * }
+     * </pre>
+     * Note that for this simple example, you should use
+     * {@link #appendWithSeparators(Collection, String)}.
+     * 
+     * @param separator  the separator to use
+     * @param loopIndex  the loop index
+     * @return this, to enable chaining
+     * @since 2.3
+     */
+    public StrBuilder appendSeparator(char separator, int loopIndex) {
+        if (loopIndex > 0) {
+            append(separator);
         }
         return this;
     }
@@ -881,7 +1229,7 @@ public class StrBuilder implements Cloneable {
             String str = (obj == null ? getNullText() : obj.toString());
             int strLen = str.length();
             if (strLen >= width) {
-                str.getChars(0, strLen, buffer, size);
+                str.getChars(0, width, buffer, size);
             } else {
                 int padLen = width - strLen;
                 str.getChars(0, strLen, buffer, size);
@@ -1670,7 +2018,7 @@ public class StrBuilder implements Cloneable {
      */
     public boolean contains(char ch) {
         char[] thisBuf = buffer;
-        for (int i = 0; i < thisBuf.length; i++) {
+        for (int i = 0; i < this.size; i++) {
             if (thisBuf[i] == ch) {
                 return true;
             }
@@ -1727,7 +2075,7 @@ public class StrBuilder implements Cloneable {
             return -1;
         }
         char[] thisBuf = buffer;
-        for (int i = startIndex; i < thisBuf.length; i++) {
+        for (int i = startIndex; i < size; i++) {
             if (thisBuf[i] == ch) {
                 return i;
             }
@@ -1773,8 +2121,9 @@ public class StrBuilder implements Cloneable {
             return -1;
         }
         char[] thisBuf = buffer;
+        int len = size - strLen + 1;
         outer:
-        for (int i = startIndex; i < thisBuf.length - strLen; i++) {
+        for (int i = startIndex; i < len; i++) {
             for (int j = 0; j < strLen; j++) {
                 if (str.charAt(j) != thisBuf[i + j]) {
                     continue outer;

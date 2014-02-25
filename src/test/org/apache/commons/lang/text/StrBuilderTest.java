@@ -32,7 +32,7 @@ import org.apache.commons.lang.ArrayUtils;
  * Unit tests for {@link org.apache.commons.lang.text.StrBuilder}.
  * 
  * @author Michael Heuer
- * @version $Id: StrBuilderTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StrBuilderTest.java 469696 2006-10-31 23:00:54Z bayard $
  */
 public class StrBuilderTest extends TestCase {
 
@@ -1726,6 +1726,27 @@ public class StrBuilderTest extends TestCase {
         
         sb.append("junit");
         assertEquals(new StringBuffer("junit").toString(), sb.toStringBuffer().toString());
+    }
+
+    //-----------------------------------------------------------------------
+    public void testLang294() {
+        StrBuilder sb = new StrBuilder("\n%BLAH%\nDo more stuff\neven more stuff\n%BLAH%\n");
+        sb.deleteAll("\n%BLAH%");
+        assertEquals("\nDo more stuff\neven more stuff\n", sb.toString()); 
+    }
+
+    public void testIndexOfLang294() {
+        StrBuilder sb = new StrBuilder("onetwothree");
+        sb.deleteFirst("three");
+        assertEquals(-1, sb.indexOf("three"));
+    }
+
+    //-----------------------------------------------------------------------
+    public void testLang295() {
+        StrBuilder sb = new StrBuilder("onetwothree");
+        sb.deleteFirst("three");
+        assertFalse( "The contains(char) method is looking beyond the end of the string", sb.contains('h'));
+        assertEquals( "The indexOf(char) method is looking beyond the end of the string", -1, sb.indexOf('h'));
     }
 
 }
