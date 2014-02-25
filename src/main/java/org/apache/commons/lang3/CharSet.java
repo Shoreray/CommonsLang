@@ -30,7 +30,7 @@ import java.util.Set;
  *
  * <p>#ThreadSafe#</p>
  * @since 1.0
- * @version $Id: CharSet.java 1090427 2011-04-08 20:17:10Z bayard $
+ * @version $Id: CharSet.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class CharSet implements Serializable {
 
@@ -178,7 +178,7 @@ public class CharSet implements Serializable {
         int len = str.length();
         int pos = 0;
         while (pos < len) {
-            int remainder = (len - pos);
+            int remainder = len - pos;
             if (remainder >= 4 && str.charAt(pos) == '^' && str.charAt(pos + 2) == '-') {
                 // negated range
                 set.add(CharRange.isNotIn(str.charAt(pos + 1), str.charAt(pos + 3)));

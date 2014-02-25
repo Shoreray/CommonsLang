@@ -18,10 +18,12 @@ package org.apache.commons.lang3.mutable;
 
 /**
  * A mutable <code>long</code> wrapper.
+ * <p>
+ * Note that as MutableLong does not extend Long, it is not treated by String.format as a Long parameter. 
  * 
  * @see Long
  * @since 2.1
- * @version $Id: MutableLong.java 1153487 2011-08-03 13:44:51Z ggregory $
+ * @version $Id: MutableLong.java 1160571 2011-08-23 07:36:08Z bayard $
  */
 public class MutableLong extends Number implements Comparable<MutableLong>, Mutable<Number> {
 

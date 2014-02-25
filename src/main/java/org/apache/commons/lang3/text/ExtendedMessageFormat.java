@@ -65,7 +65,7 @@ import org.apache.commons.lang3.Validate;
  * </p>
  *
  * @since 2.4
- * @version $Id: ExtendedMessageFormat.java 1144929 2011-07-10 18:26:16Z ggregory $
+ * @version $Id: ExtendedMessageFormat.java 1199983 2011-11-09 21:41:24Z ggregory $
  */
 public class ExtendedMessageFormat extends MessageFormat {
     private static final long serialVersionUID = -2362048321261811743L;
@@ -522,7 +522,7 @@ public class ExtendedMessageFormat extends MessageFormat {
      * @return <code>true</code> if some Object was found, <code>false</code> otherwise.
      */
     private boolean containsElements(Collection<?> coll) {
-        if (coll == null || coll.size() == 0) {
+        if (coll == null || coll.isEmpty()) {
             return false;
         }
         for (Object name : coll) {

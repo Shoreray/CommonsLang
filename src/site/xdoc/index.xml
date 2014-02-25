@@ -37,7 +37,7 @@ and System properties. Additionally it contains basic enhancements to java.util.
 building methods, such as hashCode, toString and equals.
 </p>
 <p>
-Note that Lang 3.0 uses a different package (<i>org.apache.commons.lang3</i>) than its predecessors (<i>org.apache.commons.lang</i>), allowing it to be used at the same time as an earlier version.
+Note that Lang 3.0 (and subsequent versions) use a different package (<i>org.apache.commons.lang3</i>) than the previous versions (<i>org.apache.commons.lang</i>), allowing it to be used at the same time as an earlier version.
 </p>
 </section>
 <!-- ================================================== -->
@@ -50,9 +50,8 @@ together with various <a href="project-reports.html">project reports</a>.
 The JavaDoc API documents are available online:
 </p>
 <ul>
-<li>The <a href="api-3.0/index.html">current stable release 3.0</a></li>
-<li>The <a href="api-2.6/index.html">legacy release 2.6</a></li>
-<li>The <a href="api-2.5/index.html">previous version 2.5</a></li>
+<li>The <a href="api-3.1/index.html">current stable release 3.1</a> [Java 5.0+]</li>
+<li>The <a href="api-2.6/index.html">legacy release 2.6</a> [Java 1.2+]</li>
 <li>Older releases - see the <a href="release-history.html">Release History</a> page</li>
 </ul>
 <p>
@@ -61,20 +60,26 @@ The <a href="source-repository.html">subversion repository</a> can be
 </p>
 </section>
 <!-- ================================================== -->
-<section name="Releases">
-<p>
-A latest stable and Java 5.0 dependent version is available: 
-(<a href="http://commons.apache.org/lang/download_lang.cgi">download 3.0</a>)
-(<a href="upgradeto3_0.html">changelog</a>) (<a href="article3_0.html">upgrade notes</a>)
-(<a href="lang2-lang3-clirr-report.html">Lang2 to Lang3 Clirr report</a>). </p>
+<section name="Release Information">
+<p>The latest stable release of Lang is 3.1. You may: </p>
+<ul>
+<li>Download <a href="http://commons.apache.org/lang/download_lang.cgi">3.1</a></li>
+<li>Read the <a href="release-notes/RELEASE-NOTES-3.1.txt">3.1 release notes</a></li>
+<li>Examine the <a href="article3_0.html">2.x to 3.0 upgrade notes</a></li>
+<li>Compare major versions via the <a href="lang2-lang3-clirr-report.html">Lang2 to Lang3 Clirr report</a></li>
+</ul>
 
 <p>
-The legacy JDK 1.3 compatible version is also available:
-(<a href="http://commons.apache.org/lang/download_lang.cgi">download 2.6</a>) 
-(<a href="upgradeto2_6.html">release notes</a>). </p>
+Alternatively you can pull it from the central Maven repositories:
+<pre>
+  &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+  &lt;artifactId&gt;commons-lang3&lt;/artifactId&gt;
+  &lt;version&gt;3.1&lt;/version&gt;
+</pre>
+</p>
 
 <p>
-For information on previous releases, see the <a href="release-history.html">Release History</a> and to download previous releases, see the <a href="http://archive.apache.org/dist/commons/lang/">Apache Archive</a>.
+For information on previous releases see the <a href="release-history.html">Release History</a>, and to download previous releases see the <a href="http://archive.apache.org/dist/commons/lang/">Commons Lang Archive</a>.
 </p>
 </section>
 <!-- ================================================== -->
@@ -87,8 +92,8 @@ Please remember that the lists are shared between all commons components,
 so prefix your email by [lang].
 </p>
 <p>
-Issues may be reported via <a href="issue-tracking.html">ASF JIRA</a>.
-Please read the instructions carefully to submit a useful bug report or enhancement request.
+Bug reports and enhancements are also welcomed via the <a href="issue-tracking.html">JIRA</a> issue tracker.
+Please read the instructions carefully.
 </p>
 </section>
 <!-- ================================================== -->

@@ -53,7 +53,7 @@ package org.apache.commons.lang3.time;
  * <p>This class is not thread-safe</p>
  * 
  * @since 2.0
- * @version $Id: StopWatch.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: StopWatch.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class StopWatch {
 
@@ -248,7 +248,7 @@ public class StopWatch {
         if (this.runningState != STATE_SUSPENDED) {
             throw new IllegalStateException("Stopwatch must be suspended to resume. ");
         }
-        this.startTime += (System.nanoTime() - this.stopTime);
+        this.startTime += System.nanoTime() - this.stopTime;
         this.runningState = STATE_RUNNING;
     }
 

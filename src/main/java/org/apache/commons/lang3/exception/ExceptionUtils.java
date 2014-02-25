@@ -35,7 +35,7 @@ import org.apache.commons.lang3.SystemUtils;
  * <code>Throwable</code> objects.</p>
  *
  * @since 1.0
- * @version $Id: ExceptionUtils.java 1144929 2011-07-10 18:26:16Z ggregory $
+ * @version $Id: ExceptionUtils.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class ExceptionUtils {
     
@@ -178,7 +178,7 @@ public class ExceptionUtils {
      */
     public static Throwable getRootCause(Throwable throwable) {
         List<Throwable> list = getThrowableList(throwable);
-        return (list.size() < 2 ? null : (Throwable)list.get(list.size() - 1));
+        return list.size() < 2 ? null : (Throwable)list.get(list.size() - 1);
     }
 
     /**
@@ -690,7 +690,7 @@ public class ExceptionUtils {
      */
     public static String getRootCauseMessage(Throwable th) {
         Throwable root = ExceptionUtils.getRootCause(th);
-        root = (root == null ? th : root);
+        root = root == null ? th : root;
         return getMessage(root);
     }
 

@@ -31,7 +31,7 @@ import org.junit.Test;
 /**
  * Unit tests {@link org.apache.commons.lang3.math.NumberUtils}.
  *
- * @version $Id: NumberUtilsTest.java 1153490 2011-08-03 13:53:35Z ggregory $
+ * @version $Id: NumberUtilsTest.java 1160660 2011-08-23 12:32:52Z sebb $
  */
 public class NumberUtilsTest {
 
@@ -41,9 +41,9 @@ public class NumberUtilsTest {
         assertNotNull(new NumberUtils());
         Constructor<?>[] cons = NumberUtils.class.getDeclaredConstructors();
         assertEquals(1, cons.length);
-        assertEquals(true, Modifier.isPublic(cons[0].getModifiers()));
-        assertEquals(true, Modifier.isPublic(NumberUtils.class.getModifiers()));
-        assertEquals(false, Modifier.isFinal(NumberUtils.class.getModifiers()));
+        assertTrue(Modifier.isPublic(cons[0].getModifiers()));
+        assertTrue(Modifier.isPublic(NumberUtils.class.getModifiers()));
+        assertFalse(Modifier.isFinal(NumberUtils.class.getModifiers()));
     }
 
     //---------------------------------------------------------------------
@@ -193,8 +193,10 @@ public class NumberUtilsTest {
         assertEquals("createNumber(String) 6 failed", Long.valueOf(12345), NumberUtils.createNumber("12345l"));
         assertEquals("createNumber(String) 7 failed", Float.valueOf("-1234.5"), NumberUtils.createNumber("-1234.5"));
         assertEquals("createNumber(String) 8 failed", Integer.valueOf("-12345"), NumberUtils.createNumber("-12345"));
-        assertTrue("createNumber(String) 9 failed", 0xFADE == NumberUtils.createNumber("0xFADE").intValue());
-        assertTrue("createNumber(String) 10 failed", -0xFADE == NumberUtils.createNumber("-0xFADE").intValue());
+        assertTrue("createNumber(String) 9a failed", 0xFADE == NumberUtils.createNumber("0xFADE").intValue());
+        assertTrue("createNumber(String) 9b failed", 0xFADE == NumberUtils.createNumber("0Xfade").intValue());
+        assertTrue("createNumber(String) 10a failed", -0xFADE == NumberUtils.createNumber("-0xFADE").intValue());
+        assertTrue("createNumber(String) 10b failed", -0xFADE == NumberUtils.createNumber("-0Xfade").intValue());
         assertEquals("createNumber(String) 11 failed", Double.valueOf("1.1E200"), NumberUtils.createNumber("1.1E200"));
         assertEquals("createNumber(String) 12 failed", Float.valueOf("1.1E20"), NumberUtils.createNumber("1.1E20"));
         assertEquals("createNumber(String) 13 failed", Double.valueOf("-1.1E200"), NumberUtils.createNumber("-1.1E200"));
@@ -1032,12 +1034,12 @@ public class NumberUtilsTest {
 
     @Test
     public void testIsDigits() {
-        assertEquals("isDigits(null) failed", false, NumberUtils.isDigits(null));
-        assertEquals("isDigits('') failed", false, NumberUtils.isDigits(""));
-        assertEquals("isDigits(String) failed", true, NumberUtils.isDigits("12345"));
-        assertEquals("isDigits(String) neg 1 failed", false, NumberUtils.isDigits("1234.5"));
-        assertEquals("isDigits(String) neg 3 failed", false, NumberUtils.isDigits("1ab"));
-        assertEquals("isDigits(String) neg 4 failed", false, NumberUtils.isDigits("abc"));
+        assertFalse("isDigits(null) failed", NumberUtils.isDigits(null));
+        assertFalse("isDigits('') failed", NumberUtils.isDigits(""));
+        assertTrue("isDigits(String) failed", NumberUtils.isDigits("12345"));
+        assertFalse("isDigits(String) neg 1 failed", NumberUtils.isDigits("1234.5"));
+        assertFalse("isDigits(String) neg 3 failed", NumberUtils.isDigits("1ab"));
+        assertFalse("isDigits(String) neg 4 failed", NumberUtils.isDigits("abc"));
     }
 
     /**

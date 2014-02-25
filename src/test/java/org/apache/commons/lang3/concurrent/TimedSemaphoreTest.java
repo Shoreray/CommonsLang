@@ -34,7 +34,7 @@ import org.junit.Test;
 /**
  * Test class for TimedSemaphore.
  *
- * @version $Id: TimedSemaphoreTest.java 1022749 2010-10-14 22:49:55Z ggregory $
+ * @version $Id: TimedSemaphoreTest.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class TimedSemaphoreTest {
     /** Constant for the time period. */
@@ -428,7 +428,7 @@ public class TimedSemaphoreTest {
          */
         @Override
         protected ScheduledFuture<?> startTimer() {
-            return (schedFuture != null) ? schedFuture : super.startTimer();
+            return schedFuture != null ? schedFuture : super.startTimer();
         }
     }
 

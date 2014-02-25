@@ -23,7 +23,7 @@ import java.util.Random;
 /**
  * Unit tests {@link org.apache.commons.lang3.RandomStringUtils}.
  *
- * @version $Id: RandomStringUtilsTest.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: RandomStringUtilsTest.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class RandomStringUtilsTest extends junit.framework.TestCase {
     /**
@@ -286,7 +286,7 @@ public class RandomStringUtilsTest extends junit.framework.TestCase {
         double sumSq = 0.0d;
         double dev = 0.0d;
         for (int i = 0; i < observed.length; i++) {
-            dev = (observed[i] - expected[i]);
+            dev = observed[i] - expected[i];
             sumSq += dev * dev / expected[i];
         }
         return sumSq;
@@ -311,8 +311,8 @@ public class RandomStringUtilsTest extends junit.framework.TestCase {
         for (int i=0; i < orig.length() && i < copy.length(); i++) {
             char o = orig.charAt(i);
             char c = copy.charAt(i);
-            assertEquals("differs at " + i + "(" + Integer.toHexString((new Character(o)).hashCode()) + "," +
-            Integer.toHexString((new Character(c)).hashCode()) + ")", o, c);
+            assertEquals("differs at " + i + "(" + Integer.toHexString(new Character(o).hashCode()) + "," +
+            Integer.toHexString(new Character(c).hashCode()) + ")", o, c);
         }
         // compare length also
         assertEquals(orig.length(), copy.length());

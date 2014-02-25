@@ -42,7 +42,7 @@ import org.apache.commons.lang3.ClassUtils;
  * If this call fails then the method may fail.</p>
  *
  * @since 2.5
- * @version $Id: MethodUtils.java 1153241 2011-08-02 18:49:52Z ggregory $
+ * @version $Id: MethodUtils.java 1166253 2011-09-07 16:27:42Z ggregory $
  */
 public class MethodUtils {
 

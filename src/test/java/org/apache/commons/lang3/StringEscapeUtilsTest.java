@@ -17,6 +17,7 @@
 package org.apache.commons.lang3;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -32,12 +33,11 @@ import org.junit.Test;
 
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
 import org.apache.commons.lang3.text.translate.NumericEntityEscaper;
-import org.apache.commons.lang3.text.translate.NumericEntityUnescaper;
 
 /**
  * Unit tests for {@link StringEscapeUtils}.
  *
- * @version $Id: StringEscapeUtilsTest.java 1148531 2011-07-19 21:03:42Z ggregory $
+ * @version $Id: StringEscapeUtilsTest.java 1199724 2011-11-09 12:51:52Z sebb $
  */
 public class StringEscapeUtilsTest {
     private final static String FOO = "foo";
@@ -47,9 +47,9 @@ public class StringEscapeUtilsTest {
         assertNotNull(new StringEscapeUtils());
         Constructor<?>[] cons = StringEscapeUtils.class.getDeclaredConstructors();
         assertEquals(1, cons.length);
-        assertEquals(true, Modifier.isPublic(cons[0].getModifiers()));
-        assertEquals(true, Modifier.isPublic(StringEscapeUtils.class.getModifiers()));
-        assertEquals(false, Modifier.isFinal(StringEscapeUtils.class.getModifiers()));
+        assertTrue(Modifier.isPublic(cons[0].getModifiers()));
+        assertTrue(Modifier.isPublic(StringEscapeUtils.class.getModifiers()));
+        assertFalse(Modifier.isFinal(StringEscapeUtils.class.getModifiers()));
     }
     
     @Test
@@ -337,7 +337,7 @@ public class StringEscapeUtilsTest {
      * Supplementary characters are those Unicode characters that have code points higher than the characters in
      * the Basic Multilingual Plane (BMP). In UTF-16 a supplementary character is encoded using two 16-bit surrogate code points from the
      * BMP. Because of this, some people think that supplementary characters need to be represented using two escapes, but this is incorrect
-     * – you must use the single, code point value for that character. For example, use &#x233B4; rather than &#xD84C;&#xDFB4;.
+     * - you must use the single, code point value for that character. For example, use &#x233B4; rather than &#xD84C;&#xDFB4;.
      * </blockquote>
      * @see <a href="http://www.w3.org/International/questions/qa-escapes">Using character escapes in markup and CSS</a>
      * @see <a href="https://issues.apache.org/jira/browse/LANG-728">LANG-728</a>

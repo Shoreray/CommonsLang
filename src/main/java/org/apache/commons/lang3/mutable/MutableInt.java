@@ -18,10 +18,12 @@ package org.apache.commons.lang3.mutable;
 
 /**
  * A mutable <code>int</code> wrapper.
+ * <p>
+ * Note that as MutableInt does not extend Integer, it is not treated by String.format as an Integer parameter. 
  * 
  * @see Integer
  * @since 2.1
- * @version $Id: MutableInt.java 1153484 2011-08-03 13:39:42Z ggregory $
+ * @version $Id: MutableInt.java 1160571 2011-08-23 07:36:08Z bayard $
  */
 public class MutableInt extends Number implements Comparable<MutableInt>, Mutable<Number> {
 

@@ -54,10 +54,10 @@ run_inlined_CharUtils_isAsciiNumeric: 709 milliseconds.
 run_inlined_CharUtils_isAsciiNumeric: 84,420 milliseconds.
 
 
- * @version $Id: CharUtilsPerfRun.java 1144929 2011-07-10 18:26:16Z ggregory $
+ * @version $Id: CharUtilsPerfRun.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class CharUtilsPerfRun {
-    final static String VERSION = "$Id: CharUtilsPerfRun.java 1144929 2011-07-10 18:26:16Z ggregory $";
+    final static String VERSION = "$Id: CharUtilsPerfRun.java 1199894 2011-11-09 17:53:59Z ggregory $";
 
     final static int WARM_UP = 100;
 
@@ -148,7 +148,7 @@ public class CharUtilsPerfRun {
         int t = 0;
         for (int i = 0; i < loopCount; i++) {
             for (char ch : CHAR_SAMPLES) {
-                boolean b = (ch >= '0' && ch <= '9');
+                boolean b = ch >= '0' && ch <= '9';
                 t += b ? 1 : 0;
             }
         }

@@ -18,10 +18,12 @@ package org.apache.commons.lang3.mutable;
 
 /**
  * A mutable <code>float</code> wrapper.
+ * <p>
+ * Note that as MutableFloat does not extend Float, it is not treated by String.format as a Float parameter. 
  * 
  * @see Float
  * @since 2.1
- * @version $Id: MutableFloat.java 1153490 2011-08-03 13:53:35Z ggregory $
+ * @version $Id: MutableFloat.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class MutableFloat extends Number implements Comparable<MutableFloat>, Mutable<Number> {
 
@@ -271,8 +273,8 @@ public class MutableFloat extends Number implements Comparable<MutableFloat>, Mu
      */
     @Override
     public boolean equals(Object obj) {
-        return (obj instanceof MutableFloat)
-            && (Float.floatToIntBits(((MutableFloat) obj).value) == Float.floatToIntBits(value));
+        return obj instanceof MutableFloat
+            && Float.floatToIntBits(((MutableFloat) obj).value) == Float.floatToIntBits(value);
     }
 
     /**

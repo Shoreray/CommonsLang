@@ -18,10 +18,12 @@ package org.apache.commons.lang3.mutable;
 
 /**
  * A mutable <code>byte</code> wrapper.
+ * <p>
+ * Note that as MutableByte does not extend Byte, it is not treated by String.format as a Byte parameter. 
  * 
  * @see Byte
  * @since 2.1
- * @version $Id: MutableByte.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: MutableByte.java 1160571 2011-08-23 07:36:08Z bayard $
  */
 public class MutableByte extends Number implements Comparable<MutableByte>, Mutable<Number> {
 

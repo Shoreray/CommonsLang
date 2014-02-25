@@ -82,7 +82,7 @@ import org.apache.commons.lang3.ArrayUtils;
  * </table>
  *
  * @since 2.2
- * @version $Id: StrTokenizer.java 1153241 2011-08-02 18:49:52Z ggregory $
+ * @version $Id: StrTokenizer.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class StrTokenizer implements ListIterator<String>, Cloneable {
 
@@ -728,7 +728,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
         // string or the end of the input
         workArea.clear();
         int pos = start;
-        boolean quoting = (quoteLen > 0);
+        boolean quoting = quoteLen > 0;
         int trimStart = 0;
         
         while (pos < len) {
@@ -746,7 +746,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
                     if (isQuote(chars, pos + quoteLen, len, quoteStart, quoteLen)) {
                         // matched pair of quotes, thus an escaped quote
                         workArea.append(chars, pos, quoteLen);
-                        pos += (quoteLen * 2);
+                        pos += quoteLen * 2;
                         trimStart = workArea.size();
                         continue;
                     }
@@ -820,7 +820,7 @@ public class StrTokenizer implements ListIterator<String>, Cloneable {
      */
     private boolean isQuote(char[] chars, int pos, int len, int quoteStart, int quoteLen) {
         for (int i = 0; i < quoteLen; i++) {
-            if ((pos + i) >= len || chars[pos + i] != chars[quoteStart + i]) {
+            if (pos + i >= len || chars[pos + i] != chars[quoteStart + i]) {
                 return false;
             }
         }

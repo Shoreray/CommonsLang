@@ -25,7 +25,7 @@ import java.io.Writer;
  * without the +.
  * 
  * @since 3.0
- * @version $Id: UnicodeUnescaper.java 1153241 2011-08-02 18:49:52Z ggregory $
+ * @version $Id: UnicodeUnescaper.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class UnicodeUnescaper extends CharSequenceTranslator {
 
@@ -34,18 +34,18 @@ public class UnicodeUnescaper extends CharSequenceTranslator {
      */
     @Override
     public int translate(CharSequence input, int index, Writer out) throws IOException {
-        if (input.charAt(index) == '\\' && (index + 1 < input.length()) && input.charAt(index + 1) == 'u') {
+        if (input.charAt(index) == '\\' && index + 1 < input.length() && input.charAt(index + 1) == 'u') {
             // consume optional additional 'u' chars
             int i = 2;
-            while ((index + i < input.length()) && input.charAt(index + i) == 'u') {
+            while (index + i < input.length() && input.charAt(index + i) == 'u') {
                 i++;
             }
 
-            if ((index + i < input.length()) && (input.charAt(index + i) == '+')) {
+            if (index + i < input.length() && input.charAt(index + i) == '+') {
                 i++;
             }
 
-            if ((index + i + 4 <= input.length())) {
+            if (index + i + 4 <= input.length()) {
                 // Get 4 hex digits
                 CharSequence unicode = input.subSequence(index + i, index + i + 4);
 

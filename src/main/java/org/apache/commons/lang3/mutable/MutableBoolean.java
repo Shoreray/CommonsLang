@@ -21,10 +21,12 @@ import java.io.Serializable;
 
 /**
  * A mutable <code>boolean</code> wrapper.
+ * <p>
+ * Note that as MutableBoolean does not extend Boolean, it is not treated by String.format as a Boolean parameter. 
  * 
  * @see Boolean
  * @since 2.2
- * @version $Id: MutableBoolean.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: MutableBoolean.java 1160571 2011-08-23 07:36:08Z bayard $
  */
 public class MutableBoolean implements Mutable<Boolean>, Serializable, Comparable<MutableBoolean> {
 

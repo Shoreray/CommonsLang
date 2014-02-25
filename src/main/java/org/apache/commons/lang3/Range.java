@@ -28,7 +28,7 @@ import java.util.Comparator;
  * <p>#ThreadSafe# if the objects and comparator are thread-safe</p>
  * 
  * @since 3.0
- * @version $Id: Range.java 1147537 2011-07-17 06:10:37Z mbenson $
+ * @version $Id: Range.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public final class Range<T> implements Serializable {
 
@@ -219,7 +219,7 @@ public final class Range<T> implements Serializable {
         if (element == null) {
             return false;
         }
-        return (comparator.compare(element, minimum) > -1) && (comparator.compare(element, maximum) < 1);
+        return comparator.compare(element, minimum) > -1 && comparator.compare(element, maximum) < 1;
     }
 
     /**

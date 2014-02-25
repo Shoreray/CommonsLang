@@ -16,6 +16,7 @@
  */
 package org.apache.commons.lang3;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ import java.util.regex.Pattern;
  * <p>#ThreadSafe#</p>
  * @see java.lang.String
  * @since 1.0
- * @version $Id: StringUtils.java 1153241 2011-08-02 18:49:52Z ggregory $
+ * @version $Id: StringUtils.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 //@Immutable
 public class StringUtils {
@@ -224,7 +225,7 @@ public class StringUtils {
             return true;
         }
         for (int i = 0; i < strLen; i++) {
-            if ((Character.isWhitespace(cs.charAt(i)) == false)) {
+            if (Character.isWhitespace(cs.charAt(i)) == false) {
                 return false;
             }
         }
@@ -483,13 +484,13 @@ public class StringUtils {
         }
         int start = 0;
         if (stripChars == null) {
-            while ((start != strLen) && Character.isWhitespace(str.charAt(start))) {
+            while (start != strLen && Character.isWhitespace(str.charAt(start))) {
                 start++;
             }
         } else if (stripChars.length() == 0) {
             return str;
         } else {
-            while ((start != strLen) && (stripChars.indexOf(str.charAt(start)) != INDEX_NOT_FOUND)) {
+            while (start != strLen && stripChars.indexOf(str.charAt(start)) != INDEX_NOT_FOUND) {
                 start++;
             }
         }
@@ -528,13 +529,13 @@ public class StringUtils {
         }
 
         if (stripChars == null) {
-            while ((end != 0) && Character.isWhitespace(str.charAt(end - 1))) {
+            while (end != 0 && Character.isWhitespace(str.charAt(end - 1))) {
                 end--;
             }
         } else if (stripChars.length() == 0) {
             return str;
         } else {
-            while ((end != 0) && (stripChars.indexOf(str.charAt(end - 1)) != INDEX_NOT_FOUND)) {
+            while (end != 0 && stripChars.indexOf(str.charAt(end - 1)) != INDEX_NOT_FOUND) {
                 end--;
             }
         }
@@ -630,13 +631,15 @@ public class StringUtils {
         }
         try {
             String result = null;
-            if (java6Available) {
+            if (InitStripAccents.java6NormalizeMethod != null) {
                 result = removeAccentsJava6(input);
-            } else if (sunAvailable) {
+            } else if (InitStripAccents.sunDecomposeMethod != null) {
                 result = removeAccentsSUN(input);
             } else {
                 throw new UnsupportedOperationException(
-                    "The stripAccents(CharSequence) method requires at least Java 1.6 or a Sun JVM");
+                    "The stripAccents(CharSequence) method requires at least"
+                        +" Java6, but got: "+InitStripAccents.java6Exception
+                        +"; or a Sun JVM: "+InitStripAccents.sunException);
             }
             // Note that none of the above methods correctly remove ligatures...
             return result;
@@ -667,12 +670,12 @@ public class StringUtils {
         String decomposed = java.text.Normalizer.normalize(CharSequence, Normalizer.Form.NFD);
         return java6Pattern.matcher(decomposed).replaceAll("");//$NON-NLS-1$
         */
-        if (!java6Available || java6NormalizerFormNFD == null) {
-            throw new IllegalStateException("java.text.Normalizer is not available");
+        if (InitStripAccents.java6NormalizeMethod == null || InitStripAccents.java6NormalizerFormNFD == null) {
+            throw new IllegalStateException("java.text.Normalizer is not available", InitStripAccents.java6Exception);
         }
         String result;
-        result = (String) java6NormalizeMethod.invoke(null, new Object[] {text, java6NormalizerFormNFD});
-        result = java6Pattern.matcher(result).replaceAll("");//$NON-NLS-1$
+        result = (String) InitStripAccents.java6NormalizeMethod.invoke(null, new Object[] {text, InitStripAccents.java6NormalizerFormNFD});
+        result = InitStripAccents.java6Pattern.matcher(result).replaceAll("");//$NON-NLS-1$
         return result;
     }
 
@@ -691,58 +694,64 @@ public class StringUtils {
         String decomposed = sun.text.Normalizer.decompose(text, false, 0);
         return sunPattern.matcher(decomposed).replaceAll("");//$NON-NLS-1$
         */
-        if (! sunAvailable) {
-            throw new IllegalStateException("sun.text.Normalizer is not available");
+        if (InitStripAccents.sunDecomposeMethod == null) {
+            throw new IllegalStateException("sun.text.Normalizer is not available", InitStripAccents.sunException);
         }
         String result;
-        result = (String) sunDecomposeMethod.invoke(null, new Object[] {text, Boolean.FALSE, Integer.valueOf(0)});
-        result = sunPattern.matcher(result).replaceAll("");//$NON-NLS-1$
+        result = (String) InitStripAccents.sunDecomposeMethod.invoke(null, new Object[] {text, Boolean.FALSE, Integer.valueOf(0)});
+        result = InitStripAccents.sunPattern.matcher(result).replaceAll("");//$NON-NLS-1$
         return result;
     }
 
-    // SUN internal, Java 1.3 -> Java 5
-    private static boolean sunAvailable = false;
-    private static Method  sunDecomposeMethod = null;
-    private static final Pattern sunPattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");//$NON-NLS-1$
-    // Java 6+
-    private static boolean java6Available = false;
-    private static Method  java6NormalizeMethod = null;
-    private static Object  java6NormalizerFormNFD = null;
-    private static final Pattern java6Pattern = sunPattern;
-
-    static {
-        try {
-            // java.text.Normalizer.normalize(CharSequence, Normalizer.Form.NFD);
-            // Be careful not to get Java 1.3 java.text.Normalizer!
-            Class<?> normalizerFormClass = Thread.currentThread().getContextClassLoader()
-                .loadClass("java.text.Normalizer$Form");//$NON-NLS-1$
-            java6NormalizerFormNFD = normalizerFormClass.getField("NFD").get(null);//$NON-NLS-1$
-            Class<?> normalizerClass = Thread.currentThread().getContextClassLoader()
-                .loadClass("java.text.Normalizer");//$NON-NLS-1$
-            java6NormalizeMethod = normalizerClass.getMethod("normalize",
-                    new Class[] {CharSequence.class, normalizerFormClass});//$NON-NLS-1$
-            java6Available = true;
-        } catch (ClassNotFoundException e) {
-            java6Available = false;
-        } catch (NoSuchFieldException e) {
-            java6Available = false;
-        } catch (IllegalAccessException e) {
-            java6Available = false;
-        } catch (NoSuchMethodException e) {
-            java6Available = false;
-        }
-
-        try {
-            // sun.text.Normalizer.decompose(text, false, 0);
-            Class<?> normalizerClass = Thread.currentThread().getContextClassLoader()
-                .loadClass("sun.text.Normalizer");//$NON-NLS-1$
-            sunDecomposeMethod = normalizerClass.getMethod("decompose",
-                    new Class[] {String.class, Boolean.TYPE, Integer.TYPE});//$NON-NLS-1$
-            sunAvailable = true;
-        } catch (ClassNotFoundException e) {
-            sunAvailable = false;
-        } catch (NoSuchMethodException e) {
-            sunAvailable = false;
+    // IOD container for stripAccent() initialisation
+    private static class InitStripAccents {
+        // SUN internal, Java 1.3 -> Java 5
+        private static final Throwable sunException;
+        private static final Method  sunDecomposeMethod;
+        private static final Pattern sunPattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");//$NON-NLS-1$
+        // Java 6+
+        private static final Throwable java6Exception;
+        private static final Method  java6NormalizeMethod;
+        private static final Object  java6NormalizerFormNFD;
+        private static final Pattern java6Pattern = sunPattern;
+    
+        static {
+            // Set up defaults for final static fields
+            Object _java6NormalizerFormNFD = null;
+            Method _java6NormalizeMethod = null;
+            Method _sunDecomposeMethod = null;
+            Throwable _java6Exception = null;
+            Throwable _sunException = null;
+            try {
+                // java.text.Normalizer.normalize(CharSequence, Normalizer.Form.NFD);
+                // Be careful not to get Java 1.3 java.text.Normalizer!
+                Class<?> normalizerFormClass = Thread.currentThread().getContextClassLoader()
+                    .loadClass("java.text.Normalizer$Form");//$NON-NLS-1$
+                _java6NormalizerFormNFD = normalizerFormClass.getField("NFD").get(null);//$NON-NLS-1$
+                Class<?> normalizerClass = Thread.currentThread().getContextClassLoader()
+                    .loadClass("java.text.Normalizer");//$NON-NLS-1$
+                _java6NormalizeMethod = normalizerClass.getMethod("normalize",//$NON-NLS-1$
+                        new Class[] {CharSequence.class, normalizerFormClass});//$NON-NLS-1$
+            } catch (Exception e1) {
+                // Only check for Sun method if Java 6 method is not available
+                _java6Exception = e1;
+                try {
+                    // sun.text.Normalizer.decompose(text, false, 0);
+                    Class<?> normalizerClass = Thread.currentThread().getContextClassLoader()
+                        .loadClass("sun.text.Normalizer");//$NON-NLS-1$
+                    _sunDecomposeMethod = normalizerClass.getMethod("decompose",//$NON-NLS-1$
+                            new Class[] {String.class, Boolean.TYPE, Integer.TYPE});//$NON-NLS-1$
+                } catch (Exception e2) {
+                    _sunException = e2;
+                }
+            }
+    
+            // Set up final static fields
+            java6Exception = _java6Exception;
+            java6NormalizerFormNFD = _java6NormalizerFormNFD;
+            java6NormalizeMethod = _java6NormalizeMethod;
+            sunException = _sunException;
+            sunDecomposeMethod = _sunDecomposeMethod;
         }
     }
 
@@ -1078,7 +1087,7 @@ public class StringUtils {
         if (startPos < 0) {
             startPos = 0;
         }
-        int endLimit = (str.length() - searchStr.length()) + 1;
+        int endLimit = str.length() - searchStr.length() + 1;
         if (startPos > endLimit) {
             return INDEX_NOT_FOUND;
         }
@@ -1324,7 +1333,7 @@ public class StringUtils {
         if (str == null || searchStr == null) {
             return INDEX_NOT_FOUND;
         }
-        if (startPos > (str.length() - searchStr.length())) {
+        if (startPos > str.length() - searchStr.length()) {
             startPos = str.length() - searchStr.length();
         }
         if (startPos < 0) {
@@ -1937,7 +1946,7 @@ public class StringUtils {
             }
         }
 
-        return (ret == Integer.MAX_VALUE) ? INDEX_NOT_FOUND : ret;
+        return ret == Integer.MAX_VALUE ? INDEX_NOT_FOUND : ret;
     }
 
     /**
@@ -2203,7 +2212,7 @@ public class StringUtils {
         if (pos < 0) {
             pos = 0;
         }
-        if (str.length() <= (pos + len)) {
+        if (str.length() <= pos + len) {
             return str.substring(pos);
         }
         return str.substring(pos, pos + len);
@@ -2369,7 +2378,7 @@ public class StringUtils {
             return EMPTY;
         }
         int pos = str.lastIndexOf(separator);
-        if (pos == INDEX_NOT_FOUND || pos == (str.length() - separator.length())) {
+        if (pos == INDEX_NOT_FOUND || pos == str.length() - separator.length()) {
             return EMPTY;
         }
         return str.substring(pos + separator.length());
@@ -2477,7 +2486,7 @@ public class StringUtils {
         int openLen = open.length();
         List<String> list = new ArrayList<String>();
         int pos = 0;
-        while (pos < (strLen - closeLen)) {
+        while (pos < strLen - closeLen) {
             int start = str.indexOf(open, pos);
             if (start < 0) {
                 break;
@@ -2764,7 +2773,7 @@ public class StringUtils {
             return ArrayUtils.EMPTY_STRING_ARRAY;
         }
 
-        if ((separator == null) || (EMPTY.equals(separator))) {
+        if (separator == null || EMPTY.equals(separator)) {
             // Split on whitespace.
             return splitWorker(str, null, max, preserveAllTokens);
         }
@@ -2923,7 +2932,7 @@ public class StringUtils {
             match = true;
             i++;
         }
-        if (match || (preserveAllTokens && lastMatch)) {
+        if (match || preserveAllTokens && lastMatch) {
             list.add(str.substring(start, i));
         }
         return list.toArray(new String[list.size()]);
@@ -3099,7 +3108,7 @@ public class StringUtils {
                 i++;
             }
         }
-        if (match || (preserveAllTokens && lastMatch)) {
+        if (match || preserveAllTokens && lastMatch) {
             list.add(str.substring(start, i));
         }
         return list.toArray(new String[list.size()]);
@@ -3290,7 +3299,7 @@ public class StringUtils {
         if (array == null) {
             return null;
         }
-        int noOfItems = (endIndex - startIndex);
+        int noOfItems = endIndex - startIndex;
         if (noOfItems <= 0) {
             return EMPTY;
         }
@@ -3375,7 +3384,7 @@ public class StringUtils {
 
         // endIndex - startIndex > 0:   Len = NofStrings *(len(firstString) + len(separator))
         //           (Assuming that all Strings are roughly equally long)
-        int noOfItems = (endIndex - startIndex);
+        int noOfItems = endIndex - startIndex;
         if (noOfItems <= 0) {
             return EMPTY;
         }
@@ -3858,8 +3867,8 @@ public class StringUtils {
         }
         int replLength = searchString.length();
         int increase = replacement.length() - replLength;
-        increase = (increase < 0 ? 0 : increase);
-        increase *= (max < 0 ? 16 : (max > 64 ? 64 : max));
+        increase = increase < 0 ? 0 : increase;
+        increase *= max < 0 ? 16 : max > 64 ? 64 : max;
         StringBuilder buf = new StringBuilder(text.length() + increase);
         while (end != INDEX_NOT_FOUND) {
             buf.append(text.substring(start, end)).append(replacement);
@@ -4378,15 +4387,11 @@ public class StringUtils {
      * @param str  the String to chomp from, may be null
      * @param separator  separator String, may be null
      * @return String without trailing separator, {@code null} if null String input
+     * @deprecated This feature will be removed in Lang 4.0, use {@link StringUtils#removeEnd(String, String)} instead
      */
+    @Deprecated
     public static String chomp(String str, String separator) {
-        if (isEmpty(str) || separator == null) {
-            return str;
-        }
-        if (str.endsWith(separator)) {
-            return str.substring(0, str.length() - separator.length());
-        }
-        return str;
+        return removeEnd(str,separator);
     }
 
     // Chopping
@@ -5209,7 +5214,7 @@ public class StringUtils {
         }
         int sz = cs.length();
         for (int i = 0; i < sz; i++) {
-            if ((Character.isLetter(cs.charAt(i)) == false) && (cs.charAt(i) != ' ')) {
+            if (Character.isLetter(cs.charAt(i)) == false && cs.charAt(i) != ' ') {
                 return false;
             }
         }
@@ -5279,7 +5284,7 @@ public class StringUtils {
         }
         int sz = cs.length();
         for (int i = 0; i < sz; i++) {
-            if ((Character.isLetterOrDigit(cs.charAt(i)) == false) && (cs.charAt(i) != ' ')) {
+            if (Character.isLetterOrDigit(cs.charAt(i)) == false && cs.charAt(i) != ' ') {
                 return false;
             }
         }
@@ -5391,7 +5396,7 @@ public class StringUtils {
         }
         int sz = cs.length();
         for (int i = 0; i < sz; i++) {
-            if ((Character.isDigit(cs.charAt(i)) == false) && (cs.charAt(i) != ' ')) {
+            if (Character.isDigit(cs.charAt(i)) == false && cs.charAt(i) != ' ') {
                 return false;
             }
         }
@@ -5424,7 +5429,7 @@ public class StringUtils {
         }
         int sz = cs.length();
         for (int i = 0; i < sz; i++) {
-            if ((Character.isWhitespace(cs.charAt(i)) == false)) {
+            if (Character.isWhitespace(cs.charAt(i)) == false) {
                 return false;
             }
         }
@@ -5567,6 +5572,7 @@ public class StringUtils {
      * <pre>
      * StringUtils.defaultIfEmpty(null, "NULL")  = "NULL"
      * StringUtils.defaultIfEmpty("", "NULL")    = "NULL"
+     * StringUtils.defaultIfEmpty(" ", "NULL")   = " "
      * StringUtils.defaultIfEmpty("bat", "NULL") = "bat"
      * StringUtils.defaultIfEmpty("", null)      = null
      * </pre>
@@ -5720,7 +5726,7 @@ public class StringUtils {
         if (offset > str.length()) {
             offset = str.length();
         }
-        if ((str.length() - offset) < (maxWidth - 3)) {
+        if (str.length() - offset < maxWidth - 3) {
             offset = str.length() - (maxWidth - 3);
         }
         final String abrevMarker = "...";
@@ -5730,7 +5736,7 @@ public class StringUtils {
         if (maxWidth < 7) {
             throw new IllegalArgumentException("Minimum abbreviation width with offset is 7");
         }
-        if ((offset + (maxWidth - 3)) < str.length()) {
+        if (offset + maxWidth - 3 < str.length()) {
             return abrevMarker + abbreviate(str.substring(offset), maxWidth - 3);
         }
         return abrevMarker + str.substring(str.length() - (maxWidth - 3));
@@ -5770,7 +5776,7 @@ public class StringUtils {
             return str;
         }
 
-        if (length >= str.length() || length < (middle.length()+2)) {
+        if (length >= str.length() || length < middle.length()+2) {
             return str;
         }
 
@@ -5928,7 +5934,7 @@ public class StringUtils {
         }
 
         // handle lists containing all nulls or all empty strings
-        if (allStringsNull || (longestStrLen == 0 && !anyStringNull)) {
+        if (allStringsNull || longestStrLen == 0 && !anyStringNull) {
             return INDEX_NOT_FOUND;
         }
 
@@ -6359,7 +6365,7 @@ public class StringUtils {
      */
     private static boolean startsWith(CharSequence str, CharSequence prefix, boolean ignoreCase) {
         if (str == null || prefix == null) {
-            return (str == null && prefix == null);
+            return str == null && prefix == null;
         }
         if (prefix.length() > str.length()) {
             return false;
@@ -6553,6 +6559,24 @@ public class StringUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * Converts a <code>byte[]</code> to a String using the specified character encoding.
+     * 
+     * @param bytes
+     *            the byte array to read from
+     * @param charsetName
+     *            the encoding to use, if null then use the platform default
+     * @return a new String
+     * @throws UnsupportedEncodingException
+     *             If the named charset is not supported
+     * @throws NullPointerException
+     *             if the input is null
+     * @since 3.1
+     */
+    public static String toString(byte[] bytes, String charsetName) throws UnsupportedEncodingException {
+        return charsetName == null ? new String(bytes) : new String(bytes, charsetName);
     }
 
 }

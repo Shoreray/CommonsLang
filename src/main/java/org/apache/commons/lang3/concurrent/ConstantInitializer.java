@@ -35,7 +35,7 @@ import org.apache.commons.lang3.ObjectUtils;
  * </p>
  *
  * @since 3.0
- * @version $Id: ConstantInitializer.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: ConstantInitializer.java 1199894 2011-11-09 17:53:59Z ggregory $
  * @param <T> the type of the object managed by this initializer
  */
 public class ConstantInitializer<T> implements ConcurrentInitializer<T> {
@@ -88,7 +88,7 @@ public class ConstantInitializer<T> implements ConcurrentInitializer<T> {
      */
     @Override
     public int hashCode() {
-        return (getObject() != null) ? getObject().hashCode() : 0;
+        return getObject() != null ? getObject().hashCode() : 0;
     }
 
     /**

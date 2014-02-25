@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * Class to test BitField functionality
  *
- * @version $Id: BitFieldTest.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: BitFieldTest.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class BitFieldTest extends TestCase {
 
@@ -149,7 +149,7 @@ public class BitFieldTest extends TestCase {
         }
         for (int j = 0; j < 128; j++) {
             assertEquals(bf_zero.getShortValue(bf_zero.setShortValue((short) 0, (short) j)), (short) 0);
-            assertEquals(bf_zero.setShortValue((short) 0, (short) j), (short) (0));
+            assertEquals(bf_zero.setShortValue((short) 0, (short) j), (short) 0);
         }
 
         // verify that excess bits are stripped off

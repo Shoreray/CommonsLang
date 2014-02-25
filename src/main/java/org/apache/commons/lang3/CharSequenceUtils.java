@@ -22,7 +22,7 @@ package org.apache.commons.lang3;
  *
  * @see java.lang.CharSequence
  * @since 3.0
- * @version $Id: CharSequenceUtils.java 1091471 2011-04-12 15:34:43Z scolebourne $
+ * @version $Id: CharSequenceUtils.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class CharSequenceUtils {
 
@@ -187,7 +187,7 @@ public class CharSequenceUtils {
     static boolean regionMatches(CharSequence cs, boolean ignoreCase, int thisStart,
             CharSequence substring, int start, int length)    {
         if (cs instanceof String && substring instanceof String) {
-            return ((String) cs).regionMatches(ignoreCase, thisStart, ((String) substring), start, length);
+            return ((String) cs).regionMatches(ignoreCase, thisStart, (String) substring, start, length);
         } else {
             // TODO: Implement rather than convert to String
             return cs.toString().regionMatches(ignoreCase, thisStart, substring.toString(), start, length);

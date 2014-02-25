@@ -31,7 +31,7 @@ import org.junit.Test;
 /**
  * Test the Pair class.
  * 
- * @version $Id: PairTest.java 1099414 2011-05-04 11:13:51Z scolebourne $
+ * @version $Id: PairTest.java 1199724 2011-11-09 12:51:52Z sebb $
  */
 public class PairTest {
 
@@ -76,20 +76,20 @@ public class PairTest {
     public void testComparable1() throws Exception {
         Pair<String, String> pair1 = Pair.of("A", "D");
         Pair<String, String> pair2 = Pair.of("B", "C");
-        assertEquals(true, pair1.compareTo(pair1) == 0);
-        assertEquals(true, pair1.compareTo(pair2) < 0);
-        assertEquals(true, pair2.compareTo(pair2) == 0);
-        assertEquals(true, pair2.compareTo(pair1) > 0);
+        assertTrue(pair1.compareTo(pair1) == 0);
+        assertTrue(pair1.compareTo(pair2) < 0);
+        assertTrue(pair2.compareTo(pair2) == 0);
+        assertTrue(pair2.compareTo(pair1) > 0);
     }
 
     @Test
     public void testComparable2() throws Exception {
         Pair<String, String> pair1 = Pair.of("A", "C");
         Pair<String, String> pair2 = Pair.of("A", "D");
-        assertEquals(true, pair1.compareTo(pair1) == 0);
-        assertEquals(true, pair1.compareTo(pair2) < 0);
-        assertEquals(true, pair2.compareTo(pair2) == 0);
-        assertEquals(true, pair2.compareTo(pair1) > 0);
+        assertTrue(pair1.compareTo(pair1) == 0);
+        assertTrue(pair1.compareTo(pair2) < 0);
+        assertTrue(pair2.compareTo(pair2) == 0);
+        assertTrue(pair2.compareTo(pair1) > 0);
     }
 
     @Test

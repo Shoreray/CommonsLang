@@ -18,10 +18,12 @@ package org.apache.commons.lang3.mutable;
 
 /**
  * A mutable <code>double</code> wrapper.
+ * <p>
+ * Note that as MutableDouble does not extend Double, it is not treated by String.format as a Double parameter. 
  * 
  * @see Double
  * @since 2.1
- * @version $Id: MutableDouble.java 1153490 2011-08-03 13:53:35Z ggregory $
+ * @version $Id: MutableDouble.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class MutableDouble extends Number implements Comparable<MutableDouble>, Mutable<Number> {
 
@@ -269,8 +271,8 @@ public class MutableDouble extends Number implements Comparable<MutableDouble>, 
      */
     @Override
     public boolean equals(Object obj) {
-        return (obj instanceof MutableDouble)
-            && (Double.doubleToLongBits(((MutableDouble) obj).value) == Double.doubleToLongBits(value));
+        return obj instanceof MutableDouble
+            && Double.doubleToLongBits(((MutableDouble) obj).value) == Double.doubleToLongBits(value);
     }
 
     /**
@@ -281,7 +283,7 @@ public class MutableDouble extends Number implements Comparable<MutableDouble>, 
     @Override
     public int hashCode() {
         long bits = Double.doubleToLongBits(value);
-        return (int) (bits ^ (bits >>> 32));
+        return (int) (bits ^ bits >>> 32);
     }
 
     //-----------------------------------------------------------------------

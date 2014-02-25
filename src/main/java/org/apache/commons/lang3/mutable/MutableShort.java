@@ -18,10 +18,12 @@ package org.apache.commons.lang3.mutable;
 
 /**
  * A mutable <code>short</code> wrapper.
+ * <p>
+ * Note that as MutableShort does not extend Short, it is not treated by String.format as a Short parameter. 
  * 
  * @see Short
  * @since 2.1
- * @version $Id: MutableShort.java 1153488 2011-08-03 13:47:49Z ggregory $
+ * @version $Id: MutableShort.java 1160571 2011-08-23 07:36:08Z bayard $
  */
 public class MutableShort extends Number implements Comparable<MutableShort>, Mutable<Number> {
 

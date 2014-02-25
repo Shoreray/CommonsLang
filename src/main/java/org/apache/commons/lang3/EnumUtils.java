@@ -29,7 +29,7 @@ import java.util.EnumSet;
  * <p>#ThreadSafe#</p>
  *
  * @since 3.0
- * @version $Id: EnumUtils.java 1149320 2011-07-21 19:11:47Z mbenson $
+ * @version $Id: EnumUtils.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class EnumUtils {
 
@@ -136,7 +136,7 @@ public class EnumUtils {
         Validate.notNull(values);
         long total = 0;
         for (E constant : values) {
-            total |= (1 << constant.ordinal());
+            total |= 1 << constant.ordinal();
         }
         return total;
     }
@@ -179,7 +179,7 @@ public class EnumUtils {
         final E[] constants = checkBitVectorable(enumClass).getEnumConstants();
         final EnumSet<E> results = EnumSet.noneOf(enumClass);
         for (E constant : constants) {
-            if ((value & (1 << constant.ordinal())) != 0) {
+            if ((value & 1 << constant.ordinal()) != 0) {
                 results.add(constant);
             }
         }

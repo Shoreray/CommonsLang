@@ -123,7 +123,7 @@ import java.util.concurrent.TimeUnit;
  * </p>
  *
  * @since 3.0
- * @version $Id: TimedSemaphore.java 1082044 2011-03-16 04:26:58Z bayard $
+ * @version $Id: TimedSemaphore.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class TimedSemaphore {
     /**
@@ -358,7 +358,7 @@ public class TimedSemaphore {
      * unit
      */
     public synchronized double getAverageCallsPerPeriod() {
-        return (periodCount == 0) ? 0 : (double) totalAcquireCount
+        return periodCount == 0 ? 0 : (double) totalAcquireCount
                 / (double) periodCount;
     }
 

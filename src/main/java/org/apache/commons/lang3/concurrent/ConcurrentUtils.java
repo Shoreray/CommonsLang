@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * </p>
  *
  * @since 3.0
- * @version $Id: ConcurrentUtils.java 1088899 2011-04-05 05:31:27Z bayard $
+ * @version $Id: ConcurrentUtils.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class ConcurrentUtils {
 
@@ -181,7 +181,7 @@ public class ConcurrentUtils {
      */
     public static <T> T initialize(ConcurrentInitializer<T> initializer)
             throws ConcurrentException {
-        return (initializer != null) ? initializer.get() : null;
+        return initializer != null ? initializer.get() : null;
     }
 
     /**
@@ -244,7 +244,7 @@ public class ConcurrentUtils {
         }
 
         V result = map.putIfAbsent(key, value);
-        return (result != null) ? result : value;
+        return result != null ? result : value;
     }
 
     /**

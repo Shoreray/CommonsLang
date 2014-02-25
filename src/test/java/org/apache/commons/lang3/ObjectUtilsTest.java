@@ -34,7 +34,7 @@ import org.junit.Test;
 /**
  * Unit tests {@link org.apache.commons.lang3.ObjectUtils}.
  *
- * @version $Id: ObjectUtilsTest.java 1153484 2011-08-03 13:39:42Z ggregory $
+ * @version $Id: ObjectUtilsTest.java 1199724 2011-11-09 12:51:52Z sebb $
  */
 public class ObjectUtilsTest {
     private static final String FOO = "foo";
@@ -46,9 +46,9 @@ public class ObjectUtilsTest {
         assertNotNull(new ObjectUtils());
         Constructor<?>[] cons = ObjectUtils.class.getDeclaredConstructors();
         assertEquals(1, cons.length);
-        assertEquals(true, Modifier.isPublic(cons[0].getModifiers()));
-        assertEquals(true, Modifier.isPublic(ObjectUtils.class.getModifiers()));
-        assertEquals(false, Modifier.isFinal(ObjectUtils.class.getModifiers()));
+        assertTrue(Modifier.isPublic(cons[0].getModifiers()));
+        assertTrue(Modifier.isPublic(ObjectUtils.class.getModifiers()));
+        assertFalse(Modifier.isFinal(ObjectUtils.class.getModifiers()));
     }
 
     //-----------------------------------------------------------------------

@@ -31,7 +31,7 @@ import java.util.Random;
  *
  * <p>#ThreadSafe#</p>
  * @since 1.0
- * @version $Id: RandomStringUtils.java 1148520 2011-07-19 20:53:23Z ggregory $
+ * @version $Id: RandomStringUtils.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class RandomStringUtils {
 
@@ -227,7 +227,7 @@ public class RandomStringUtils {
         } else if (count < 0) {
             throw new IllegalArgumentException("Requested random string length " + count + " is less than 0.");
         }
-        if ((start == 0) && (end == 0)) {
+        if (start == 0 && end == 0) {
             end = 'z' + 1;
             start = ' ';
             if (!letters && !numbers) {
@@ -246,9 +246,9 @@ public class RandomStringUtils {
             } else {
                 ch = chars[random.nextInt(gap) + start];
             }
-            if ((letters && Character.isLetter(ch))
-                    || (numbers && Character.isDigit(ch))
-                    || (!letters && !numbers)) {
+            if (letters && Character.isLetter(ch)
+                    || numbers && Character.isDigit(ch)
+                    || !letters && !numbers) {
                 if(ch >= 56320 && ch <= 57343) {
                     if(count == 0) {
                         count++;

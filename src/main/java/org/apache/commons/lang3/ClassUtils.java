@@ -38,7 +38,7 @@ import java.util.Map;
  * {@code [I}. </p>
  *
  * @since 2.0
- * @version $Id: ClassUtils.java 1145035 2011-07-11 06:09:39Z bayard $
+ * @version $Id: ClassUtils.java 1199894 2011-11-09 17:53:59Z ggregory $
  */
 public class ClassUtils {
 
@@ -524,6 +524,37 @@ public class ClassUtils {
     }
 
     /**
+     * Returns whether the given {@code type} is a primitive or primitive wrapper ({@link Boolean}, {@link Byte}, {@link Character},
+     * {@link Short}, {@link Integer}, {@link Long}, {@link Double}, {@link Float}).
+     * 
+     * @param type
+     *            The class to query or null.
+     * @return true if the given {@code type} is a primitive or primitive wrapper ({@link Boolean}, {@link Byte}, {@link Character},
+     *         {@link Short}, {@link Integer}, {@link Long}, {@link Double}, {@link Float}).
+     * @since 3.1
+     */
+    public static boolean isPrimitiveOrWrapper(Class<?> type) {
+        if (type == null) {
+            return false;
+        }
+        return type.isPrimitive() || isPrimitiveWrapper(type);
+    }
+
+    /**
+     * Returns whether the given {@code type} is a primitive wrapper ({@link Boolean}, {@link Byte}, {@link Character}, {@link Short},
+     * {@link Integer}, {@link Long}, {@link Double}, {@link Float}).
+     * 
+     * @param type
+     *            The class to query or null.
+     * @return true if the given {@code type} is a primitive wrapper ({@link Boolean}, {@link Byte}, {@link Character}, {@link Short},
+     *         {@link Integer}, {@link Long}, {@link Double}, {@link Float}).
+     * @since 3.1
+     */
+    public static boolean isPrimitiveWrapper(Class<?> type) {
+        return wrapperPrimitiveMap.containsKey(type);
+    }
+
+    /**
      * <p>Checks if one {@code Class} can be assigned to a variable of
      * another {@code Class}.</p>
      *
@@ -591,7 +622,7 @@ public class ClassUtils {
         }
         // have to check for null, as isAssignableFrom doesn't
         if (cls == null) {
-            return !(toClass.isPrimitive());
+            return !toClass.isPrimitive();
         }
         //autoboxing:
         if (autoboxing) {
@@ -855,7 +886,7 @@ public class ClassUtils {
     public static Class<?> getClass(String className, boolean initialize) throws ClassNotFoundException {
         ClassLoader contextCL = Thread.currentThread().getContextClassLoader();
         ClassLoader loader = contextCL == null ? ClassUtils.class.getClassLoader() : contextCL;
-        return getClass(loader, className, initialize );
+        return getClass(loader, className, initialize);
     }
 
     // Public method
@@ -1100,4 +1131,5 @@ public class ClassUtils {
             }
         }
     }
+
 }
