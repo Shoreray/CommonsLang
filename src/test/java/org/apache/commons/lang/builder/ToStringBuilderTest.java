@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  * @author Apache Software Foundation
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @author <a href="mailto:alex@apache.org">Alex Chaffee</a>
- * @version $Id: ToStringBuilderTest.java 907129 2010-02-05 23:18:32Z mbenson $
+ * @version $Id: ToStringBuilderTest.java 1057966 2011-01-12 01:04:55Z niallp $
  */
 public class ToStringBuilderTest extends TestCase {
 
@@ -300,6 +300,8 @@ public class ToStringBuilderTest extends TestCase {
 
     // Reflection hierarchy tests
 
+    /* Following Test removed because its dependant on the Java implementation
+     * (currently passes using Sun/Oracle implementations, but fails for IBM's JDK 6)
     public void testReflectionHierarchyArrayList() {
         List base = new ArrayList();
         String baseStr = this.toBaseString(base);
@@ -307,6 +309,7 @@ public class ToStringBuilderTest extends TestCase {
         assertEquals(baseStr + "[size=0]", ToStringBuilder.reflectionToString(base, null, false));
         this.validateNullToStringStyleRegistry();
     }
+     */
 
     public void testReflectionHierarchy() {
         ReflectionTestFixtureA baseA = new ReflectionTestFixtureA();

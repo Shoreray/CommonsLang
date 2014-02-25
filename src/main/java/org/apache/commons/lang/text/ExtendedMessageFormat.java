@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -47,7 +48,7 @@ import org.apache.commons.lang.Validate;
  * found is used for this format element.
  * </p>
  *
- * <p>NOTICE: The various subformat mutator methods are considered unnecessary; they exist on the parent
+ * <p><b>NOTICE:</b>: The various subformat mutator methods are considered unnecessary; they exist on the parent
  * class to allow the type of customization which it is the job of this class to provide in
  * a configurable fashion.  These methods have thus been disabled and will throw
  * <code>UnsupportedOperationException</code> if called.
@@ -65,10 +66,11 @@ import org.apache.commons.lang.Validate;
  * @author Apache Software Foundation
  * @author Matt Benson
  * @since 2.4
- * @version $Id: ExtendedMessageFormat.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: ExtendedMessageFormat.java 1057427 2011-01-11 00:28:01Z niallp $
  */
 public class ExtendedMessageFormat extends MessageFormat {
     private static final long serialVersionUID = -2362048321261811743L;
+    private static final int HASH_SEED = 31;
 
     private static final String DUMMY_PATTERN = "";
     private static final String ESCAPED_QUOTE = "''";
@@ -147,7 +149,7 @@ public class ExtendedMessageFormat extends MessageFormat {
         }
         ArrayList foundFormats = new ArrayList();
         ArrayList foundDescriptions = new ArrayList();
-        StringBuffer stripCustom = new StringBuffer(pattern.length());
+        StrBuilder stripCustom = new StrBuilder(pattern.length());
 
         ParsePosition pos = new ParsePosition(0);
         char[] c = pattern.toCharArray();
@@ -206,7 +208,10 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * {@inheritDoc}
+     * Throws UnsupportedOperationException - see class Javadoc for details.
+     * 
+     * @param formatElementIndex format element index
+     * @param newFormat the new format
      * @throws UnsupportedOperationException
      */
     public void setFormat(int formatElementIndex, Format newFormat) {
@@ -214,7 +219,10 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * {@inheritDoc}
+     * Throws UnsupportedOperationException - see class Javadoc for details.
+     * 
+     * @param argumentIndex argument index
+     * @param newFormat the new format
      * @throws UnsupportedOperationException
      */
     public void setFormatByArgumentIndex(int argumentIndex, Format newFormat) {
@@ -222,7 +230,9 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * {@inheritDoc}
+     * Throws UnsupportedOperationException - see class Javadoc for details.
+     * 
+     * @param newFormats new formats
      * @throws UnsupportedOperationException
      */
     public void setFormats(Format[] newFormats) {
@@ -230,11 +240,56 @@ public class ExtendedMessageFormat extends MessageFormat {
     }
 
     /**
-     * {@inheritDoc}
+     * Throws UnsupportedOperationException - see class Javadoc for details.
+     * 
+     * @param newFormats new formats
      * @throws UnsupportedOperationException
      */
     public void setFormatsByArgumentIndex(Format[] newFormats) {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Check if this extended message format is equal to another object.
+     *
+     * @param obj the object to compare to
+     * @return true if this object equals the other, otherwise false
+     * @since 2.6
+     */
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (ObjectUtils.notEqual(getClass(), obj.getClass())) {
+          return false;
+        }
+        ExtendedMessageFormat rhs = (ExtendedMessageFormat)obj;
+        if (ObjectUtils.notEqual(toPattern, rhs.toPattern)) {
+            return false;
+        }
+        if (ObjectUtils.notEqual(registry, rhs.registry)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Return the hashcode.
+     *
+     * @return the hashcode
+     * @since 2.6
+     */
+    public int hashCode() {
+        int result = super.hashCode();
+        result = HASH_SEED * result + ObjectUtils.hashCode(registry);
+        result = HASH_SEED * result + ObjectUtils.hashCode(toPattern);
+        return result;
     }
 
     /**
@@ -270,7 +325,7 @@ public class ExtendedMessageFormat extends MessageFormat {
     private int readArgumentIndex(String pattern, ParsePosition pos) {
         int start = pos.getIndex();
         seekNonWs(pattern, pos);
-        StringBuffer result = new StringBuffer();
+        StrBuilder result = new StrBuilder();
         boolean error = false;
         for (; !error && pos.getIndex() < pattern.length(); next(pos)) {
             char c = pattern.charAt(pos.getIndex());
@@ -345,7 +400,7 @@ public class ExtendedMessageFormat extends MessageFormat {
         if (!containsElements(customPatterns)) {
             return pattern;
         }
-        StringBuffer sb = new StringBuffer(pattern.length() * 2);
+        StrBuilder sb = new StrBuilder(pattern.length() * 2);
         ParsePosition pos = new ParsePosition(0);
         int fe = -1;
         int depth = 0;
@@ -414,8 +469,8 @@ public class ExtendedMessageFormat extends MessageFormat {
      * @param escapingOn whether to process escaped quotes
      * @return <code>appendTo</code>
      */
-    private StringBuffer appendQuotedString(String pattern, ParsePosition pos,
-            StringBuffer appendTo, boolean escapingOn) {
+    private StrBuilder appendQuotedString(String pattern, ParsePosition pos,
+            StrBuilder appendTo, boolean escapingOn) {
         int start = pos.getIndex();
         char[] c = pattern.toCharArray();
         if (escapingOn && c[start] == QUOTE) {

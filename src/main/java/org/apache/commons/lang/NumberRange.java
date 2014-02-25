@@ -16,6 +16,8 @@
  */
 package org.apache.commons.lang;
 
+import org.apache.commons.lang.text.StrBuilder;
+
 /**
  * <p>Represents a range of {@link Number} objects.</p>
  * 
@@ -26,7 +28,7 @@ package org.apache.commons.lang;
  * @author Apache Software Foundation
  * @author <a href="mailto:chrise@esha.com">Christopher Elkins</a>
  * @since 1.0
- * @version $Revision: 905636 $ $Date: 2010-02-02 14:03:32 +0000 (Tue, 02 Feb 2010) $
+ * @version $Revision: 1057072 $ $Date: 2011-01-10 01:55:57 +0000 (Mon, 10 Jan 2011) $
  * 
  * @deprecated Use one of the Range classes in org.apache.commons.lang.math.
  *             Class will be removed in Commons Lang 3.0.
@@ -194,7 +196,7 @@ public final class NumberRange {
      * @return the string representation of this range
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StrBuilder sb = new StrBuilder();
 
         if (min.doubleValue() < 0) {
             sb.append('(')

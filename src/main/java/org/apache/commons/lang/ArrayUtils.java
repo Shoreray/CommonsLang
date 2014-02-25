@@ -34,6 +34,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * array input. However, an Object array that contains a <code>null</code>
  * element may throw an exception. Each method documents its behaviour.</p>
  *
+ * <p>#ThreadSafe#</p>
  * @author Apache Software Foundation
  * @author Moritz Petersen
  * @author <a href="mailto:fredrik@westermarck.com">Fredrik Westermarck</a>
@@ -45,7 +46,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author <a href="mailto:equinus100@hotmail.com">Ashwin S</a>
  * @author Maarten Coene
  * @since 2.0
- * @version $Id: ArrayUtils.java 905988 2010-02-03 10:52:37Z niallp $
+ * @version $Id: ArrayUtils.java 1056988 2011-01-09 17:58:53Z niallp $
  */
 public class ArrayUtils {
 
@@ -1599,7 +1600,7 @@ public class ArrayUtils {
                     return i;
                 }
             }
-        } else {
+        } else if (array.getClass().getComponentType().isInstance(objectToFind)) {
             for (int i = startIndex; i < array.length; i++) {
                 if (objectToFind.equals(array[i])) {
                     return i;
@@ -1652,7 +1653,7 @@ public class ArrayUtils {
                     return i;
                 }
             }
-        } else {
+        } else if (array.getClass().getComponentType().isInstance(objectToFind)) {
             for (int i = startIndex; i >= 0; i--) {
                 if (objectToFind.equals(array[i])) {
                     return i;
@@ -3183,10 +3184,7 @@ public class ArrayUtils {
      * @since 2.1
      */
     public static boolean isEmpty(Object[] array) {
-        if (array == null || array.length == 0) {
-            return true;
-        }
-        return false;
+        return array == null || array.length == 0;
     }
 
     /**
@@ -3197,10 +3195,7 @@ public class ArrayUtils {
      * @since 2.1
      */
     public static boolean isEmpty(long[] array) {
-        if (array == null || array.length == 0) {
-            return true;
-        }
-        return false;
+        return array == null || array.length == 0;
     }
 
     /**
@@ -3211,10 +3206,7 @@ public class ArrayUtils {
      * @since 2.1
      */
     public static boolean isEmpty(int[] array) {
-        if (array == null || array.length == 0) {
-            return true;
-        }
-        return false;
+        return array == null || array.length == 0;
     }
 
     /**
@@ -3225,10 +3217,7 @@ public class ArrayUtils {
      * @since 2.1
      */
     public static boolean isEmpty(short[] array) {
-        if (array == null || array.length == 0) {
-            return true;
-        }
-        return false;
+        return array == null || array.length == 0;
     }
 
     /**
@@ -3239,10 +3228,7 @@ public class ArrayUtils {
      * @since 2.1
      */
     public static boolean isEmpty(char[] array) {
-        if (array == null || array.length == 0) {
-            return true;
-        }
-        return false;
+        return array == null || array.length == 0;
     }
 
     /**
@@ -3253,10 +3239,7 @@ public class ArrayUtils {
      * @since 2.1
      */
     public static boolean isEmpty(byte[] array) {
-        if (array == null || array.length == 0) {
-            return true;
-        }
-        return false;
+        return array == null || array.length == 0;
     }
 
     /**
@@ -3267,10 +3250,7 @@ public class ArrayUtils {
      * @since 2.1
      */
     public static boolean isEmpty(double[] array) {
-        if (array == null || array.length == 0) {
-            return true;
-        }
-        return false;
+        return array == null || array.length == 0;
     }
 
     /**
@@ -3281,10 +3261,7 @@ public class ArrayUtils {
      * @since 2.1
      */
     public static boolean isEmpty(float[] array) {
-        if (array == null || array.length == 0) {
-            return true;
-        }
-        return false;
+        return array == null || array.length == 0;
     }
 
     /**
@@ -3295,10 +3272,7 @@ public class ArrayUtils {
      * @since 2.1
      */
     public static boolean isEmpty(boolean[] array) {
-        if (array == null || array.length == 0) {
-            return true;
-        }
-        return false;
+        return array == null || array.length == 0;
     }
 
     // ----------------------------------------------------------------------

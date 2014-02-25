@@ -38,6 +38,13 @@ import org.apache.commons.lang.ArrayUtils;
  * </p>
  * 
  * <p>
+ * The following is the approach taken. When appending a data field, the current total is multiplied by the 
+ * multiplier then a relevant value 
+ * for that data type is added. For example, if the current hashCode is 17, and the multiplier is 37, then 
+ * appending the integer 45 will create a hashcode of 674, namely 17 * 37 + 45. 
+ * </p>
+ * 
+ * <p>
  * All relevant fields from the object should be included in the <code>hashCode</code> method. Derived fields may be
  * excluded. In general, any field used in the <code>equals</code> method must be used in the <code>hashCode</code>
  * method.
@@ -91,7 +98,7 @@ import org.apache.commons.lang.ArrayUtils;
  * @author Gary Gregory
  * @author Pete Gieser
  * @since 1.0
- * @version $Id: HashCodeBuilder.java 907376 2010-02-07 03:43:02Z mbenson $
+ * @version $Id: HashCodeBuilder.java 1057009 2011-01-09 19:48:06Z niallp $
  */
 public class HashCodeBuilder {
     /**
@@ -609,9 +616,16 @@ public class HashCodeBuilder {
      * Append a <code>hashCode</code> for a <code>boolean</code>.
      * </p>
      * <p>
-     * This adds <code>iConstant * 1</code> to the <code>hashCode</code> and not a <code>1231</code> or
-     * <code>1237</code> as done in java.lang.Boolean. This is in accordance with the <quote>Effective Java</quote>
-     * design.
+     * This adds <code>1</code> when true, and <code>0</code> when false to the <code>hashCode</code>.
+     * </p>
+     * <p>
+     * This is in contrast to the standard <code>java.lang.Boolean.hashCode</code> handling, which computes
+     * a <code>hashCode</code> value of <code>1231</code> for <code>java.lang.Boolean</code> instances
+     * that represent <code>true</code> or <code>1237</code> for <code>java.lang.Boolean</code> instances
+     * that represent <code>false</code>.
+     * </p>
+     * <p>
+     * This is in accordance with the <quote>Effective Java</quote> design.
      * </p>
      * 
      * @param value

@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.text.StrBuilder;
 
 /**
  * <p>Operates on classes without using reflection.</p>
@@ -42,7 +43,7 @@ import java.util.Map;
  * @author Alban Peignier
  * @author Tomasz Blachowicz
  * @since 2.0
- * @version $Id: ClassUtils.java 907121 2010-02-05 22:53:21Z mbenson $
+ * @version $Id: ClassUtils.java 1057072 2011-01-10 01:55:57Z niallp $
  */
 public class ClassUtils {
 
@@ -188,7 +189,7 @@ public class ClassUtils {
             return StringUtils.EMPTY;
         }
 
-        StringBuffer arrayPrefix = new StringBuffer();
+        StrBuilder arrayPrefix = new StrBuilder();
 
         // Handle array encoding
         if (className.startsWith("[")) {
@@ -735,8 +736,9 @@ public class ClassUtils {
     // ----------------------------------------------------------------------
     /**
      * Returns the class represented by <code>className</code> using the
-     * <code>classLoader</code>.  This implementation supports names like
-     * "<code>java.lang.String[]</code>" as well as "<code>[Ljava.lang.String;</code>".
+     * <code>classLoader</code>.  This implementation supports the syntaxes
+     * "<code>java.util.Map.Entry[]</code>", "<code>java.util.Map$Entry[]</code>",
+     * "<code>[Ljava.util.Map.Entry;</code>", and "<code>[Ljava.util.Map$Entry;</code>".
      *
      * @param classLoader  the class loader to use to load the class
      * @param className  the class name
@@ -746,21 +748,38 @@ public class ClassUtils {
      */
     public static Class getClass(
             ClassLoader classLoader, String className, boolean initialize) throws ClassNotFoundException {
-        Class clazz;
-        if (abbreviationMap.containsKey(className)) {
-            String clsName = "[" + abbreviationMap.get(className);
-            clazz = Class.forName(clsName, initialize, classLoader).getComponentType();
-        } else {
-            clazz = Class.forName(toCanonicalName(className), initialize, classLoader);
+        try {
+            Class clazz;
+            if (abbreviationMap.containsKey(className)) {
+                String clsName = "[" + abbreviationMap.get(className);
+                clazz = Class.forName(clsName, initialize, classLoader).getComponentType();
+            } else {
+                clazz = Class.forName(toCanonicalName(className), initialize, classLoader);
+            }
+            return clazz;
+        } catch (ClassNotFoundException ex) {
+            // allow path separators (.) as inner class name separators
+            int lastDotIndex = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR);
+
+            if (lastDotIndex != -1) {
+                try {
+                    return getClass(classLoader, className.substring(0, lastDotIndex) +
+                            INNER_CLASS_SEPARATOR_CHAR + className.substring(lastDotIndex + 1),
+                            initialize);
+                } catch (ClassNotFoundException ex2) {
+                }
+            }
+
+            throw ex;
         }
-        return clazz;
     }
 
     /**
      * Returns the (initialized) class represented by <code>className</code>
-     * using the <code>classLoader</code>.  This implementation supports names
-     * like "<code>java.lang.String[]</code>" as well as
-     * "<code>[Ljava.lang.String;</code>".
+     * using the <code>classLoader</code>.  This implementation supports
+     * the syntaxes "<code>java.util.Map.Entry[]</code>",
+     * "<code>java.util.Map$Entry[]</code>", "<code>[Ljava.util.Map.Entry;</code>",
+     * and "<code>[Ljava.util.Map$Entry;</code>".
      *
      * @param classLoader  the class loader to use to load the class
      * @param className  the class name
@@ -774,8 +793,9 @@ public class ClassUtils {
     /**
      * Returns the (initialized) class represented by <code>className</code>
      * using the current thread's context class loader. This implementation
-     * supports names like "<code>java.lang.String[]</code>" as well as
-     * "<code>[Ljava.lang.String;</code>".
+     * supports the syntaxes "<code>java.util.Map.Entry[]</code>",
+     * "<code>java.util.Map$Entry[]</code>", "<code>[Ljava.util.Map.Entry;</code>",
+     * and "<code>[Ljava.util.Map$Entry;</code>".
      *
      * @param className  the class name
      * @return the class represented by <code>className</code> using the current thread's context class loader
@@ -787,9 +807,9 @@ public class ClassUtils {
 
     /**
      * Returns the class represented by <code>className</code> using the
-     * current thread's context class loader. This implementation supports
-     * names like "<code>java.lang.String[]</code>" as well as
-     * "<code>[Ljava.lang.String;</code>".
+     * current thread's context class loader. This implementation supports the
+     * syntaxes "<code>java.util.Map.Entry[]</code>", "<code>java.util.Map$Entry[]</code>",
+     * "<code>[Ljava.util.Map.Entry;</code>", and "<code>[Ljava.util.Map$Entry;</code>".
      *
      * @param className  the class name
      * @param initialize  whether the class must be initialized
@@ -869,7 +889,7 @@ public class ClassUtils {
         if (className == null) {
             throw new NullArgumentException("className");
         } else if (className.endsWith("[]")) {
-            StringBuffer classNameBuffer = new StringBuffer();
+            StrBuilder classNameBuffer = new StrBuilder();
             while (className.endsWith("[]")) {
                 className = className.substring(0, className.length() - 2);
                 classNameBuffer.append("[");
@@ -1038,7 +1058,7 @@ public class ClassUtils {
                             className.substring(0, 1));
                     }
                 }
-                StringBuffer canonicalClassNameBuffer = new StringBuffer(className);
+                StrBuilder canonicalClassNameBuffer = new StrBuilder(className);
                 for (int i = 0; i < dim; i++) {
                     canonicalClassNameBuffer.append("[]");
                 }

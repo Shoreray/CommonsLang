@@ -39,7 +39,7 @@ import junit.framework.TestCase;
  * @author Gary D. Gregory
  * @author Scott Johnson
  * @author Al Chou
- * @version $Id: StringUtilsTest.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: StringUtilsTest.java 1058365 2011-01-13 00:04:49Z niallp $
  */
 public class StringUtilsTest extends TestCase {
     
@@ -954,6 +954,11 @@ public class StringUtilsTest extends TestCase {
         assertEquals("test", StringUtils.deleteWhitespace("\u000Bt  \t\n\u0009e\rs\n\n   \tt"));
     }
 
+    public void testLang623() {
+        assertEquals("t", StringUtils.replaceChars("\u00DE", '\u00DE', 't'));
+        assertEquals("t", StringUtils.replaceChars("\u00FE", '\u00FE', 't'));
+    }
+
     public void testReplace_StringStringString() {
         assertEquals(null, StringUtils.replace(null, null, null));
         assertEquals(null, StringUtils.replace(null, null, "any"));
@@ -1510,6 +1515,16 @@ public class StringUtilsTest extends TestCase {
         assertNull(StringUtils.defaultIfEmpty("", null));
     }
 
+    public void testDefaultIfBlank_StringString() {
+        assertEquals("NULL", StringUtils.defaultIfBlank(null, "NULL"));
+        assertEquals("NULL", StringUtils.defaultIfBlank("", "NULL"));
+        assertEquals("NULL", StringUtils.defaultIfBlank(" ", "NULL"));
+        assertEquals("abc", StringUtils.defaultIfBlank("abc", "NULL"));
+        assertNull(StringUtils.defaultIfBlank("", null));
+        String s = StringUtils.defaultIfBlank("abc", "NULL");
+        assertEquals("abc", s);
+    }
+
     //-----------------------------------------------------------------------
     public void testDeprecatedEscapeFunctions_String() {
         assertEquals("", StringUtils.escape("") );
@@ -1905,4 +1920,31 @@ public class StringUtilsTest extends TestCase {
         assertFalse(StringUtils.startsWithAny("abcxyz", new String[] {null, "xyz", "abcd"}));
     }
  
+    public void testNormalizeSpace() {
+        assertEquals(null, StringUtils.normalizeSpace(null));
+        assertEquals("", StringUtils.normalizeSpace(""));
+        assertEquals("", StringUtils.normalizeSpace(" "));
+        assertEquals("", StringUtils.normalizeSpace("\t"));
+        assertEquals("", StringUtils.normalizeSpace("\n"));
+        assertEquals("", StringUtils.normalizeSpace("\u0009"));
+        assertEquals("", StringUtils.normalizeSpace("\u000B"));
+        assertEquals("", StringUtils.normalizeSpace("\u000C"));
+        assertEquals("", StringUtils.normalizeSpace("\u001C"));
+        assertEquals("", StringUtils.normalizeSpace("\u001D"));
+        assertEquals("", StringUtils.normalizeSpace("\u001E"));
+        assertEquals("", StringUtils.normalizeSpace("\u001F"));
+        assertEquals("", StringUtils.normalizeSpace("\f"));
+        assertEquals("", StringUtils.normalizeSpace("\r"));
+        assertEquals("a", StringUtils.normalizeSpace("  a  "));
+        assertEquals("a b c", StringUtils.normalizeSpace("  a  b   c  "));
+        assertEquals("a b c", StringUtils.normalizeSpace("a\t\f\r  b\u000B   c\n"));
+        assertEquals("", StringUtils.normalizeSpace(WHITESPACE));
+        assertEquals("A", StringUtils.normalizeSpace(WHITESPACE + " A " + WHITESPACE));
+        assertEquals("A B", StringUtils.normalizeSpace(WHITESPACE + " A " + WHITESPACE + " B " + WHITESPACE));
+    }
+
+    public void testLANG666() {
+        assertEquals("12",StringUtils.stripEnd("120.00", ".0"));
+        assertEquals("121",StringUtils.stripEnd("121.00", ".0"));
+    }
 }

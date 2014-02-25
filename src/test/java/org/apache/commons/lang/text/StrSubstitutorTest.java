@@ -19,6 +19,7 @@ package org.apache.commons.lang.text;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
@@ -28,7 +29,7 @@ import org.apache.commons.lang.mutable.MutableObject;
  * Test class for StrSubstitutor.
  * 
  * @author Oliver Heger
- * @version $Id: StrSubstitutorTest.java 905628 2010-02-02 13:29:55Z niallp $
+ * @version $Id: StrSubstitutorTest.java 1056876 2011-01-09 03:17:24Z niallp $
  */
 public class StrSubstitutorTest extends TestCase {
 
@@ -253,6 +254,57 @@ public class StrSubstitutorTest extends TestCase {
         assertEquals("${animal} jumps", sub.replace("The ${animal} jumps over the ${target}.", 4, 15));
     }
 
+    /**
+     * Tests whether a variable can be replaced in a variable name.
+     */
+    public void testReplaceInVariable() {
+        values.put("animal.1", "fox");
+        values.put("animal.2", "mouse");
+        values.put("species", "2");
+        StrSubstitutor sub = new StrSubstitutor(values);
+        sub.setEnableSubstitutionInVariables(true);
+        assertEquals(
+                "Wrong result (1)",
+                "The mouse jumps over the lazy dog.",
+                sub.replace("The ${animal.${species}} jumps over the ${target}."));
+        values.put("species", "1");
+        assertEquals(
+                "Wrong result (2)",
+                "The fox jumps over the lazy dog.",
+                sub.replace("The ${animal.${species}} jumps over the ${target}."));
+    }
+
+    /**
+     * Tests whether substitution in variable names is disabled per default.
+     */
+    public void testReplaceInVariableDisabled() {
+        values.put("animal.1", "fox");
+        values.put("animal.2", "mouse");
+        values.put("species", "2");
+        StrSubstitutor sub = new StrSubstitutor(values);
+        assertEquals(
+                "Wrong result",
+                "The ${animal.${species}} jumps over the lazy dog.",
+                sub.replace("The ${animal.${species}} jumps over the ${target}."));
+    }
+
+    /**
+     * Tests complex and recursive substitution in variable names.
+     */
+    public void testReplaceInVariableRecursive() {
+        values.put("animal.2", "brown fox");
+        values.put("animal.1", "white mouse");
+        values.put("color", "white");
+        values.put("species.white", "1");
+        values.put("species.brown", "2");
+        StrSubstitutor sub = new StrSubstitutor(values);
+        sub.setEnableSubstitutionInVariables(true);
+        assertEquals(
+                "Wrong result",
+                "The white mouse jumps over the lazy dog.",
+                sub.replace("The ${animal.${species.${color}}} jumps over the ${target}."));
+    }
+
     //-----------------------------------------------------------------------
     /**
      * Tests protected.
@@ -408,6 +460,19 @@ public class StrSubstitutorTest extends TestCase {
         assertEquals(buf.toString(), StrSubstitutor.replaceSystemProperties("Hi ${user.name}, you are "
             + "working with ${os.name}, your home "
             + "directory is ${user.home}."));
+    }
+
+    /**
+     * Test the replace of a properties object
+     */
+    public void testSubstitutetDefaultProperties(){
+        String org = "${doesnotwork}";
+        System.setProperty("doesnotwork", "It work's!");
+
+        // create a new Properties object with the System.getProperties as default
+        Properties props = new Properties(System.getProperties());
+
+        assertEquals("It work's!",StrSubstitutor.replace(org, props));
     }
 
     //-----------------------------------------------------------------------

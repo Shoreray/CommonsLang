@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  *
  * @author Apache Software Foundation
  * @author Matthew Hawthorne
- * @version $Id: BooleanUtilsTest.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: BooleanUtilsTest.java 1056846 2011-01-09 00:40:03Z niallp $
  */
 public class BooleanUtilsTest extends TestCase {
 
@@ -246,6 +246,20 @@ public class BooleanUtilsTest extends TestCase {
         assertEquals(Boolean.TRUE, BooleanUtils.toBooleanObject("ON"));
         assertEquals(Boolean.TRUE, BooleanUtils.toBooleanObject("YES"));
         assertEquals(Boolean.TRUE, BooleanUtils.toBooleanObject("TruE"));
+        assertEquals(Boolean.TRUE, BooleanUtils.toBooleanObject("TruE"));
+
+        assertEquals(Boolean.TRUE, BooleanUtils.toBooleanObject("y"));
+        assertEquals(Boolean.TRUE, BooleanUtils.toBooleanObject("Y"));
+        assertEquals(Boolean.TRUE, BooleanUtils.toBooleanObject("t"));
+        assertEquals(Boolean.TRUE, BooleanUtils.toBooleanObject("T"));
+        assertEquals(Boolean.FALSE, BooleanUtils.toBooleanObject("f"));
+        assertEquals(Boolean.FALSE, BooleanUtils.toBooleanObject("F"));
+        assertEquals(Boolean.FALSE, BooleanUtils.toBooleanObject("n"));
+        assertEquals(Boolean.FALSE, BooleanUtils.toBooleanObject("N"));
+        assertEquals(null, BooleanUtils.toBooleanObject("z"));
+
+        assertEquals(null, BooleanUtils.toBooleanObject("ab"));
+        assertEquals(null, BooleanUtils.toBooleanObject("yoo"));
     }
     
     public void test_toBooleanObject_String_String_String_String() {
@@ -311,6 +325,10 @@ public class BooleanUtilsTest extends TestCase {
         assertEquals(true, BooleanUtils.toBoolean("YES"));
         assertEquals(false, BooleanUtils.toBoolean("yes?"));
         assertEquals(false, BooleanUtils.toBoolean("tru"));
+
+        assertEquals(false, BooleanUtils.toBoolean("no"));
+        assertEquals(false, BooleanUtils.toBoolean("off"));
+        assertEquals(false, BooleanUtils.toBoolean("yoo"));
     }
 
     public void test_toBoolean_String_String_String() {

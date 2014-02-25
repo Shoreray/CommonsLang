@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * JUnit tests.
  * 
- * @version $Id: MutableFloatTest.java 905628 2010-02-02 13:29:55Z niallp $
+ * @version $Id: MutableFloatTest.java 1057020 2011-01-09 20:13:35Z niallp $
  * @see MutableFloat
  */
 public class MutableFloatTest extends TestCase {
@@ -39,7 +39,7 @@ public class MutableFloatTest extends TestCase {
         assertEquals(2f, new MutableFloat(new Float(2f)).floatValue(), 0.0001f);
         assertEquals(3f, new MutableFloat(new MutableFloat(3f)).floatValue(), 0.0001f);
 
-        assertEquals(2f, new MutableDouble("2.0").floatValue(), 0.0001f);
+        assertEquals(2f, new MutableFloat("2.0").floatValue(), 0.0001f);
 
         try {
             new MutableFloat((Number)null);

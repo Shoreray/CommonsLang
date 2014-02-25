@@ -88,7 +88,7 @@ import org.apache.commons.lang.math.NumberUtils;
  * @author Gary Gregory
  * @author Pete Gieser
  * @since 1.0
- * @version $Id: CompareToBuilder.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: CompareToBuilder.java 1056843 2011-01-09 00:29:01Z niallp $
  */
 public class CompareToBuilder {
     
@@ -272,7 +272,7 @@ public class CompareToBuilder {
     public static int reflectionCompare(Object lhs, Object rhs, boolean compareTransients, 
                                         Class reflectUpToClass) 
     {
-        return reflectionCompare(lhs, rhs, false, reflectUpToClass, null);
+        return reflectionCompare(lhs, rhs, compareTransients, reflectUpToClass, null);
     }
 
     /**

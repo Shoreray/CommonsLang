@@ -50,9 +50,11 @@ package org.apache.commons.lang.time;
  * 4. start() cannot be called twice without calling reset()
  * </p>
  * 
+ * <p>This class is not thread-safe</p>
+ * 
  * @author Apache Software Foundation
  * @since 2.0
- * @version $Id: StopWatch.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: StopWatch.java 1056988 2011-01-09 17:58:53Z niallp $
  */
 public class StopWatch {
 

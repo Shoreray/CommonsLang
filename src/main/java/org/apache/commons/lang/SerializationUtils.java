@@ -38,6 +38,7 @@ import java.io.Serializable;
  * <p>This class throws exceptions for invalid <code>null</code> inputs.
  * Each method documents its behaviour in more detail.</p>
  *
+ * <p>#ThreadSafe#</p>
  * @author Apache Software Foundation
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
  * @author <a href="mailto:janekdb@yahoo.co.uk">Janek Bogucki</a>
@@ -45,7 +46,7 @@ import java.io.Serializable;
  * @author Jeff Varszegi
  * @author Gary Gregory
  * @since 1.0
- * @version $Id: SerializationUtils.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: SerializationUtils.java 1056988 2011-01-09 17:58:53Z niallp $
  */
 public class SerializationUtils {
     

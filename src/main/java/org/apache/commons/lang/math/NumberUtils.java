@@ -33,7 +33,7 @@ import org.apache.commons.lang.StringUtils;
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @author <a href="mailto:fredrik@westermarck.com">Fredrik Westermarck</a>
  * @since 2.0
- * @version $Id: NumberUtils.java 905707 2010-02-02 16:59:59Z niallp $
+ * @version $Id: NumberUtils.java 1056853 2011-01-09 01:07:04Z niallp $
  */
 public class NumberUtils {
     
@@ -520,7 +520,7 @@ public class NumberUtils {
         if (decPos > -1) {
 
             if (expPos > -1) {
-                if (expPos < decPos) {
+                if (expPos < decPos || expPos > str.length()) {
                     throw new NumberFormatException(str + " is not a valid number.");
                 }
                 dec = str.substring(decPos + 1, expPos);
@@ -530,6 +530,9 @@ public class NumberUtils {
             mant = str.substring(0, decPos);
         } else {
             if (expPos > -1) {
+                if (expPos > str.length()) {
+                    throw new NumberFormatException(str + " is not a valid number.");
+                }
                 mant = str.substring(0, expPos);
             } else {
                 mant = str;

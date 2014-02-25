@@ -29,7 +29,7 @@ import org.apache.commons.lang.ArrayUtils;
  * Unit tests for {@link org.apache.commons.lang.text.StrBuilder}.
  * 
  * @author Michael Heuer
- * @version $Id: StrBuilderTest.java 905628 2010-02-02 13:29:55Z niallp $
+ * @version $Id: StrBuilderTest.java 1057349 2011-01-10 20:40:49Z niallp $
  */
 public class StrBuilderTest extends TestCase {
 
@@ -242,6 +242,33 @@ public class StrBuilderTest extends TestCase {
         } catch (IndexOutOfBoundsException e) {
             // expected
         }
+    }
+
+    //-----------------------------------------------------------------------
+    public void testClone() throws Exception {
+        StrBuilder sb = new StrBuilder();
+        sb.setNewLineText("NEWLINE");
+        sb.setNullText("NULLVALUE");
+        sb.append("abc");
+        assertEquals("before", "abc", sb.toString());
+
+        // Clone
+        StrBuilder clone = (StrBuilder)sb.clone();
+        assertEquals("capacity", sb.capacity(), clone.capacity());
+        assertEquals("size", sb.size(), clone.size());
+        assertEquals("toString", sb.toString(), clone.toString());
+
+        // Modify Original
+        sb.append("def");
+        assertEquals("original-1", "abcdef", sb.toString());
+        assertEquals("different",  "abc", clone.toString());
+
+        // Modify Clone
+        clone.append((String)null);
+        assertEquals("append null", "abcNULLVALUE", clone.toString());
+        clone.appendNewLine();
+        assertEquals("append newline", "abcNULLVALUENEWLINE", clone.toString());
+        assertEquals("original-2",  "abcdef", sb.toString());
     }
 
     //-----------------------------------------------------------------------

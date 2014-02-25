@@ -17,15 +17,15 @@ limitations under the License.
 -->
 <document>
  <properties>
-  <title>Upgrade from 2.4 to 2.5</title>
+  <title>2.5 Release Notes</title>
   <author email="dev@commons.apache.org">Commons Documentation Team</author>
  </properties>
 <body>
 
-<section name="Upgrade to 2.5">
+<section name="Lang 2.5 Release Notes">
 <p>
 These are the release notes and advice for upgrading Commons-Lang from
-version 2.4 to version 2.5. <br/><br/>
+version 2.4 to version 2.5. <br/><br/>See '<a href="article2_5.html">What's new in 2.5?</a>' for more information.
 <source>
 INTRODUCTION:
 
@@ -56,7 +56,7 @@ IMPROVEMENTS IN 2.5
     * [LANG-569] - StringUtils - add indexOfIgnoreCase() and lastIndexOfIgnoreCase() methods
     * [LANG-471] - StringUtils - add isAllUpperCase() and isAllLowerCase() methods
     * [LANG-469] - StringUtils - add lastOrdinalIndexOf() method to complement the existing ordinalIndexOf() method
-    * [LANG-438] - StringUtils - add repeat() method
+    * [LANG-348] - StringUtils - add repeat() method
     * [LANG-445] - StringUtils - add startsWithAny() method
     * [LANG-430] - StringUtils - add upperCase(String, Locale) and lowerCase(String, Locale) methods
     * [LANG-416] - New Reflection package containing ConstructorUtils, FieldUtils, MemberUtils and MethodUtils

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.lang;
 
+import org.apache.commons.lang.text.StrBuilder;
+
 /**
  * <p>Operations on <code>CharSet</code>s.</p>
  *
@@ -23,12 +25,13 @@ package org.apache.commons.lang;
  * An exception will not be thrown for a <code>null</code> input.
  * Each method documents its behaviour in more detail.</p>
  * 
+ * <p>#ThreadSafe#</p>
  * @see CharSet
  * @author Apache Software Foundation
  * @author Phil Steitz
  * @author Gary Gregory
  * @since 1.0
- * @version $Id: CharSetUtils.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: CharSetUtils.java 1057072 2011-01-10 01:55:57Z niallp $
  */
 public class CharSetUtils {
 
@@ -121,7 +124,7 @@ public class CharSetUtils {
             return str;
         }
         CharSet chars = CharSet.getInstance(set);
-        StringBuffer buffer = new StringBuffer(str.length());
+        StrBuilder buffer = new StrBuilder(str.length());
         char[] chrs = str.toCharArray();
         int sz = chrs.length;
         char lastChar = ' ';
@@ -319,7 +322,7 @@ public class CharSetUtils {
      */
     private static String modify(String str, String[] set, boolean expect) {
         CharSet chars = CharSet.getInstance(set);
-        StringBuffer buffer = new StringBuffer(str.length());
+        StrBuilder buffer = new StrBuilder(str.length());
         char[] chrs = str.toCharArray();
         int sz = chrs.length;
         for(int i=0; i<sz; i++) {
@@ -368,7 +371,7 @@ public class CharSetUtils {
         if (StringUtils.isEmpty(str)) {
             return str;
         }
-        StringBuffer buffer = new StringBuffer(str.length());
+        StrBuilder buffer = new StrBuilder(str.length());
         char[] chrs = str.toCharArray();
         char[] withChrs = replaceChars.toCharArray();
         int sz = chrs.length;

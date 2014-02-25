@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 
 /**
  * <p>Duration formatting utilities and constants. The following table describes the tokens 
@@ -44,7 +45,7 @@ import org.apache.commons.lang.StringUtils;
  * @author <a href="mailto:stefan.bodewig@epost.de">Stefan Bodewig</a>
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @since 2.1
- * @version $Id: DurationFormatUtils.java 905684 2010-02-02 16:03:07Z niallp $
+ * @version $Id: DurationFormatUtils.java 1057072 2011-01-10 01:55:57Z niallp $
  */
 public class DurationFormatUtils {
 
@@ -420,7 +421,7 @@ public class DurationFormatUtils {
      */
     static String format(Token[] tokens, int years, int months, int days, int hours, int minutes, int seconds,
             int milliseconds, boolean padWithZeros) {
-        StringBuffer buffer = new StringBuffer();
+        StrBuilder buffer = new StrBuilder();
         boolean lastOutputSeconds = false;
         int sz = tokens.length;
         for (int i = 0; i < sz; i++) {

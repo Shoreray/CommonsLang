@@ -20,16 +20,19 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.lang.text.StrBuilder;
+
 /**
  * <p>A contiguous range of characters, optionally negated.</p>
  * 
  * <p>Instances are immutable.</p>
  *
+ * <p>#ThreadSafe#</p>
  * @author Apache Software Foundation
  * @author Chris Feldhacker
  * @author Gary Gregory
  * @since 1.0
- * @version $Id: CharRange.java 906030 2010-02-03 12:25:26Z niallp $
+ * @version $Id: CharRange.java 1057072 2011-01-10 01:55:57Z niallp $
  */
 public final class CharRange implements Serializable {
 
@@ -266,7 +269,7 @@ public final class CharRange implements Serializable {
      */
     public String toString() {
         if (iToString == null) {
-            StringBuffer buf = new StringBuffer(4);
+            StrBuilder buf = new StrBuilder(4);
             if (isNegated()) {
                 buf.append('^');
             }
@@ -285,6 +288,7 @@ public final class CharRange implements Serializable {
     /**
      * <p>Returns an iterator which can be used to walk through the characters described by this range.</p>
      *
+     * <p>#NotThreadSafe# the iterator is not threadsafe</p>
      * @return an iterator to the chars represented by this range
      * @since 2.5
      */
@@ -294,12 +298,13 @@ public final class CharRange implements Serializable {
 
     /**
      * Character {@link Iterator}.
+     * <p>#NotThreadSafe#</p>
      */
     private static class CharacterIterator implements Iterator {
         /** The current character */
         private char current;
 
-        private CharRange range;
+        private final CharRange range;
         private boolean hasNext;
 
         /**

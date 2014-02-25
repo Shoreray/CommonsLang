@@ -36,7 +36,7 @@ import java.util.Map;
  * @author Gary Gregory
  * @author Norm Deane
  * @since 2.0
- * @version $Id: Validate.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: Validate.java 1057051 2011-01-09 23:15:51Z sebb $
  */
 public class Validate {
     // Validate has no dependencies on other classes in Commons Lang at present
@@ -296,7 +296,7 @@ public class Validate {
      * 
      * @param map the map to check
      * @throws IllegalArgumentException if the map is empty
-     * @see #notEmpty(Map, String, Object...)
+     * @see #notEmpty(Map, String)
      */
     public static void notEmpty(Map map) {
         notEmpty(map, "The validated map is empty");

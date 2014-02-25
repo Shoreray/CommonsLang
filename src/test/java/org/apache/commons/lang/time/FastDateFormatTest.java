@@ -34,7 +34,7 @@ import org.apache.commons.lang.SerializationUtils;
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @author Fredrik Westermarck
  * @since 2.0
- * @version $Id: FastDateFormatTest.java 905628 2010-02-02 13:29:55Z niallp $
+ * @version $Id: FastDateFormatTest.java 1056869 2011-01-09 02:41:34Z niallp $
  */
 public class FastDateFormatTest extends TestCase {
 
@@ -321,5 +321,17 @@ public class FastDateFormatTest extends TestCase {
 
         FastDateFormat format = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", TimeZone.getTimeZone("GMT"));
         assertEquals("dateTime", dateTime, format.format(cal));
+    }
+
+    public void testLang645() {
+        Locale locale = new Locale("sv", "SE");
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(2010, 0, 1, 12, 0, 0);
+        Date d = cal.getTime();
+
+        FastDateFormat fdf = FastDateFormat.getInstance("EEEE', week 'ww", locale);
+
+        assertEquals("fredag, week 53", fdf.format(d));
     }
 }

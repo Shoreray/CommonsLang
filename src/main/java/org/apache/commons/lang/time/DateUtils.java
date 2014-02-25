@@ -51,7 +51,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Phil Steitz
  * @author Robert Scholte
  * @since 2.0
- * @version $Id: DateUtils.java 911986 2010-02-19 21:19:05Z niallp $
+ * @version $Id: DateUtils.java 1056840 2011-01-09 00:12:23Z niallp $
  */
 public class DateUtils {
     
@@ -659,6 +659,21 @@ public class DateUtils {
         c.set(calendarField, amount);
         return c.getTime();
     }   
+
+    //-----------------------------------------------------------------------
+    /**
+     * Convert a Date into a Calendar object. 
+     * 
+     * @param date the date to convert to a Calendar
+     * @return the created Calendar
+     * @throws NullPointerException if null is passed in
+     * @since 2.6
+     */
+    public static Calendar toCalendar(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        return c;
+    }
     
     //-----------------------------------------------------------------------
     /**
@@ -1732,6 +1747,80 @@ public class DateUtils {
                 throw new IllegalArgumentException("The fragment " + fragment + " is not supported");
         }
         return result;
+    }
+    
+    /**
+     * Determines if two calendars are equal up to no more than the specified 
+     * most significant field.
+     * 
+     * @param cal1 the first calendar, not <code>null</code>
+     * @param cal2 the second calendar, not <code>null</code>
+     * @param field the field from <code>Calendar</code>
+     * @return <code>true</code> if equal; otherwise <code>false</code>
+     * @throws IllegalArgumentException if any argument is <code>null</code>
+     * @see #truncate(Calendar, int)
+     * @see #truncatedEquals(Date, Date, int)
+     * @since 2.6
+     */
+    public static boolean truncatedEquals(Calendar cal1, Calendar cal2, int field) {
+        return truncatedCompareTo(cal1, cal2, field) == 0;
+    }
+
+    /**
+     * Determines if two dates are equal up to no more than the specified 
+     * most significant field.
+     * 
+     * @param date1 the first date, not <code>null</code>
+     * @param date2 the second date, not <code>null</code>
+     * @param field the field from <code>Calendar</code>
+     * @return <code>true</code> if equal; otherwise <code>false</code>
+     * @throws IllegalArgumentException if any argument is <code>null</code>
+     * @see #truncate(Date, int)
+     * @see #truncatedEquals(Calendar, Calendar, int)
+     * @since 2.6
+     */
+    public static boolean truncatedEquals(Date date1, Date date2, int field) {
+        return truncatedCompareTo(date1, date2, field) == 0;
+    }
+
+    /**
+     * Determines how two calendars compare up to no more than the specified 
+     * most significant field.
+     * 
+     * @param cal1 the first calendar, not <code>null</code>
+     * @param cal2 the second calendar, not <code>null</code>
+     * @param field the field from <code>Calendar</code>
+     * @return a negative integer, zero, or a positive integer as the first 
+     * calendar is less than, equal to, or greater than the second.
+     * @throws IllegalArgumentException if any argument is <code>null</code>
+     * @see #truncate(Calendar, int)
+     * @see #truncatedCompareTo(Date, Date, int)
+     * @since 2.6
+     */
+    public static int truncatedCompareTo(Calendar cal1, Calendar cal2, int field) {
+        Calendar truncatedCal1 = truncate(cal1, field);
+        Calendar truncatedCal2 = truncate(cal2, field);
+        return truncatedCal1.getTime().compareTo(truncatedCal2.getTime());
+    }
+
+    /**
+     * Determines how two dates compare up to no more than the specified 
+     * most significant field.
+     * 
+     * @param date1 the first date, not <code>null</code>
+     * @param date2 the second date, not <code>null</code>
+     * @param field the field from <code>Calendar</code>
+     * @return a negative integer, zero, or a positive integer as the first 
+     * date is less than, equal to, or greater than the second.
+     * @throws IllegalArgumentException if any argument is <code>null</code>
+     * @see #truncate(Calendar, int)
+     * @see #truncatedCompareTo(Date, Date, int)
+     * @since 2.6
+     */
+    public static int truncatedCompareTo(Date date1, Date date2, int field) {
+        Date truncatedDate1 = truncate(date1, field);
+        Date truncatedDate2 = truncate(date2, field);
+        return truncatedDate1.compareTo(truncatedDate2);
     }
     
     /**

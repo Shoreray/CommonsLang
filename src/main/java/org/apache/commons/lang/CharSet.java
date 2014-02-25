@@ -29,12 +29,13 @@ import java.util.Set;
  *
  * <p>Instances are immutable, but instances of subclasses may not be.</p>
  *
+ * <p>#ThreadSafe#</p>
  * @author Apache Software Foundation
  * @author Phil Steitz
  * @author Pete Gieser
  * @author Gary Gregory
  * @since 1.0
- * @version $Id: CharSet.java 905671 2010-02-02 15:25:14Z niallp $
+ * @version $Id: CharSet.java 1056988 2011-01-09 17:58:53Z niallp $
  */
 public class CharSet implements Serializable {
 
@@ -93,7 +94,7 @@ public class CharSet implements Serializable {
     }
 
     /** The set of CharRange objects. */
-    private final Set set = new HashSet();
+    private final Set set = Collections.synchronizedSet(new HashSet());
 
     //-----------------------------------------------------------------------
     /**

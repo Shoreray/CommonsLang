@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * Unit tests {@link org.apache.commons.lang.StringUtils} - StartsWith/EndsWith methods
  *
- * @version $Id: StringUtilsStartsEndsWithTest.java 905628 2010-02-02 13:29:55Z niallp $
+ * @version $Id: StringUtilsStartsEndsWithTest.java 1056871 2011-01-09 02:51:19Z niallp $
  */
 public class StringUtilsStartsEndsWithTest extends TestCase {
     private static final String foo    = "foo";
@@ -134,5 +134,17 @@ public class StringUtilsStartsEndsWithTest extends TestCase {
         assertTrue(StringUtils.endsWithIgnoreCase("ABCDEF", "def"));
         assertFalse(StringUtils.endsWithIgnoreCase("ABCDEF", "cde"));
     }
+
+    public void testEndsWithAny() {
+        assertFalse("StringUtils.endsWithAny(null, null)", StringUtils.endsWithAny(null, null));
+        assertFalse("StringUtils.endsWithAny(null, new String[] {abc})", StringUtils.endsWithAny(null, new String[] {"abc"}));
+        assertFalse("StringUtils.endsWithAny(abcxyz, null)", StringUtils.endsWithAny("abcxyz", null));
+        assertTrue("StringUtils.endsWithAny(abcxyz, new String[] {\"\"})", StringUtils.endsWithAny("abcxyz", new String[] {""}));
+        assertTrue("StringUtils.endsWithAny(abcxyz, new String[] {xyz})", StringUtils.endsWithAny("abcxyz", new String[] {"xyz"}));
+        assertTrue("StringUtils.endsWithAny(abcxyz, new String[] {null, xyz, abc})", StringUtils.endsWithAny("abcxyz", new String[] {null, "xyz", "abc"}));
+        assertFalse("StringUtils.endsWithAny(defg, new String[] {null, xyz, abc})", StringUtils.endsWithAny("defg", new String[] {null, "xyz", "abc"}));
+
+    }
+
 
 }

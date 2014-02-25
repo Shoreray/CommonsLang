@@ -38,7 +38,7 @@ import java.util.TreeMap;
  * @author <a href="mailto:alex@purpletech.com">Alexander Day Chaffee</a>
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @since 2.0
- * @version $Id: Entities.java 911986 2010-02-19 21:19:05Z niallp $
+ * @version $Id: Entities.java 1057037 2011-01-09 21:35:32Z niallp $
  */
 class Entities {
 
@@ -538,7 +538,7 @@ class Entities {
         // TODO this class is not thread-safe
         private String[] lookupTable;
 
-        private final int LOOKUP_TABLE_SIZE = 256;
+        private static final int LOOKUP_TABLE_SIZE = 256;
 
         /**
          * {@inheritDoc}

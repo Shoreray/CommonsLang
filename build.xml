@@ -20,7 +20,7 @@
  -->
 <!--
    "Lang" component of the Apache Commons Subproject
-   $Id: build.xml 912374 2010-02-21 17:20:57Z niallp $
+   $Id: build.xml 918244 2010-03-02 23:07:02Z sebb $
 -->
 <project name="Lang" default="compile" basedir=".">
 
@@ -110,11 +110,11 @@
     </target>
 
     <!--
-	 RandomUtils frequency tests have been put in a separate test case which
-	 is only run when using this target because it fails too frequently.
-	 See https://issues.apache.org/jira/browse/LANG-592
-	 -->
-	<target name="test-random-freq" depends="compile.tests" description="Run RandomUtilsFreqTest">
+     RandomUtils frequency tests have been put in a separate test case which
+     is only run when using this target because it fails too frequently.
+     See https://issues.apache.org/jira/browse/LANG-592
+     -->
+    <target name="test-random-freq" depends="compile.tests" description="Run RandomUtilsFreqTest">
         <echo message="Running RandomUtilsFreqTest unit test ..."/>
         <mkdir dir="${build.home}/test-reports"/>
         <junit printsummary="true" showoutput="true" fork="yes" haltonfailure="${test.failonerror}">

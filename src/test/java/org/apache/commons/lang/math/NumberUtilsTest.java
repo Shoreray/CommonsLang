@@ -35,7 +35,7 @@ import org.apache.commons.lang.SystemUtils;
  * @author Phil Steitz
  * @author Matthew Hawthorne
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
- * @version $Id: NumberUtilsTest.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: NumberUtilsTest.java 1056853 2011-01-09 01:07:04Z niallp $
  */
 public class NumberUtilsTest extends TestCase {
 
@@ -229,6 +229,9 @@ public class NumberUtilsTest extends TestCase {
 
         // LANG-521
         assertEquals("createNumber(String) LANG-521 failed", new Float("2."), NumberUtils.createNumber("2."));
+
+        // LANG-638
+        assertFalse("createNumber(String) succeeded", checkCreateNumber("1eE"));
     }
 
     public void testCreateFloat() {

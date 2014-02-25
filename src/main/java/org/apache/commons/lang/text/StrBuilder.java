@@ -69,7 +69,7 @@ import org.apache.commons.lang.SystemUtils;
  *
  * @author Apache Software Foundation
  * @since 2.2
- * @version $Id: StrBuilder.java 911986 2010-02-19 21:19:05Z niallp $
+ * @version $Id: StrBuilder.java 1057349 2011-01-10 20:40:49Z niallp $
  */
 public class StrBuilder implements Cloneable {
 
@@ -2575,6 +2575,20 @@ public class StrBuilder implements Cloneable {
      */
     public StringBuffer toStringBuffer() {
         return new StringBuffer(size).append(buffer, 0, size);
+    }
+
+    /**
+     * Clone this object.
+     *
+     * @return a clone of this object
+     * @throws CloneNotSupportedException if clone is not supported
+     * @since 2.6
+     */
+    public Object clone() throws CloneNotSupportedException {
+        StrBuilder clone = (StrBuilder)super.clone();
+        clone.buffer = new char[buffer.length];
+        System.arraycopy(buffer, 0, clone.buffer, 0, buffer.length);
+        return clone;
     }
 
     //-----------------------------------------------------------------------

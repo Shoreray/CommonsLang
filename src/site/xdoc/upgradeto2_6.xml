@@ -1,10 +1,32 @@
-$Id: RELEASE-NOTES.txt 1058313 2011-01-12 20:59:27Z niallp $
+<?xml version="1.0"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
 
-                        Commons Lang Package
-                            Version 2.6
-                           Release Notes
+     http://www.apache.org/licenses/LICENSE-2.0
 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<document>
+ <properties>
+  <title>2.6 Release Notes</title>
+  <author email="dev@commons.apache.org">Commons Documentation Team</author>
+ </properties>
+<body>
 
+<section name="Lang 2.6 Release Notes">
+<p>
+These are the release notes and advice for upgrading Commons-Lang from
+version 2.5 to version 2.6. <br/><br/>.
+<source>
 INTRODUCTION:
 
 This document contains the release notes for the 2.6 version of Apache Commons Lang.
@@ -57,3 +79,9 @@ OTHER CHANGES IN 2.6
     * [LANG-370] - Javadoc - document thread safety
     * [LANG-623] - Test for StringUtils replaceChars() icelandic characters
 
+</source>
+</p>
+</section>
+
+</body>
+</document>

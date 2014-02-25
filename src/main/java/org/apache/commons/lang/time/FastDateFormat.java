@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.text.StrBuilder;
 
 /**
  * <p>FastDateFormat is a fast and thread-safe version of
@@ -66,7 +67,7 @@ import org.apache.commons.lang.Validate;
  * @author Gary Gregory
  * @author Nikolay Metchev
  * @since 2.0
- * @version $Id: FastDateFormat.java 905684 2010-02-02 16:03:07Z niallp $
+ * @version $Id: FastDateFormat.java 1057072 2011-01-10 01:55:57Z niallp $
  */
 public class FastDateFormat extends Format {
     // A lot of the speed in this class comes from caching, but some comes
@@ -704,7 +705,7 @@ public class FastDateFormat extends Format {
      * @return parsed token
      */
     protected String parseToken(String pattern, int[] indexRef) {
-        StringBuffer buf = new StringBuffer();
+        StrBuilder buf = new StrBuilder();
 
         int i = indexRef[0];
         int length = pattern.length();
@@ -815,7 +816,7 @@ public class FastDateFormat extends Format {
      * @return the formatted string
      */
     public String format(Date date) {
-        Calendar c = new GregorianCalendar(mTimeZone);
+        Calendar c = new GregorianCalendar(mTimeZone, mLocale);
         c.setTime(date);
         return applyRules(c, new StringBuffer(mMaxLengthEstimate)).toString();
     }

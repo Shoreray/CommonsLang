@@ -17,6 +17,11 @@
 package org.apache.commons.lang;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.lang.exception.CloneFailedException;
+import org.apache.commons.lang.reflect.MethodUtils;
 
 /**
  * <p>Operations on <code>Object</code>.</p>
@@ -25,6 +30,7 @@ import java.io.Serializable;
  * An exception will generally not be thrown for a <code>null</code> input.
  * Each method documents its behaviour in more detail.</p>
  *
+ * <p>#ThreadSafe#</p>
  * @author Apache Software Foundation
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
  * @author <a href="mailto:janekdb@yahoo.co.uk">Janek Bogucki</a>
@@ -33,8 +39,9 @@ import java.io.Serializable;
  * @author Mario Winterer
  * @author <a href="mailto:david@davidkarlsen.com">David J. M. Karlsen</a>
  * @since 1.0
- * @version $Id: ObjectUtils.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: ObjectUtils.java 1057434 2011-01-11 01:27:37Z niallp $
  */
+//@Immutable
 public class ObjectUtils {
 
     /**
@@ -116,6 +123,30 @@ public class ObjectUtils {
             return false;
         }
         return object1.equals(object2);
+    }
+
+    /**
+     * <p>Compares two objects for inequality, where either one or both
+     * objects may be <code>null</code>.</p>
+     *
+     * <pre>
+     * ObjectUtils.notEqual(null, null)                  = false
+     * ObjectUtils.notEqual(null, "")                    = true
+     * ObjectUtils.notEqual("", null)                    = true
+     * ObjectUtils.notEqual("", "")                      = false
+     * ObjectUtils.notEqual(Boolean.TRUE, null)          = true
+     * ObjectUtils.notEqual(Boolean.TRUE, "true")        = true
+     * ObjectUtils.notEqual(Boolean.TRUE, Boolean.TRUE)  = false
+     * ObjectUtils.notEqual(Boolean.TRUE, Boolean.FALSE) = true
+     * </pre>
+     *
+     * @param object1  the first object, may be <code>null</code>
+     * @param object2  the second object, may be <code>null</code>
+     * @return <code>false</code> if the values of both objects are the same
+     * @since 2.6
+     */
+    public static boolean notEqual(Object object1, Object object2) {
+        return ObjectUtils.equals(object1, object2) == false;
     }
 
     /**
@@ -280,11 +311,7 @@ public class ObjectUtils {
      *  </ul>
      */
     public static Object min(Comparable c1, Comparable c2) {
-        if (c1 != null && c2 != null) {
-            return c1.compareTo(c2) < 1 ? c1 : c2;
-        } else {
-            return c1 != null ? c1 : c2;
-        }                              
+        return (compare(c1, c2, true) <= 0 ? c1 : c2);
     }
 
     /**
@@ -301,11 +328,106 @@ public class ObjectUtils {
      *  </ul>
      */
     public static Object max(Comparable c1, Comparable c2) {
-        if (c1 != null && c2 != null) {
-            return c1.compareTo(c2) >= 0 ? c1 : c2;
-        } else {
-            return c1 != null ? c1 : c2;
+        return (compare(c1, c2, false) >= 0 ? c1 : c2);
+    }
+
+    /**
+     * Null safe comparison of Comparables.
+     * {@code null} is assumed to be less than a non-{@code null} value.
+     * 
+     * @param c1  the first comparable, may be null
+     * @param c2  the second comparable, may be null
+     * @return a negative value if c1 < c2, zero if c1 = c2
+     * and a positive value if c1 > c2
+     * @since 2.6
+     */
+    public static int compare(Comparable c1, Comparable c2) {
+        return compare(c1, c2, false);
+    }
+
+    /**
+     * Null safe comparison of Comparables.
+     * 
+     * @param c1  the first comparable, may be null
+     * @param c2  the second comparable, may be null
+     * @param nullGreater if true <code>null</code> is considered greater
+     * than a Non-<code>null</code> value or if false <code>null</code> is
+     * considered less than a Non-<code>null</code> value
+     * @return a negative value if c1 < c2, zero if c1 = c2
+     * and a positive value if c1 > c2
+     * @see java.util.Comparator#compare(Object, Object)
+     * @since 2.6
+     */
+    public static int compare(Comparable c1, Comparable c2, boolean nullGreater) {
+        if (c1 == c2) {
+            return 0;
+        } else if (c1 == null) {
+            return (nullGreater ? 1 : -1);
+        } else if (c2 == null) {
+            return (nullGreater ? -1 : 1);
         }
+        return c1.compareTo(c2);
+    }
+    
+    /**
+     * Clone an object.
+     * 
+     * @param o the object to clone
+     * @return the clone if the object implements {@link Cloneable} otherwise <code>null</code>
+     * @throws CloneFailedException if the object is cloneable and the clone operation fails
+     * @since 2.6
+     */
+    public static Object clone(final Object o) {
+        if (o instanceof Cloneable) {
+            final Object result;
+            if (o.getClass().isArray()) {
+                final Class componentType = o.getClass().getComponentType();
+                if (!componentType.isPrimitive()) {
+                    result = ((Object[])o).clone();
+                } else {
+                    int length = Array.getLength(o);
+                    result = Array.newInstance(componentType, length);
+                    while (length-- > 0) {
+                        Array.set(result, length, Array.get(o, length));
+                    }
+                }
+            } else {
+                try {
+                    result = MethodUtils.invokeMethod(o, "clone", null);
+                } catch (final NoSuchMethodException e) {
+                    throw new CloneFailedException("Cloneable type "
+                        + o.getClass().getName()
+                        + " has no clone method", e);
+                } catch (final IllegalAccessException e) {
+                    throw new CloneFailedException("Cannot clone Cloneable type "
+                        + o.getClass().getName(), e);
+                } catch (final InvocationTargetException e) {
+                    throw new CloneFailedException("Exception cloning Cloneable type "
+                        + o.getClass().getName(), e.getTargetException());
+                }
+            }
+            return result;
+        }
+
+        return null;
+    }
+
+    /**
+     * Clone an object if possible. This method is similar to {@link #clone(Object)}, but will
+     * return the provided instance as the return value instead of <code>null</code> if the instance
+     * is not cloneable. This is more convenient if the caller uses different
+     * implementations (e.g. of a service) and some of the implementations do not allow concurrent
+     * processing or have state. In such cases the implementation can simply provide a proper
+     * clone implementation and the caller's code does not have to change.
+     * 
+     * @param o the object to clone
+     * @return the clone if the object implements {@link Cloneable} otherwise the object itself
+     * @throws CloneFailedException if the object is cloneable and the clone operation fails
+     * @since 2.6
+     */
+    public static Object cloneIfPossible(final Object o) {
+        final Object clone = clone(o);
+        return clone == null ? o : clone;
     }
 
     // Null

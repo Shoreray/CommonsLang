@@ -22,11 +22,13 @@ import java.io.Writer;
 import java.util.Locale;
 
 import org.apache.commons.lang.exception.NestableRuntimeException;
+import org.apache.commons.lang.text.StrBuilder;
 
 /**
  * <p>Escapes and unescapes <code>String</code>s for
  * Java, Java Script, HTML, XML, and SQL.</p>
  *
+ * <p>#ThreadSafe#</p>
  * @author Apache Software Foundation
  * @author Apache Jakarta Turbine
  * @author Purple Technology
@@ -38,7 +40,7 @@ import org.apache.commons.lang.exception.NestableRuntimeException;
  * @author Phil Steitz
  * @author Pete Gieser
  * @since 2.0
- * @version $Id: StringEscapeUtils.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: StringEscapeUtils.java 1057072 2011-01-10 01:55:57Z niallp $
  */
 public class StringEscapeUtils {
 
@@ -313,7 +315,7 @@ public class StringEscapeUtils {
             return;
         }
         int sz = str.length();
-        StringBuffer unicode = new StringBuffer(4);
+        StrBuilder unicode = new StrBuilder(4);
         boolean hadSlash = false;
         boolean inUnicode = false;
         for (int i = 0; i < sz; i++) {

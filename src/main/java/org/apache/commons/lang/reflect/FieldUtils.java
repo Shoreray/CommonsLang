@@ -33,7 +33,7 @@ import org.apache.commons.lang.ClassUtils;
  * @author Apache Software Foundation
  * @author Matt Benson
  * @since 2.5
- * @version $Id: FieldUtils.java 905636 2010-02-02 14:03:32Z niallp $
+ * @version $Id: FieldUtils.java 1057009 2011-01-09 19:48:06Z niallp $
  */
 public class FieldUtils {
 
@@ -48,7 +48,7 @@ public class FieldUtils {
     }
 
     /**
-     * Gets an accessible <code>Field</code> by name repecting scope.
+     * Gets an accessible <code>Field</code> by name respecting scope.
      * Superclasses/interfaces will be considered.
      *
      * @param cls  the class to reflect, must not be null
