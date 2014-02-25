@@ -1,9 +1,10 @@
 /*
- * Copyright 2002-2005 The Apache Software Foundation.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -28,7 +29,7 @@ import java.math.BigInteger;
  * @author Eric Pugh
  * @author Phil Steitz
  * @since 1.0
- * @version $Id: NumberUtils.java 161243 2005-04-14 04:30:28Z ggregory $
+ * @version $Id: NumberUtils.java 437554 2006-08-28 06:21:41Z bayard $
  * 
  * @deprecated Moved to org.apache.commons.lang.math.
  *             Class will be removed in Commons Lang 3.0.
@@ -44,6 +45,7 @@ public final class NumberUtils {
      * to operate.</p>
      */
     public NumberUtils() {
+      super();
     }
 
     //--------------------------------------------------------------------
@@ -212,7 +214,8 @@ public final class NumberUtils {
                             return f;
                         }
 
-                    } catch (NumberFormatException nfe) {
+                    } catch (NumberFormatException e) {
+                        // ignore the bad number
                     }
                     //Fall through
                 case 'd' :
@@ -223,10 +226,12 @@ public final class NumberUtils {
                             return d;
                         }
                     } catch (NumberFormatException nfe) {
+                        // empty catch
                     }
                     try {
                         return createBigDecimal(numeric);
                     } catch (NumberFormatException e) {
+                        // empty catch
                     }
                     //Fall through
                 default :
@@ -246,10 +251,12 @@ public final class NumberUtils {
                 try {
                     return createInteger(val);
                 } catch (NumberFormatException nfe) {
+                    // empty catch
                 }
                 try {
                     return createLong(val);
                 } catch (NumberFormatException nfe) {
+                    // empty catch
                 }
                 return createBigInteger(val);
 
@@ -262,6 +269,7 @@ public final class NumberUtils {
                         return f;
                     }
                 } catch (NumberFormatException nfe) {
+                    // empty catch
                 }
                 try {
                     Double d = createDouble(val);
@@ -269,6 +277,7 @@ public final class NumberUtils {
                         return d;
                     }
                 } catch (NumberFormatException nfe) {
+                    // empty catch
                 }
 
                 return createBigDecimal(val);

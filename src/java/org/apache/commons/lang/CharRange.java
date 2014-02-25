@@ -1,9 +1,10 @@
 /*
- * Copyright 2002-2005 The Apache Software Foundation.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -27,11 +28,15 @@ import java.io.Serializable;
  * @author Chris Feldhacker
  * @author Gary Gregory
  * @since 1.0
- * @version $Id: CharRange.java 161243 2005-04-14 04:30:28Z ggregory $
+ * @version $Id: CharRange.java 437554 2006-08-28 06:21:41Z bayard $
  */
 public final class CharRange implements Serializable {
 
-    /** Serialization lock, Lang version 2.0. */
+    /**
+     * Required for serialization support. Lang version 2.0. 
+     * 
+     * @see java.io.Serializable
+     */
     private static final long serialVersionUID = 8270183163158333422L;
     
     /** The first character, inclusive, in the range. */

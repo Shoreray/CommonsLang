@@ -1,9 +1,10 @@
 /*
- * Copyright 2002-2005 The Apache Software Foundation.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -84,10 +85,17 @@ import java.io.PrintWriter;
  * @author <a href="mailto:knielsen@apache.org">Kasper Nielsen</a>
  * @author <a href="mailto:steven@caswell.name">Steven Caswell</a>
  * @since 1.0
- * @version $Id: NestableException.java 161243 2005-04-14 04:30:28Z ggregory $
+ * @version $Id: NestableException.java 437554 2006-08-28 06:21:41Z bayard $
  */
 public class NestableException extends Exception implements Nestable {
     
+    /**
+     * Required for serialization support.
+     * 
+     * @see java.io.Serializable
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * The helper instance which contains much of the code which we
      * delegate to.
@@ -143,6 +151,9 @@ public class NestableException extends Exception implements Nestable {
         this.cause = cause;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Throwable getCause() {
         return cause;
     }
@@ -164,6 +175,9 @@ public class NestableException extends Exception implements Nestable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getMessage(int index) {
         if (index == 0) {
             return super.getMessage();
@@ -172,42 +186,72 @@ public class NestableException extends Exception implements Nestable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String[] getMessages() {
         return delegate.getMessages();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Throwable getThrowable(int index) {
         return delegate.getThrowable(index);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int getThrowableCount() {
         return delegate.getThrowableCount();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Throwable[] getThrowables() {
         return delegate.getThrowables();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int indexOfThrowable(Class type) {
         return delegate.indexOfThrowable(type, 0);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public int indexOfThrowable(Class type, int fromIndex) {
         return delegate.indexOfThrowable(type, fromIndex);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void printStackTrace() {
         delegate.printStackTrace();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void printStackTrace(PrintStream out) {
         delegate.printStackTrace(out);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void printStackTrace(PrintWriter out) {
         delegate.printStackTrace(out);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public final void printPartialStackTrace(PrintWriter out) {
         super.printStackTrace(out);
     }

@@ -1,9 +1,10 @@
 /*
- * Copyright 2002-2005 The Apache Software Foundation.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -23,7 +24,7 @@ import java.util.Map;
  * Broken Operator enumeration, null class.
  *
  * @author Stephen Colebourne
- * @version $Id: Broken1OperationEnum.java 161244 2005-04-14 06:16:36Z ggregory $
+ * @version $Id: Broken1OperationEnum.java 437554 2006-08-28 06:21:41Z bayard $
  */
 public abstract class Broken1OperationEnum extends Enum {
     // This syntax works for JDK 1.3 and upwards:

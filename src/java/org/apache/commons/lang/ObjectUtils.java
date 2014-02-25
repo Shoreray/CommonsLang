@@ -1,9 +1,10 @@
 /*
- * Copyright 2002-2005 The Apache Software Foundation.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -31,7 +32,7 @@ import java.io.Serializable;
  * @author Gary Gregory
  * @author Mario Winterer
  * @since 1.0
- * @version $Id: ObjectUtils.java 161243 2005-04-14 04:30:28Z ggregory $
+ * @version $Id: ObjectUtils.java 437554 2006-08-28 06:21:41Z bayard $
  */
 public class ObjectUtils {
     
@@ -62,6 +63,7 @@ public class ObjectUtils {
      * to operate.</p>
      */
     public ObjectUtils() {
+        super();
     }
 
     // Defaulting
@@ -251,13 +253,18 @@ public class ObjectUtils {
      * cannot be stored.</p>
      */
     public static class Null implements Serializable {
-        // declare serialization compatibility with Commons Lang 1.0
+        /**
+         * Required for serialization support. Declare serialization compatibility with Commons Lang 1.0
+         * 
+         * @see java.io.Serializable
+         */
         private static final long serialVersionUID = 7092611880189329093L;
         
         /**
          * Restricted constructor - singleton.
          */
         Null() {
+            super();
         }
         
         /**

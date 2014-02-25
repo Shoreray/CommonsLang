@@ -1,9 +1,10 @@
 /*
- * Copyright 2002-2005 The Apache Software Foundation.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -33,7 +34,7 @@ import org.apache.commons.lang.StringUtils;
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @author <a href="mailto:fredrik@westermarck.com">Fredrik Westermarck</a>
  * @since 2.0
- * @version $Id: NumberUtils.java 161243 2005-04-14 04:30:28Z ggregory $
+ * @version $Id: NumberUtils.java 437554 2006-08-28 06:21:41Z bayard $
  */
 public class NumberUtils {
     
@@ -82,6 +83,7 @@ public class NumberUtils {
      * to operate.</p>
      */
     public NumberUtils() {
+        super();
     }
 
     //-----------------------------------------------------------------------
@@ -472,6 +474,7 @@ public class NumberUtils {
                         }
 
                     } catch (NumberFormatException nfe) {
+                        // ignore the bad number
                     }
                     //Fall through
                 case 'd' :
@@ -482,10 +485,12 @@ public class NumberUtils {
                             return d;
                         }
                     } catch (NumberFormatException nfe) {
+                        // ignore the bad number
                     }
                     try {
                         return createBigDecimal(numeric);
                     } catch (NumberFormatException e) {
+                        // ignore the bad number
                     }
                     //Fall through
                 default :
@@ -505,10 +510,12 @@ public class NumberUtils {
                 try {
                     return createInteger(str);
                 } catch (NumberFormatException nfe) {
+                    // ignore the bad number
                 }
                 try {
                     return createLong(str);
                 } catch (NumberFormatException nfe) {
+                    // ignore the bad number
                 }
                 return createBigInteger(str);
 
@@ -521,6 +528,7 @@ public class NumberUtils {
                         return f;
                     }
                 } catch (NumberFormatException nfe) {
+                    // ignore the bad number
                 }
                 try {
                     Double d = createDouble(str);
@@ -528,6 +536,7 @@ public class NumberUtils {
                         return d;
                     }
                 } catch (NumberFormatException nfe) {
+                    // ignore the bad number
                 }
 
                 return createBigDecimal(str);

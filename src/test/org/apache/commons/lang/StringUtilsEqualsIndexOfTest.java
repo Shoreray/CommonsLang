@@ -1,9 +1,10 @@
 /*
- * Copyright 2002-2005 The Apache Software Foundation.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
  * 
@@ -26,7 +27,7 @@ import junit.textui.TestRunner;
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
  * @author <a href="mailto:ridesmet@users.sourceforge.net">Ringo De Smet</a>
  * @author Phil Steitz
- * @version $Id: StringUtilsEqualsIndexOfTest.java 161244 2005-04-14 06:16:36Z ggregory $
+ * @version $Id: StringUtilsEqualsIndexOfTest.java 437554 2006-08-28 06:21:41Z bayard $
  */
 public class StringUtilsEqualsIndexOfTest extends TestCase {
     private static final String FOO = "foo";
@@ -272,6 +273,40 @@ public class StringUtilsEqualsIndexOfTest extends TestCase {
         assertEquals(true, StringUtils.contains("abc", "c"));
         assertEquals(true, StringUtils.contains("abc", "abc"));
         assertEquals(false, StringUtils.contains("abc", "z"));
+    }
+
+    public void testContainsIgnoreCase_StringString() {
+        assertFalse(StringUtils.containsIgnoreCase(null, null));
+        
+        // Null tests
+        assertFalse(StringUtils.containsIgnoreCase(null, ""));
+        assertFalse(StringUtils.containsIgnoreCase(null, "a"));
+        assertFalse(StringUtils.containsIgnoreCase(null, "abc"));
+        
+        assertFalse(StringUtils.containsIgnoreCase("", null));
+        assertFalse(StringUtils.containsIgnoreCase("a", null));
+        assertFalse(StringUtils.containsIgnoreCase("abc", null));
+        
+        // Match len = 0
+        assertTrue(StringUtils.containsIgnoreCase("", ""));
+        assertTrue(StringUtils.containsIgnoreCase("a", ""));
+        assertTrue(StringUtils.containsIgnoreCase("abc", ""));
+
+        // Match len = 1
+        assertFalse(StringUtils.containsIgnoreCase("", "a"));
+        assertTrue(StringUtils.containsIgnoreCase("a", "a"));
+        assertTrue(StringUtils.containsIgnoreCase("abc", "a"));
+        assertFalse(StringUtils.containsIgnoreCase("", "A"));
+        assertTrue(StringUtils.containsIgnoreCase("a", "A"));
+        assertTrue(StringUtils.containsIgnoreCase("abc", "A"));
+        
+        // Match len > 1
+        assertFalse(StringUtils.containsIgnoreCase("", "abc"));
+        assertFalse(StringUtils.containsIgnoreCase("a", "abc"));
+        assertTrue(StringUtils.containsIgnoreCase("xabcz", "abc"));
+        assertFalse(StringUtils.containsIgnoreCase("", "ABC"));
+        assertFalse(StringUtils.containsIgnoreCase("a", "ABC"));
+        assertTrue(StringUtils.containsIgnoreCase("xabcz", "ABC"));
     }
 
     //-----------------------------------------------------------------------
