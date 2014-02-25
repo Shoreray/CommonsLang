@@ -33,7 +33,7 @@ import java.util.Set;
  * @author Pete Gieser
  * @author Gary Gregory
  * @since 1.0
- * @version $Id: CharSet.java 471626 2006-11-06 04:02:09Z bayard $
+ * @version $Id: CharSet.java 618884 2008-02-06 04:37:17Z bayard $
  */
 public class CharSet implements Serializable {
 
@@ -144,6 +144,21 @@ public class CharSet implements Serializable {
             return (CharSet) set;
         }
         return new CharSet(setStr);
+    }
+
+    /**
+     * <p>Constructs a new CharSet using the set syntax.
+     * Each string is merged in with the set.</p>
+     *
+     * @param setStrs  Strings to merge into the initial set, may be null
+     * @return a CharSet instance
+     * @since 2.4
+     */
+    public static CharSet getInstance(String[] setStrs) {
+        if (setStrs == null) {
+            return null;
+        }
+        return new CharSet(setStrs); 
     }
 
     //-----------------------------------------------------------------------

@@ -27,7 +27,7 @@ import junit.textui.TestRunner;
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
  * @author <a href="mailto:ridesmet@users.sourceforge.net">Ringo De Smet</a>
  * @author Phil Steitz
- * @version $Id: StringUtilsEqualsIndexOfTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StringUtilsEqualsIndexOfTest.java 595929 2007-11-17 09:53:12Z niallp $
  */
 public class StringUtilsEqualsIndexOfTest extends TestCase {
     private static final String FOO = "foo";
@@ -375,6 +375,39 @@ public class StringUtilsEqualsIndexOfTest extends TestCase {
         assertEquals(0, StringUtils.indexOfAny("zzabyycdxx", "za")); 
         assertEquals(3, StringUtils.indexOfAny("zzabyycdxx", "by"));
         assertEquals(-1, StringUtils.indexOfAny("ab", "z"));
+    }
+
+    //-----------------------------------------------------------------------
+    public void testContainsAny_StringChararray() {
+        assertFalse(StringUtils.containsAny(null, (char[]) null));
+        assertFalse(StringUtils.containsAny(null, new char[0]));
+        assertFalse(StringUtils.containsAny(null, new char[] {'a','b'}));
+        
+        assertFalse(StringUtils.containsAny("", (char[]) null));
+        assertFalse(StringUtils.containsAny("", new char[0]));
+        assertFalse(StringUtils.containsAny("", new char[] {'a','b'}));
+        
+        assertFalse(StringUtils.containsAny("zzabyycdxx", (char[]) null)); 
+        assertFalse(StringUtils.containsAny("zzabyycdxx", new char[0])); 
+        assertTrue(StringUtils.containsAny("zzabyycdxx", new char[] {'z','a'})); 
+        assertTrue(StringUtils.containsAny("zzabyycdxx", new char[] {'b','y'}));
+        assertFalse(StringUtils.containsAny("ab", new char[] {'z'}));
+    }
+
+    public void testContainsAny_StringString() {
+        assertFalse(StringUtils.containsAny(null, (String) null));
+        assertFalse(StringUtils.containsAny(null, ""));
+        assertFalse(StringUtils.containsAny(null, "ab"));
+        
+        assertFalse(StringUtils.containsAny("", (String) null));
+        assertFalse(StringUtils.containsAny("", ""));
+        assertFalse(StringUtils.containsAny("", "ab"));
+        
+        assertFalse(StringUtils.containsAny("zzabyycdxx", (String) null)); 
+        assertFalse(StringUtils.containsAny("zzabyycdxx", "")); 
+        assertTrue(StringUtils.containsAny("zzabyycdxx", "za")); 
+        assertTrue(StringUtils.containsAny("zzabyycdxx", "by"));
+        assertFalse(StringUtils.containsAny("ab", "z"));
     }
 
     //-----------------------------------------------------------------------

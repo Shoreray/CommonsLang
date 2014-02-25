@@ -26,7 +26,7 @@ import junit.textui.TestRunner;
  *
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
  * @author <a href="mailto:ridesmet@users.sourceforge.net">Ringo De Smet</a>
- * @version $Id: StringUtilsTrimEmptyTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StringUtilsTrimEmptyTest.java 534588 2007-05-02 18:46:07Z bayard $
  */
 public class StringUtilsTrimEmptyTest extends TestCase {
     private static final String FOO = "foo";
@@ -87,7 +87,7 @@ public class StringUtilsTrimEmptyTest extends TestCase {
     }
 
     //-----------------------------------------------------------------------
-    public void testClean() {
+    public void testDeprecatedClean() {
         assertEquals(FOO, StringUtils.clean(FOO + "  "));
         assertEquals(FOO, StringUtils.clean(" " + FOO + "  "));
         assertEquals(FOO, StringUtils.clean(" " + FOO));

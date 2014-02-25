@@ -28,7 +28,7 @@ package org.apache.commons.lang.mutable;
  * 
  * @author Matthew Hawthorne
  * @since 2.1
- * @version $Id: Mutable.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: Mutable.java 618693 2008-02-05 16:33:29Z sebb $
  */
 public interface Mutable {
 

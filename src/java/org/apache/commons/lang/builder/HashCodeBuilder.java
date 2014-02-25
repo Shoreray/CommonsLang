@@ -92,7 +92,7 @@ import java.util.Set;
  * @author Gary Gregory
  * @author Pete Gieser
  * @since 1.0
- * @version $Id: HashCodeBuilder.java 447989 2006-09-19 21:58:11Z ggregory $
+ * @version $Id: HashCodeBuilder.java 564070 2007-08-09 01:58:11Z bayard $
  */
 public class HashCodeBuilder {
     /**
@@ -103,7 +103,7 @@ public class HashCodeBuilder {
      * @since 2.3
      */
     private static ThreadLocal registry = new ThreadLocal() {
-        protected synchronized Object initialValue() {
+        protected Object initialValue() {
             // The HashSet implementation is not synchronized,
             // which is just what we need here.
             return new HashSet();
@@ -807,11 +807,16 @@ public class HashCodeBuilder {
      * <p>
      * Append a <code>hashCode</code> for a <code>long</code>.
      * </p>
+     * <p>
      * 
      * @param value
      *            the long to add to the <code>hashCode</code>
      * @return this
      */
+    // NOTE: This method uses >> and not >>> as Effective Java and 
+    //       Long.hashCode do. Ideally we should switch to >>> at 
+    //       some stage. There are backwards compat issues, so 
+    //       that will have to wait for the time being. cf LANG-342.
     public HashCodeBuilder append(long value) {
         iTotal = iTotal * iConstant + ((int) (value ^ (value >> 32)));
         return this;
@@ -851,11 +856,6 @@ public class HashCodeBuilder {
             iTotal = iTotal * iConstant;
 
         } else {
-            if (object.getClass().isArray() == false) {
-                // the simple case, not an array, just the element
-                iTotal = iTotal * iConstant + object.hashCode();
-
-            } else {
                 // 'Switch' on type of array, to dispatch to the correct handler
                 // This handles multi dimensional arrays
                 if (object instanceof long[]) {
@@ -874,11 +874,12 @@ public class HashCodeBuilder {
                     append((float[]) object);
                 } else if (object instanceof boolean[]) {
                     append((boolean[]) object);
-                } else {
+                } else if (object instanceof Object[]) {
                     // Not an array of primitives
                     append((Object[]) object);
+                } else {
+                    iTotal = iTotal * iConstant + object.hashCode();
                 }
-            }
         }
         return this;
     }

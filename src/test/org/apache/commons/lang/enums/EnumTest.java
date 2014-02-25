@@ -30,6 +30,7 @@ import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
 import org.apache.commons.lang.SerializationUtils;
 
 /**
@@ -37,7 +38,7 @@ import org.apache.commons.lang.SerializationUtils;
  *
  * @author Stephen Colebourne
  * @author Gary D. Gregory
- * @version $Id: EnumTest.java 501606 2007-01-30 22:26:38Z bayard $
+ * @version $Id: EnumTest.java 583665 2007-10-11 01:34:13Z ggregory $
  */
 
 public final class EnumTest extends TestCase {

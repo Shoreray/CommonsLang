@@ -23,7 +23,7 @@ import org.apache.commons.lang.math.NumberUtils;
  * 
  * @see Double
  * @since 2.1
- * @version $Id: MutableDouble.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: MutableDouble.java 618693 2008-02-05 16:33:29Z sebb $
  */
 public class MutableDouble extends Number implements Comparable, Mutable {
 

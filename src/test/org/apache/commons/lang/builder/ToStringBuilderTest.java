@@ -31,7 +31,7 @@ import junit.textui.TestRunner;
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @author <a href="mailto:alex@apache.org">Alex Chaffee</a>
- * @version $Id: ToStringBuilderTest.java 500495 2007-01-27 07:11:08Z bayard $
+ * @version $Id: ToStringBuilderTest.java 594387 2007-11-13 01:25:42Z bayard $
  */
 public class ToStringBuilderTest extends TestCase {
 
@@ -969,6 +969,24 @@ public class ToStringBuilderTest extends TestCase {
 
     public void testReflectionNull() {
         assertEquals("<null>", ReflectionToStringBuilder.toString(null));
+    }
+
+    /**
+     * Points out failure to print anything from appendToString methods using MULTI_LINE_STYLE.
+     * See issue LANG-372.
+     */
+    class MultiLineTestObject {
+        Integer i = new Integer(31337);
+        public String toString() {
+            return new ToStringBuilder(this).append("testInt", i).toString();
+        }
+    }
+
+    public void testAppendToStringUsingMultiLineStyle() {
+        MultiLineTestObject obj = new MultiLineTestObject();
+        ToStringBuilder testBuilder = new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                                          .appendToString(obj.toString());
+        assertEquals(testBuilder.toString().indexOf("testInt=31337"), -1);
     }
 
 }

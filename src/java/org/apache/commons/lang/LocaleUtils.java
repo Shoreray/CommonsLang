@@ -35,7 +35,7 @@ import java.util.Set;
  *
  * @author Stephen Colebourne
  * @since 2.2
- * @version $Id: LocaleUtils.java 489749 2006-12-22 20:34:37Z bayard $
+ * @version $Id: LocaleUtils.java 534277 2007-05-01 23:50:01Z bayard $
  */
 public class LocaleUtils {
 
@@ -111,6 +111,9 @@ public class LocaleUtils {
                 throw new IllegalArgumentException("Invalid locale format: " + str);
             }
             char ch3 = str.charAt(3);
+            if (ch3 == '_') {
+                return new Locale(str.substring(0, 2), "", str.substring(4));
+            }
             char ch4 = str.charAt(4);
             if (ch3 < 'A' || ch3 > 'Z' || ch4 < 'A' || ch4 > 'Z') {
                 throw new IllegalArgumentException("Invalid locale format: " + str);

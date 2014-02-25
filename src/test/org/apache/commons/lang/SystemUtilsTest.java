@@ -22,6 +22,7 @@ package org.apache.commons.lang;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+
 import junit.framework.Assert;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -36,7 +37,7 @@ import junit.textui.TestRunner;
  * @author Stephen Colebourne
  * @author Tetsuya Kaneuchi
  * @author Gary D. Gregory
- * @version $Id: SystemUtilsTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: SystemUtilsTest.java 583659 2007-10-11 01:29:17Z ggregory $
  */
 public class SystemUtilsTest extends TestCase {
     public static void main(String[] args) {
@@ -333,7 +334,7 @@ public class SystemUtilsTest extends TestCase {
     }
 
     //-----------------------------------------------------------------------
-    public void testJavaVersion() {
+    public void testDeprecatedJavaVersion() {
         assertEquals(SystemUtils.JAVA_VERSION_FLOAT, SystemUtils.getJavaVersion(), 0f);
     }
 

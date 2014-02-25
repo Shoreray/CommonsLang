@@ -23,7 +23,7 @@ import java.io.Serializable;
  *
  * @author Stephen Colebourne
  * @since 2.0
- * @version $Id: LongRange.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: LongRange.java 594398 2007-11-13 02:43:10Z bayard $
  */
 public final class LongRange extends Range implements Serializable {
     
@@ -392,6 +392,20 @@ public final class LongRange extends Range implements Serializable {
             toString = buf.toString();
         }
         return toString;
+    }
+
+    /**
+     * <p>Returns an array containing all the long values in the range.</p>
+     *
+     * @return the <code>long[]</code> representation of this range
+     * @since 2.4
+     */
+    public long[] toArray() {
+        long[] array = new long[(int)(max - min + 1L)];
+        for(int i = 0; i < array.length; i++) {
+            array[i] = min + i;
+        }
+        return array;
     }
 
 }

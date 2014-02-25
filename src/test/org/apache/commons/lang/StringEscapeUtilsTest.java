@@ -30,7 +30,7 @@ import junit.textui.TestRunner;
  * Unit tests for {@link StringEscapeUtils}.
  *
  * @author <a href="mailto:alex@purpletech.com">Alexander Day Chaffee</a>
- * @version $Id: StringEscapeUtilsTest.java 496931 2007-01-17 03:56:33Z bayard $
+ * @version $Id: StringEscapeUtilsTest.java 609094 2008-01-05 06:33:12Z bayard $
  */
 public class StringEscapeUtilsTest extends TestCase {
     private final static String FOO = "foo";
@@ -184,6 +184,8 @@ public class StringEscapeUtilsTest extends TestCase {
         }
         
         assertEquals("He didn\\'t say, \\\"stop!\\\"", StringEscapeUtils.escapeJavaScript("He didn't say, \"stop!\""));
+        assertEquals("document.getElementById(\\\"test\\\").value = \\'<script>alert(\\'aaa\\');<\\/script>\\';", 
+                StringEscapeUtils.escapeJavaScript("document.getElementById(\"test\").value = '<script>alert('aaa');</script>';"));
     }
 
 
@@ -330,4 +332,71 @@ public class StringEscapeUtilsTest extends TestCase {
         assertEquals("& &", StringEscapeUtils.unescapeHtml("& &amp;"));
     }
 
+    public void testEscapeCsvString() throws Exception
+    {
+        assertEquals("foo.bar",          StringEscapeUtils.escapeCsv("foo.bar"));
+        assertEquals("\"foo,bar\"",      StringEscapeUtils.escapeCsv("foo,bar"));
+        assertEquals("\"foo\nbar\"",     StringEscapeUtils.escapeCsv("foo\nbar"));
+        assertEquals("\"foo\rbar\"",     StringEscapeUtils.escapeCsv("foo\rbar"));
+        assertEquals("\"foo\"\"bar\"",   StringEscapeUtils.escapeCsv("foo\"bar"));
+        assertEquals("",   StringEscapeUtils.escapeCsv(""));
+        assertEquals(null, StringEscapeUtils.escapeCsv(null));
+    }
+
+    public void testEscapeCsvWriter() throws Exception
+    {
+        checkCsvEscapeWriter("foo.bar",        "foo.bar");
+        checkCsvEscapeWriter("\"foo,bar\"",    "foo,bar");
+        checkCsvEscapeWriter("\"foo\nbar\"",   "foo\nbar");
+        checkCsvEscapeWriter("\"foo\rbar\"",   "foo\rbar");
+        checkCsvEscapeWriter("\"foo\"\"bar\"", "foo\"bar");
+        checkCsvEscapeWriter("", null);
+        checkCsvEscapeWriter("", "");
+    }
+
+    private void checkCsvEscapeWriter(String expected, String value) {
+        try {
+            StringWriter writer = new StringWriter();
+            StringEscapeUtils.escapeCsv(writer, value);
+            assertEquals(expected, writer.toString());
+        } catch (IOException e) {
+            fail("Threw: " + e);
+        }
+    }
+
+    public void testUnescapeCsvString() throws Exception
+    {
+        assertEquals("foo.bar",          StringEscapeUtils.unescapeCsv("foo.bar"));
+        assertEquals("foo,bar",      StringEscapeUtils.unescapeCsv("\"foo,bar\""));
+        assertEquals("foo\nbar",     StringEscapeUtils.unescapeCsv("\"foo\nbar\""));
+        assertEquals("foo\rbar",     StringEscapeUtils.unescapeCsv("\"foo\rbar\""));
+        assertEquals("foo\"bar",   StringEscapeUtils.unescapeCsv("\"foo\"\"bar\""));
+        assertEquals("",   StringEscapeUtils.unescapeCsv(""));
+        assertEquals(null, StringEscapeUtils.unescapeCsv(null));
+
+        assertEquals("\"foo.bar\"",          StringEscapeUtils.unescapeCsv("\"foo.bar\""));
+    }
+
+    public void testUnescapeCsvWriter() throws Exception
+    {
+        checkCsvUnescapeWriter("foo.bar",        "foo.bar");
+        checkCsvUnescapeWriter("foo,bar",    "\"foo,bar\"");
+        checkCsvUnescapeWriter("foo\nbar",   "\"foo\nbar\"");
+        checkCsvUnescapeWriter("foo\rbar",   "\"foo\rbar\"");
+        checkCsvUnescapeWriter("foo\"bar", "\"foo\"\"bar\"");
+        checkCsvUnescapeWriter("", null);
+        checkCsvUnescapeWriter("", "");
+
+        checkCsvUnescapeWriter("\"foo.bar\"",        "\"foo.bar\"");
+    }
+
+    private void checkCsvUnescapeWriter(String expected, String value) {
+        try {
+            StringWriter writer = new StringWriter();
+            StringEscapeUtils.unescapeCsv(writer, value);
+            assertEquals(expected, writer.toString());
+        } catch (IOException e) {
+            fail("Threw: " + e);
+        }
+    }
 }

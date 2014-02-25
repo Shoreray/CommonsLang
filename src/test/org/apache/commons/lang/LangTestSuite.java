@@ -27,7 +27,7 @@ import junit.textui.TestRunner;
  * @author Stephen Colebourne
  * @author <a href="mailto:ridesmet@users.sourceforge.net">Ringo De Smet</a>
  * @author Matthew Hawthorne
- * @version $Id: LangTestSuite.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: LangTestSuite.java 552088 2007-06-30 03:25:53Z niallp $
  */
 public class LangTestSuite extends TestCase {
     
@@ -79,6 +79,7 @@ public class LangTestSuite extends TestCase {
         suite.addTest(StringUtilsSubstringTest.suite());
         suite.addTest(StringUtilsEqualsIndexOfTest.suite());
         suite.addTest(StringUtilsIsTest.suite());
+        suite.addTest(StringUtilsStartsEndsWithTest.suite());
         suite.addTest(StringEscapeUtilsTest.suite());
         suite.addTest(SystemUtilsTest.suite());
         suite.addTest(UnhandledExceptionTest.suite());

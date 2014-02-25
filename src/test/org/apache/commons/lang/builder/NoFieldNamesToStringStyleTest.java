@@ -19,6 +19,8 @@ package org.apache.commons.lang.builder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.commons.lang.builder.ToStringStyleTest.Person;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -28,7 +30,7 @@ import junit.textui.TestRunner;
  * Unit tests {@link org.apache.commons.lang.builder.NoFieldNamesToStringStyleTest}.
  *
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
- * @version $Id: NoFieldNamesToStringStyleTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: NoFieldNamesToStringStyleTest.java 592643 2007-11-07 07:25:30Z bayard $
  */
 public class NoFieldNamesToStringStyleTest extends TestCase {
 
@@ -89,6 +91,15 @@ public class NoFieldNamesToStringStyleTest extends TestCase {
         assertEquals(baseStr + "[{}]", new ToStringBuilder(base).append("a", new HashMap(), true).toString());
         assertEquals(baseStr + "[<size=0>]", new ToStringBuilder(base).append("a", (Object) new String[0], false).toString());
         assertEquals(baseStr + "[{}]", new ToStringBuilder(base).append("a", (Object) new String[0], true).toString());
+    }
+
+    public void testPerson() {
+        Person p = new Person();
+        p.name = "Ron Paul";
+        p.age = 72;
+        p.smoker = false;
+        String pBaseStr = p.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(p));
+        assertEquals(pBaseStr + "[Ron Paul,72,false]", new ToStringBuilder(p).append("name", p.name).append("age", p.age).append("smoker", p.smoker).toString());
     }
 
     public void testLong() {

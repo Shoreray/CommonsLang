@@ -22,10 +22,10 @@ import java.io.PrintWriter;
 /**
  * The base class of all errors which can contain other exceptions.
  *
- * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ * @author Daniel L. Rall
  * @see org.apache.commons.lang.exception.NestableException
  * @since 1.0
- * @version $Id: NestableError.java 491650 2007-01-01 22:00:14Z ggregory $
+ * @version $Id: NestableError.java 512889 2007-02-28 18:18:20Z dlr $
  */
 public class NestableError extends Error implements Nestable {
 

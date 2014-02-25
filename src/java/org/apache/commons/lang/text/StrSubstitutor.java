@@ -86,7 +86,7 @@ import java.util.Map;
  *
  * @author Oliver Heger
  * @author Stephen Colebourne
- * @version $Id: StrSubstitutor.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StrSubstitutor.java 592077 2007-11-05 16:47:10Z mbenson $
  * @since 2.2
  */
 public class StrSubstitutor {

@@ -25,14 +25,14 @@ package org.apache.commons.lang;
  * <p>A hash map that uses primitive ints for the key rather than objects.</p>
  *
  * <p>Note that this class is for internal optimization purposes only, and may
- * not be supported in future releases of Jakarta Commons Lang.  Utilities of
- * this sort may be included in future releases of Jakarta Commons Collections.</p>
+ * not be supported in future releases of Apache Commons Lang.  Utilities of
+ * this sort may be included in future releases of Apache Commons Collections.</p>
  *
  * @author Justin Couch
  * @author Alex Chaffee (alex@apache.org)
  * @author Stephen Colebourne
  * @since 2.0
- * @version $Revision: 437554 $
+ * @version $Revision: 561230 $
  * @see java.util.HashMap
  */
 class IntHashMap {

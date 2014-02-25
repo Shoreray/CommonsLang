@@ -17,9 +17,6 @@
 
 package org.apache.commons.lang.builder;
 
-import org.apache.commons.lang.builder.ToStringBuilderTest.ReflectionTestCycleA;
-import org.apache.commons.lang.builder.ToStringBuilderTest.ReflectionTestCycleB;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -29,7 +26,7 @@ import junit.textui.TestRunner;
  * Unit tests {@link org.apache.commons.lang.builder.HashCodeBuilder}.
  * 
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
- * @version $Id: HashCodeBuilderTest.java 451406 2006-09-29 19:56:41Z ggregory $
+ * @version $Id: HashCodeBuilderTest.java 583661 2007-10-11 01:31:23Z ggregory $
  */
 public class HashCodeBuilderTest extends TestCase {
 

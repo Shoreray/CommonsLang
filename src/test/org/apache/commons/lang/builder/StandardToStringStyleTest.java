@@ -19,6 +19,8 @@ package org.apache.commons.lang.builder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.commons.lang.builder.ToStringStyleTest.Person;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -28,7 +30,7 @@ import junit.textui.TestRunner;
  * Unit tests {@link org.apache.commons.lang.builder.ToStringStyle}.
  *
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
- * @version $Id: StandardToStringStyleTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StandardToStringStyleTest.java 592643 2007-11-07 07:25:30Z bayard $
  */
 public class StandardToStringStyleTest extends TestCase {
 
@@ -104,6 +106,15 @@ public class StandardToStringStyleTest extends TestCase {
         assertEquals(baseStr + "[a={}]", new ToStringBuilder(base).append("a", new HashMap(), true).toString());
         assertEquals(baseStr + "[a=%SIZE=0%]", new ToStringBuilder(base).append("a", (Object) new String[0], false).toString());
         assertEquals(baseStr + "[a=[]]", new ToStringBuilder(base).append("a", (Object) new String[0], true).toString());
+    }
+
+    public void testPerson() {
+        Person p = new Person();
+        p.name = "Suzy Queue";
+        p.age = 19;
+        p.smoker = false;
+        String pBaseStr = "ToStringStyleTest.Person";
+        assertEquals(pBaseStr + "[name=Suzy Queue,age=19,smoker=false]", new ToStringBuilder(p).append("name", p.name).append("age", p.age).append("smoker", p.smoker).toString());
     }
 
     public void testLong() {

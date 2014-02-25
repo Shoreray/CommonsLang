@@ -20,15 +20,15 @@ limitations under the License.
 
  <properties>
   <title>Commons Lang - User guide</title>
-  <author email="commons-dev@jakarta.apache.org">Commons Documentation Team</author>
+  <author email="dev@commons.apache.org">Commons Documentation Team</author>
  </properties>
 
  <body>
-  <!-- $Id: userguide.xml 447776 2006-09-19 08:00:32Z bayard $ -->
+  <!-- $Id: userguide.xml 560875 2007-07-30 05:46:04Z bayard $ -->
 
-  <section name='User guide for Jakarta Commons "Lang"'>
+  <section name='User guide for Commons "Lang"'>
     <div align="center">
-      <h1>The Jakarta Commons <em>Lang</em> Package</h1>
+      <h1>The Commons <em>Lang</em> Package</h1>
       <h2>Users Guide</h2>
       <br />
       <a href="#Description">[Description]</a>

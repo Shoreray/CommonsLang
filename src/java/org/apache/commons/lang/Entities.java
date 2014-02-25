@@ -38,7 +38,7 @@ import java.util.TreeMap;
  * @author <a href="mailto:alex@purpletech.com">Alexander Day Chaffee</a>
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @since 2.0
- * @version $Id: Entities.java 504343 2007-02-06 22:40:12Z bayard $
+ * @version $Id: Entities.java 636641 2008-03-13 06:11:30Z bayard $
  */
 class Entities {
 
@@ -679,7 +679,7 @@ class Entities {
             int high = size - 1;
 
             while (low <= high) {
-                int mid = (low + high) >> 1;
+                int mid = (low + high) >>> 1;
                 int midVal = values[mid];
 
                 if (midVal < key) {

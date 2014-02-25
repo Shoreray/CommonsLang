@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
  *
  * @author Stephen Colebourne
  * @author C. Scott Ananian
- * @version $Id: FractionTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: FractionTest.java 599499 2007-11-29 16:25:30Z mbenson $
  */
 public class FractionTest extends TestCase {
     
@@ -403,7 +403,6 @@ public class FractionTest extends TestCase {
         
         // normal
         Fraction f2 = null;
-        int remainder, number1, number2 = 0;
         for (int i = 1; i <= 100; i++) {  // denominator
             for (int j = 1; j <= i; j++) {  // numerator
                 try {
@@ -643,6 +642,18 @@ public class FractionTest extends TestCase {
         assertEquals(2, result.getNumerator());
         assertEquals(3, result.getDenominator());
         assertSame(f, result);
+
+        f = Fraction.getFraction(0, 1);
+        result = f.reduce();
+        assertEquals(0, result.getNumerator());
+        assertEquals(1, result.getDenominator());
+        assertSame(f, result);
+
+        f = Fraction.getFraction(0, 100);
+        result = f.reduce();
+        assertEquals(0, result.getNumerator());
+        assertEquals(1, result.getDenominator());
+        assertSame(result, Fraction.ZERO);
     }
     
     public void testInvert() {

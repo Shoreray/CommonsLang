@@ -39,7 +39,7 @@ import junit.textui.TestRunner;
  * @author Fredrik Westermarck
  * @author Gary Gregory
  * @author Maarten Coene
- * @version $Id: ArrayUtilsTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: ArrayUtilsTest.java 594551 2007-11-13 14:35:33Z bayard $
  */
 public class ArrayUtilsTest extends TestCase {
 

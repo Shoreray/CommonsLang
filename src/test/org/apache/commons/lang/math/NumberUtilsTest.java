@@ -25,6 +25,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
+
 import org.apache.commons.lang.SystemUtils;
 
 /**
@@ -37,7 +38,7 @@ import org.apache.commons.lang.SystemUtils;
  * @author Stephen Colebourne
  * @author Matthew Hawthorne
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
- * @version $Id: NumberUtilsTest.java 491076 2006-12-29 18:48:37Z bayard $
+ * @version $Id: NumberUtilsTest.java 609475 2008-01-06 23:58:59Z bayard $
  */
 public class NumberUtilsTest extends TestCase {
 
@@ -70,7 +71,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#stringToInt(String)}.
      */
-    public void testStringToIntString() {
+    public void testDeprecatedStringToIntString() {
         assertTrue("stringToInt(String) 1 failed", NumberUtils.stringToInt("12345") == 12345);
         assertTrue("stringToInt(String) 2 failed", NumberUtils.stringToInt("abc") == 0);
         assertTrue("stringToInt(empty) failed", NumberUtils.stringToInt("") == 0);
@@ -90,7 +91,7 @@ public class NumberUtilsTest extends TestCase {
     /**
      * Test for {@link NumberUtils#stringToInt(String, int)}.
      */
-    public void testStringToIntStringI() {
+    public void testDeprecatedStringToIntStringI() {
         assertTrue("stringToInt(String,int) 1 failed", NumberUtils.stringToInt("12345", 5) == 12345);
         assertTrue("stringToInt(String,int) 2 failed", NumberUtils.stringToInt("1234.5", 5) == 5);
     }
@@ -1181,6 +1182,27 @@ public class NumberUtilsTest extends TestCase {
         NumberUtils.createNumber("-1l");
         NumberUtils.createNumber("01l");
         NumberUtils.createNumber("1l");
+    }
+
+    public void testLang381() {
+        assertTrue(Double.isNaN(NumberUtils.min(1.2, 2.5, Double.NaN)));
+        assertTrue(Double.isNaN(NumberUtils.max(1.2, 2.5, Double.NaN)));
+        assertTrue(Float.isNaN(NumberUtils.min(1.2f, 2.5f, Float.NaN)));
+        assertTrue(Float.isNaN(NumberUtils.max(1.2f, 2.5f, Float.NaN)));
+
+        double[] a = new double[] { 1.2, Double.NaN, 3.7, 27.0, 42.0, Double.NaN };
+        assertTrue(Double.isNaN(NumberUtils.max(a)));
+        assertTrue(Double.isNaN(NumberUtils.min(a)));
+
+        double[] b = new double[] { Double.NaN, 1.2, Double.NaN, 3.7, 27.0, 42.0, Double.NaN };
+        assertTrue(Double.isNaN(NumberUtils.max(b)));
+        assertTrue(Double.isNaN(NumberUtils.min(b)));
+
+        float[] aF = new float[] { 1.2f, Float.NaN, 3.7f, 27.0f, 42.0f, Float.NaN };
+        assertTrue(Float.isNaN(NumberUtils.max(aF)));
+
+        float[] bF = new float[] { Float.NaN, 1.2f, Float.NaN, 3.7f, 27.0f, 42.0f, Float.NaN };
+        assertTrue(Float.isNaN(NumberUtils.max(bF)));
     }
     
 }

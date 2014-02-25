@@ -22,10 +22,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.WeakHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
@@ -235,7 +235,7 @@ import org.apache.commons.lang.StringUtils;
  * @author Chris Webb
  * @author Mike Bowler
  * @since 1.0
- * @version $Id: Enum.java 447975 2006-09-19 21:20:56Z bayard $
+ * @version $Id: Enum.java 637362 2008-03-15 06:09:41Z bayard $
  */
 public abstract class Enum implements Comparable, Serializable {
 
@@ -256,7 +256,11 @@ public abstract class Enum implements Comparable, Serializable {
     /**
      * <code>Map</code>, key of class name, value of <code>Entry</code>.
      */
-    private static final Map cEnumClasses = new WeakHashMap();
+    private static Map cEnumClasses
+        // LANG-334: To avoid exposing a mutating map,
+        // we copy it each time we add to it. This is cheaper than
+        // using a synchronized map since we are almost entirely reads
+        = new WeakHashMap();
     
     /**
      * The string representation of the Enum.
@@ -349,12 +353,18 @@ public abstract class Enum implements Comparable, Serializable {
         if (ok == false) {
             throw new IllegalArgumentException("getEnumClass() must return a superclass of this class");
         }
-        
-        // create entry
-        Entry entry = (Entry) cEnumClasses.get(enumClass);
-        if (entry == null) {
-            entry = createEntry(enumClass);
-            cEnumClasses.put(enumClass, entry);
+
+        Entry entry;
+        synchronized( Enum.class ) { // LANG-334
+            // create entry
+            entry = (Entry) cEnumClasses.get(enumClass);
+            if (entry == null) {
+                entry = createEntry(enumClass);
+                Map myMap = new WeakHashMap( ); // we avoid the (Map) constructor to achieve JDK 1.2 support
+                myMap.putAll( cEnumClasses );
+                myMap.put(enumClass, entry);
+                cEnumClasses = myMap;
+            }
         }
         if (entry.map.containsKey(name)) {
             throw new IllegalArgumentException("The Enum name must be unique, '" + name + "' has already been added");
@@ -548,7 +558,7 @@ public abstract class Enum implements Comparable, Serializable {
             // classes are in the same class loader.
             return iName.equals(((Enum) other).iName);
         } else {
-            // This and other are in different class loaders, we must use reflection.
+            // This and other are in different class loaders, we must check indirectly
             if (other.getClass().getName().equals(this.getClass().getName()) == false) {
                 return false;
             }
@@ -589,6 +599,8 @@ public abstract class Enum implements Comparable, Serializable {
             if (other.getClass().getName().equals(this.getClass().getName())) {
                 return iName.compareTo( getNameInOtherClassLoader(other) );
             }
+            throw new ClassCastException(
+                    "Different enum class '" + ClassUtils.getShortClassName(other.getClass()) + "'");
         }
         return iName.compareTo(((Enum) other).iName);
     }

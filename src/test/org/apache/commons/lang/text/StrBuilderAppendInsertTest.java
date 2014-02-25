@@ -32,7 +32,7 @@ import org.apache.commons.lang.SystemUtils;
 /**
  * Unit tests for {@link org.apache.commons.lang.text.StrBuilder}.
  *
- * @version $Id: StrBuilderAppendInsertTest.java 492369 2007-01-04 00:35:45Z scolebourne $
+ * @version $Id: StrBuilderAppendInsertTest.java 592081 2007-11-05 16:50:08Z mbenson $
  */
 public class StrBuilderAppendInsertTest extends TestCase {
 

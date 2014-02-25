@@ -25,7 +25,7 @@ import junit.textui.TestRunner;
  * Test suite for the Text package.
  *
  * @author Stephen Colebourne
- * @version $Id: TextTestSuite.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: TextTestSuite.java 631652 2008-02-27 17:12:38Z niallp $
  */
 public class TextTestSuite extends TestCase {
     
@@ -50,6 +50,7 @@ public class TextTestSuite extends TestCase {
         TestSuite suite = new TestSuite();
         suite.setName("Commons-Lang-Text Tests");
         suite.addTest(CompositeFormatTest.suite());
+        suite.addTest(ExtendedMessageFormatTest.suite());
         suite.addTest(StrBuilderTest.suite());
         suite.addTest(StrBuilderAppendInsertTest.suite());
         suite.addTest(StrLookupTest.suite());

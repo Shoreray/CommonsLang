@@ -40,12 +40,12 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
  * @author <a href="mailto:janekdb@yahoo.co.uk">Janek Bogucki</a>
- * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ * @author Daniel L. Rall
  * @author Stephen Colebourne
  * @author Jeff Varszegi
  * @author Gary Gregory
  * @since 1.0
- * @version $Id: SerializationUtils.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: SerializationUtils.java 512889 2007-02-28 18:18:20Z dlr $
  */
 public class SerializationUtils {
     

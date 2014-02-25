@@ -24,12 +24,12 @@ import java.io.PrintWriter;
  * extensions which would like to be able to nest root exceptions
  * inside themselves.
  *
- * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
+ * @author Daniel L. Rall
  * @author <a href="mailto:knielsen@apache.org">Kasper Nielsen</a>
  * @author <a href="mailto:steven@caswell.name">Steven Caswell</a>
  * @author Pete Gieser
  * @since 1.0
- * @version $Id: Nestable.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: Nestable.java 512889 2007-02-28 18:18:20Z dlr $
  */
 public interface Nestable {
     

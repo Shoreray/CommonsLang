@@ -81,11 +81,11 @@ import java.io.PrintWriter;
  * </pre></blockquote><br>
  *
  * @author <a href="mailto:Rafal.Krzewski@e-point.pl">Rafal Krzewski</a>
- * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
+ * @author Daniel L. Rall
  * @author <a href="mailto:knielsen@apache.org">Kasper Nielsen</a>
  * @author <a href="mailto:steven@caswell.name">Steven Caswell</a>
  * @since 1.0
- * @version $Id: NestableException.java 491651 2007-01-01 22:01:32Z ggregory $
+ * @version $Id: NestableException.java 512889 2007-02-28 18:18:20Z dlr $
  */
 public class NestableException extends Exception implements Nestable {
     

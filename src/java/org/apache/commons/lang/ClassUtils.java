@@ -18,12 +18,12 @@ package org.apache.commons.lang;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * <p>Operates on classes without using reflection.</p>
@@ -35,8 +35,9 @@ import java.util.Map;
  * @author Gary Gregory
  * @author Norm Deane
  * @author Alban Peignier
+ * @author Tomasz Blachowicz
  * @since 2.0
- * @version $Id: ClassUtils.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: ClassUtils.java 633621 2008-03-04 20:20:23Z mbenson $
  */
 public class ClassUtils {
 
@@ -63,7 +64,7 @@ public class ClassUtils {
     /**
      * Maps primitive <code>Class</code>es to their corresponding wrapper <code>Class</code>.
      */
-    private static Map  primitiveWrapperMap = new HashMap();
+    private static Map primitiveWrapperMap = new HashMap();
     static {
          primitiveWrapperMap.put(Boolean.TYPE, Boolean.class);
          primitiveWrapperMap.put(Byte.TYPE, Byte.class);
@@ -77,18 +78,52 @@ public class ClassUtils {
     }
 
     /**
+     * Maps wrapper <code>Class</code>es to their corresponding primitive types.
+     */
+    private static Map wrapperPrimitiveMap = new HashMap();
+    static {
+        for (Iterator it = primitiveWrapperMap.keySet().iterator(); it.hasNext();) {
+            Class primitiveClass = (Class) it.next();
+            Class wrapperClass = (Class) primitiveWrapperMap.get(primitiveClass);
+            if (!primitiveClass.equals(wrapperClass)) {
+                wrapperPrimitiveMap.put(wrapperClass, primitiveClass);
+            }
+        }
+    }
+
+    /**
      * Maps a primitive class name to its corresponding abbreviation used in array class names.
      */
     private static Map abbreviationMap = new HashMap();
+
+    /**
+     * Maps an abbreviation used in array class names to corresponding primitive class name.
+     */
+    private static Map reverseAbbreviationMap = new HashMap();
+    
+    /**
+     * Add primitive type abbreviation to maps of abbreviations.
+     * 
+     * @param primitive Canonical name of primitive type
+     * @param abbreviation Corresponding abbreviation of primitive type
+     */
+    private static void addAbbreviation(String primitive, String abbreviation) {
+        abbreviationMap.put(primitive, abbreviation);
+        reverseAbbreviationMap.put(abbreviation, primitive);
+    }
+    
+    /**
+     * Feed abbreviation maps
+     */
     static {
-        abbreviationMap.put( "int", "I" );
-        abbreviationMap.put( "boolean", "Z" );
-        abbreviationMap.put( "float", "F" );
-        abbreviationMap.put( "long", "J" );
-        abbreviationMap.put( "short", "S" );
-        abbreviationMap.put( "byte", "B" );
-        abbreviationMap.put( "double", "D" );
-        abbreviationMap.put( "char", "C" );
+        addAbbreviation("int", "I");
+        addAbbreviation("boolean", "Z");
+        addAbbreviation("float", "F");
+        addAbbreviation("long", "J");
+        addAbbreviation("short", "S");
+        addAbbreviation("byte", "B");
+        addAbbreviation("double", "D");
+        addAbbreviation("char", "C");
     }
 
     /**
@@ -147,16 +182,15 @@ public class ClassUtils {
         if (className.length() == 0) {
             return StringUtils.EMPTY;
         }
-        char[] chars = className.toCharArray();
-        int lastDot = 0;
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == PACKAGE_SEPARATOR_CHAR) {
-                lastDot = i + 1;
-            } else if (chars[i] == INNER_CLASS_SEPARATOR_CHAR) {  // handle inner classes
-                chars[i] = PACKAGE_SEPARATOR_CHAR;
-            }
+
+        int lastDotIdx = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR);
+        int innerIdx = className.indexOf(
+                INNER_CLASS_SEPARATOR_CHAR, lastDotIdx == -1 ? 0 : lastDotIdx + 1);
+        String out = className.substring(lastDotIdx + 1);
+        if (innerIdx != -1) {
+            out = out.replace(INNER_CLASS_SEPARATOR_CHAR, PACKAGE_SEPARATOR_CHAR);
         }
-        return new String(chars, lastDot, chars.length - lastDot);
+        return out;
     }
 
     // Package name
@@ -506,6 +540,56 @@ public class ClassUtils {
         return convertedClasses;
     }
 
+    /**
+     * <p>Converts the specified wrapper class to its corresponding primitive
+     * class.</p>
+     *
+     * <p>This method is the counter part of <code>primitiveToWrapper()</code>.
+     * If the passed in class is a wrapper class for a primitive type, this
+     * primitive type will be returned (e.g. <code>Integer.TYPE</code> for
+     * <code>Integer.class</code>). For other classes, or if the parameter is
+     * <b>null</b>, the return value is <b>null</b>.</p>
+     *
+     * @param cls the class to convert, may be <b>null</b>
+     * @return the corresponding primitive type if <code>cls</code> is a
+     * wrapper class, <b>null</b> otherwise
+     * @see #primitiveToWrapper(Class)
+     * @since 2.4
+     */
+    public static Class wrapperToPrimitive(Class cls) {
+        return (Class) wrapperPrimitiveMap.get(cls);
+    }
+
+    /**
+     * <p>Converts the specified array of wrapper Class objects to an array of
+     * its corresponding primitive Class objects.</p>
+     *
+     * <p>This method invokes <code>wrapperToPrimitive()</code> for each element
+     * of the passed in array.</p>
+     *
+     * @param classes  the class array to convert, may be null or empty
+     * @return an array which contains for each given class, the primitive class or
+     * <b>null</b> if the original class is not a wrapper class. <code>null</code> if null input.
+     * Empty array if an empty array passed in.
+     * @see #wrapperToPrimitive(Class)
+     * @since 2.4
+     */
+    public static Class[] wrappersToPrimitives(Class[] classes) {        
+        if (classes == null) {
+            return null;
+        }
+
+        if (classes.length == 0) {
+            return classes;
+        }
+
+        Class[] convertedClasses = new Class[classes.length];
+        for (int i=0; i < classes.length; i++) {
+            convertedClasses[i] = wrapperToPrimitive( classes[i] );
+        }
+        return convertedClasses;
+    }
+
     // Inner class
     // ----------------------------------------------------------------------
     /**
@@ -542,7 +626,7 @@ public class ClassUtils {
             String clsName = "[" + abbreviationMap.get(className);
             clazz = Class.forName(clsName, initialize, classLoader).getComponentType();
         } else {
-            clazz = Class.forName(toProperClassName(className), initialize, classLoader);
+            clazz = Class.forName(toCanonicalName(className), initialize, classLoader);
         }
         return clazz;
     }
@@ -655,7 +739,7 @@ public class ClassUtils {
      * @param className  the class name
      * @return the converted name
      */
-    private static String toProperClassName(String className) {
+    private static String toCanonicalName(String className) {
         className = StringUtils.deleteWhitespace(className);
         if (className == null) {
             throw new NullArgumentException("className");
@@ -676,4 +760,165 @@ public class ClassUtils {
         return className;
     }
 
+    /**
+     * <p>Converts an array of <code>Object</code> in to an array of <code>Class</code> objects.</p>
+     *
+     * <p>This method returns <code>null</code> for a <code>null</code> input array.</p>
+     *
+     * @param array an <code>Object</code> array
+     * @return a <code>Class</code> array, <code>null</code> if null array input
+     * @since 2.4
+     */
+    public static Class[] toClass(Object[] array)
+    {
+        if (array == null) {
+            return null;
+        } else if (array.length == 0) {
+            return ArrayUtils.EMPTY_CLASS_ARRAY;
+        }
+        Class[] classes = new Class[array.length];
+        for (int i = 0; i < array.length; i++) {
+            classes[i] = array[i].getClass();
+        }
+        return classes;
+    }
+
+    // Short canonical name
+    // ----------------------------------------------------------------------
+    /**
+     * <p>Gets the canonical name minus the package name for an <code>Object</code>.</p>
+     *
+     * @param object  the class to get the short name for, may be null
+     * @param valueIfNull  the value to return if null
+     * @return the canonical name of the object without the package name, or the null value
+     * @since 2.4
+     */
+    public static String getShortCanonicalName(Object object, String valueIfNull) {
+        if (object == null) {
+            return valueIfNull;
+        }
+        return getShortCanonicalName(object.getClass().getName());
+    }
+
+    /**
+     * <p>Gets the canonical name minus the package name from a <code>Class</code>.</p>
+     *
+     * @param cls  the class to get the short name for.
+     * @return the canonical name without the package name or an empty string
+     * @since 2.4
+     */
+    public static String getShortCanonicalName(Class cls) {
+        if (cls == null) {
+            return StringUtils.EMPTY;
+        }
+        return getShortCanonicalName(cls.getName());
+    }
+
+    /**
+     * <p>Gets the canonical name minus the package name from a String.</p>
+     *
+     * <p>The string passed in is assumed to be a canonical name - it is not checked.</p>
+     *
+     * @param canonicalName  the class name to get the short name for
+     * @return the canonical name of the class without the package name or an empty string
+     * @since 2.4
+     */
+    public static String getShortCanonicalName(String canonicalName) {
+        return ClassUtils.getShortClassName(getCanonicalName(canonicalName));
+    }
+
+    // Package name
+    // ----------------------------------------------------------------------
+    /**
+     * <p>Gets the package name from the canonical name of an <code>Object</code>.</p>
+     *
+     * @param object  the class to get the package name for, may be null
+     * @param valueIfNull  the value to return if null
+     * @return the package name of the object, or the null value
+     * @since 2.4
+     */
+    public static String getPackageCanonicalName(Object object, String valueIfNull) {
+        if (object == null) {
+            return valueIfNull;
+        }
+        return getPackageCanonicalName(object.getClass().getName());
+    }
+
+    /**
+     * <p>Gets the package name from the canonical name of a <code>Class</code>.</p>
+     *
+     * @param cls  the class to get the package name for, may be <code>null</code>.
+     * @return the package name or an empty string
+     * @since 2.4
+     */
+    public static String getPackageCanonicalName(Class cls) {
+        if (cls == null) {
+            return StringUtils.EMPTY;
+        }
+        return getPackageCanonicalName(cls.getName());
+    }
+
+    /**
+     * <p>Gets the package name from the canonical name. </p>
+     *
+     * <p>The string passed in is assumed to be a canonical name - it is not checked.</p>
+     * <p>If the class is unpackaged, return an empty string.</p>
+     *
+     * @param canonicalName  the canonical name to get the package name for, may be <code>null</code>
+     * @return the package name or an empty string
+     * @since 2.4
+     */
+    public static String getPackageCanonicalName(String canonicalName) {
+        return ClassUtils.getPackageName(getCanonicalName(canonicalName));
+    }
+
+    /**
+     * <p>Converts a given name of class into canonical format.
+     * If name of class is not a name of array class it returns
+     * unchanged name.</p>
+     * <p>Example:
+     * <ul>
+     * <li><code>getCanonicalName("[I") = "int[]"</code></li>
+     * <li><code>getCanonicalName("[Ljava.lang.String;") = "java.lang.String[]"</code></li>
+     * <li><code>getCanonicalName("java.lang.String") = "java.lang.String"</code></li>
+     * </ul>
+     * </p>
+     * 
+     * @param className the name of class
+     * @return canonical form of class name
+     * @since 2.4
+     */
+    private static String getCanonicalName(String className) {
+        className = StringUtils.deleteWhitespace(className);
+        if (className == null) {
+            return null;
+        } else {
+            int dim = 0;
+            while(className.startsWith("[")) {
+                dim++;
+                className = className.substring(1);
+            }
+            if(dim < 1) {
+                return className;
+            } else {
+                if(className.startsWith("L")) {
+                    className = className.substring(
+                        1,
+                        className.endsWith(";")
+                            ? className.length() - 1
+                            : className.length());
+                } else {
+                    if(className.length() > 0) {
+                        className = (String) reverseAbbreviationMap.get(
+                            className.substring(0, 1));
+                    }
+                }
+                StringBuffer canonicalClassNameBuffer = new StringBuffer(className);
+                for(int i = 0; i < dim; i++) {
+                    canonicalClassNameBuffer.append("[]");
+                }
+                return canonicalClassNameBuffer.toString();
+            }
+        }
+    }
 }

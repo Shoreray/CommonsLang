@@ -27,7 +27,7 @@ import junit.textui.TestRunner;
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
  * @author <a href="mailto:ridesmet@users.sourceforge.net">Ringo De Smet</a>
  * @author Phil Steitz
- * @version $Id: StringUtilsSubstringTest.java 492377 2007-01-04 01:20:30Z scolebourne $
+ * @version $Id: StringUtilsSubstringTest.java 534588 2007-05-02 18:46:07Z bayard $
  */
 public class StringUtilsSubstringTest extends TestCase {
     private static final String FOO = "foo";
@@ -332,7 +332,7 @@ public class StringUtilsSubstringTest extends TestCase {
              StringUtils.countMatches("oooooooooooo", "ooo"));
     }
 
-    public void testGetNestedString_StringString() {
+    public void testDeprecatedGetNestedString_StringString() {
         assertEquals(null, StringUtils.getNestedString(null, "tag"));
         assertEquals("", StringUtils.getNestedString("", ""));
         assertEquals(null, StringUtils.getNestedString("", "abc"));
@@ -345,7 +345,7 @@ public class StringUtilsSubstringTest extends TestCase {
         assertEquals("bar", StringUtils.getNestedString("\nbar\n", "\n"));
     }
             
-    public void testGetNestedString_StringStringString() {
+    public void testDeprecatedGetNestedString_StringStringString() {
         assertEquals(null, StringUtils.getNestedString(null, "", ""));
         assertEquals("", StringUtils.getNestedString("", "", ""));
         assertEquals("", StringUtils.getNestedString("    ", " ", "  "));

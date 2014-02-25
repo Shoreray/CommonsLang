@@ -19,26 +19,27 @@ package org.apache.commons.lang;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+
+
 /**
  * Unit tests {@link org.apache.commons.lang.ClassUtils}.
  *
  * @author Stephen Colebourne
  * @author Gary D. Gregory
- * @version $Id: ClassUtilsTest.java 501606 2007-01-30 22:26:38Z bayard $
+ * @author Tomasz Blachowicz
+ * @version $Id: ClassUtilsTest.java 612749 2008-01-17 08:05:23Z bayard $
  */
 public class ClassUtilsTest extends TestCase {
 
@@ -397,6 +398,55 @@ public class ClassUtilsTest extends TestCase {
         assertNotSame("unmodified", noPrimitives, ClassUtils.primitivesToWrappers(noPrimitives));
     }
 
+    public void testWrapperToPrimitive() {
+        // an array with classes to convert
+        final Class[] primitives = {
+                Boolean.TYPE, Byte.TYPE, Character.TYPE, Short.TYPE,
+                Integer.TYPE, Long.TYPE, Float.TYPE, Double.TYPE
+        };
+        for (int i = 0; i < primitives.length; i++) {
+            Class wrapperCls = ClassUtils.primitiveToWrapper(primitives[i]);
+            assertFalse("Still primitive", wrapperCls.isPrimitive());
+            assertEquals(wrapperCls + " -> " + primitives[i], primitives[i],
+                    ClassUtils.wrapperToPrimitive(wrapperCls));
+        }
+    }
+
+    public void testWrapperToPrimitiveNoWrapper() {
+        assertNull("Wrong result for non wrapper class", ClassUtils.wrapperToPrimitive(String.class));
+    }
+
+    public void testWrapperToPrimitiveNull() {
+        assertNull("Wrong result for null class", ClassUtils.wrapperToPrimitive(null));
+    }
+
+    public void testWrappersToPrimitives() {
+        // an array with classes to test
+        final Class[] classes = {
+                Boolean.class, Byte.class, Character.class, Short.class,
+                Integer.class, Long.class, Float.class, Double.class,
+                String.class, ClassUtils.class, null
+        };
+
+        Class[] primitives = ClassUtils.wrappersToPrimitives(classes);
+        // now test the result
+        assertEquals("Wrong length of result array", classes.length, primitives.length);
+        for (int i = 0; i < classes.length; i++) {
+            Class expectedPrimitive = ClassUtils.wrapperToPrimitive(classes[i]);
+            assertEquals(classes[i] + " -> " + expectedPrimitive, expectedPrimitive,
+                    primitives[i]);
+        }
+    }
+
+    public void testWrappersToPrimitivesNull() {
+        assertNull("Wrong result for null input", ClassUtils.wrappersToPrimitives(null));
+    }
+
+    public void testWrappersToPrimitivesEmpty() {
+        Class[] empty = new Class[0];
+        assertEquals("Wrong result for empty input", empty, ClassUtils.wrappersToPrimitives(empty));
+    }
+
     public void testGetClassClassNotFound() throws Exception {
         assertGetClassThrowsClassNotFound( "bool" );
         assertGetClassThrowsClassNotFound( "bool[]" );
@@ -532,4 +582,85 @@ public class ClassUtilsTest extends TestCase {
             assertEquals(Object.class.getMethod("toString", new Class[0]), toStringMethod);
     }
  
+    public void testToClass_object() {
+        assertEquals(null, ClassUtils.toClass(null));
+
+        assertSame(
+            ArrayUtils.EMPTY_CLASS_ARRAY,
+            ClassUtils.toClass(new Class[0]));
+
+        Object[] array = new Object[3];
+        array[0] = new String("Test");
+        array[1] = new Integer(1);
+        array[2] = new Double(99);
+
+        Class[] results = ClassUtils.toClass(array);
+        assertEquals("String", ClassUtils.getShortClassName(results[0]));
+        assertEquals("Integer", ClassUtils.getShortClassName(results[1]));
+        assertEquals("Double", ClassUtils.getShortClassName(results[2]));
+    }
+
+    public void test_getShortCanonicalName_Object() {
+        assertEquals("<null>", ClassUtils.getShortCanonicalName(null, "<null>"));
+        assertEquals("ClassUtils", ClassUtils.getShortCanonicalName(new ClassUtils(), "<null>"));
+        assertEquals("ClassUtils[]", ClassUtils.getShortCanonicalName(new ClassUtils[0], "<null>"));
+        assertEquals("ClassUtils[][]", ClassUtils.getShortCanonicalName(new ClassUtils[0][0], "<null>"));
+        assertEquals("int[]", ClassUtils.getShortCanonicalName(new int[0], "<null>"));
+        assertEquals("int[][]", ClassUtils.getShortCanonicalName(new int[0][0], "<null>"));
+    }
+
+    public void test_getShortCanonicalName_Class() {
+        assertEquals("ClassUtils", ClassUtils.getShortCanonicalName(ClassUtils.class));
+        assertEquals("ClassUtils[]", ClassUtils.getShortCanonicalName(ClassUtils[].class));
+        assertEquals("ClassUtils[][]", ClassUtils.getShortCanonicalName(ClassUtils[][].class));
+        assertEquals("int[]", ClassUtils.getShortCanonicalName(int[].class));
+        assertEquals("int[][]", ClassUtils.getShortCanonicalName(int[][].class));
+    }
+
+    public void test_getShortCanonicalName_String() {
+        assertEquals("ClassUtils", ClassUtils.getShortCanonicalName("org.apache.commons.lang.ClassUtils"));
+        assertEquals("ClassUtils[]", ClassUtils.getShortCanonicalName("[Lorg.apache.commons.lang.ClassUtils;"));
+        assertEquals("ClassUtils[][]", ClassUtils.getShortCanonicalName("[[Lorg.apache.commons.lang.ClassUtils;"));
+        assertEquals("ClassUtils[]", ClassUtils.getShortCanonicalName("org.apache.commons.lang.ClassUtils[]"));
+        assertEquals("ClassUtils[][]", ClassUtils.getShortCanonicalName("org.apache.commons.lang.ClassUtils[][]"));
+        assertEquals("int[]", ClassUtils.getShortCanonicalName("[I"));
+        assertEquals("int[][]", ClassUtils.getShortCanonicalName("[[I"));
+        assertEquals("int[]", ClassUtils.getShortCanonicalName("int[]"));
+        assertEquals("int[][]", ClassUtils.getShortCanonicalName("int[][]"));
+    }
+
+    public void test_getPackageCanonicalName_Object() {
+        assertEquals("<null>", ClassUtils.getPackageCanonicalName(null, "<null>"));
+        assertEquals("org.apache.commons.lang", ClassUtils.getPackageCanonicalName(new ClassUtils(), "<null>"));
+        assertEquals("org.apache.commons.lang", ClassUtils.getPackageCanonicalName(new ClassUtils[0], "<null>"));
+        assertEquals("org.apache.commons.lang", ClassUtils.getPackageCanonicalName(new ClassUtils[0][0], "<null>"));
+        assertEquals("", ClassUtils.getPackageCanonicalName(new int[0], "<null>"));
+        assertEquals("", ClassUtils.getPackageCanonicalName(new int[0][0], "<null>"));
+    }
+
+    public void test_getPackageCanonicalName_Class() {
+        assertEquals("org.apache.commons.lang", ClassUtils.getPackageCanonicalName(ClassUtils.class));
+        assertEquals("org.apache.commons.lang", ClassUtils.getPackageCanonicalName(ClassUtils[].class));
+        assertEquals("org.apache.commons.lang", ClassUtils.getPackageCanonicalName(ClassUtils[][].class));
+        assertEquals("", ClassUtils.getPackageCanonicalName(int[].class));
+        assertEquals("", ClassUtils.getPackageCanonicalName(int[][].class));
+    }
+
+    public void test_getPackageCanonicalName_String() {
+        assertEquals("org.apache.commons.lang", 
+            ClassUtils.getPackageCanonicalName("org.apache.commons.lang.ClassUtils"));
+        assertEquals("org.apache.commons.lang", 
+            ClassUtils.getPackageCanonicalName("[Lorg.apache.commons.lang.ClassUtils;"));
+        assertEquals("org.apache.commons.lang", 
+            ClassUtils.getPackageCanonicalName("[[Lorg.apache.commons.lang.ClassUtils;"));
+        assertEquals("org.apache.commons.lang", 
+            ClassUtils.getPackageCanonicalName("org.apache.commons.lang.ClassUtils[]"));
+        assertEquals("org.apache.commons.lang", 
+            ClassUtils.getPackageCanonicalName("org.apache.commons.lang.ClassUtils[][]"));
+        assertEquals("", ClassUtils.getPackageCanonicalName("[I"));
+        assertEquals("", ClassUtils.getPackageCanonicalName("[[I"));
+        assertEquals("", ClassUtils.getPackageCanonicalName("int[]"));
+        assertEquals("", ClassUtils.getPackageCanonicalName("int[][]"));
+    }
+
 }

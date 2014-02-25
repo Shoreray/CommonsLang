@@ -16,6 +16,7 @@
  */
 package org.apache.commons.lang.builder;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import junit.framework.Test;
@@ -30,7 +31,7 @@ import junit.textui.TestRunner;
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @author Maarten Coene
- * @version $Id: EqualsBuilderTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: EqualsBuilderTest.java 611543 2008-01-13 07:00:22Z bayard $
  */
 public class EqualsBuilderTest extends TestCase {
 
@@ -66,12 +67,12 @@ public class EqualsBuilderTest extends TestCase {
             this.a = a;
         }
         public boolean equals(Object o) {
-            if (o == this) {
-                return true;
-            }
-            if (!(o instanceof TestObject)) {
+            if (o == null) { return false; }
+            if (o == this) { return true; }
+            if (o.getClass() != getClass()) {
                 return false;
             }
+
             TestObject rhs = (TestObject) o;
             return (a == rhs.a);
         }
@@ -95,12 +96,12 @@ public class EqualsBuilderTest extends TestCase {
             this.b = b;
         }
         public boolean equals(Object o) {
-            if (o == this) {
-                return true;
-            }
-            if (!(o instanceof TestSubObject)) {
+            if (o == null) { return false; }
+            if (o == this) { return true; }
+            if (o.getClass() != getClass()) {
                 return false;
             }
+
             TestSubObject rhs = (TestSubObject) o;
             return super.equals(o) && (b == rhs.b);
         }
@@ -374,6 +375,14 @@ public class EqualsBuilderTest extends TestCase {
         assertTrue(!new EqualsBuilder().append(o1, Float.NaN).isEquals());
         assertTrue(new EqualsBuilder().append(Float.NaN, Float.NaN).isEquals());
         assertTrue(new EqualsBuilder().append(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY).isEquals());
+    }
+
+    // https://issues.apache.org/jira/browse/LANG-393
+    public void testBigDecimal() {
+        BigDecimal o1 = new BigDecimal("2.0");
+        BigDecimal o2 = new BigDecimal("2.00");
+        assertTrue(new EqualsBuilder().append(o1, o1).isEquals());
+        assertTrue(new EqualsBuilder().append(o1, o2).isEquals());
     }
 
     public void testAccessors() {

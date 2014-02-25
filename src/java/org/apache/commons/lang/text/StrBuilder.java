@@ -65,7 +65,7 @@ import org.apache.commons.lang.SystemUtils;
  *
  * @author Stephen Colebourne
  * @since 2.2
- * @version $Id: StrBuilder.java 492371 2007-01-04 00:42:05Z scolebourne $
+ * @version $Id: StrBuilder.java 627248 2008-02-13 05:44:46Z bayard $
  */
 public class StrBuilder implements Cloneable {
 
@@ -1183,6 +1183,9 @@ public class StrBuilder implements Cloneable {
         if (width > 0) {
             ensureCapacity(size + width);
             String str = (obj == null ? getNullText() : obj.toString());
+            if (str == null) {
+                str = "";
+            }
             int strLen = str.length();
             if (strLen >= width) {
                 str.getChars(strLen - width, strLen, buffer, size);
@@ -1227,6 +1230,9 @@ public class StrBuilder implements Cloneable {
         if (width > 0) {
             ensureCapacity(size + width);
             String str = (obj == null ? getNullText() : obj.toString());
+            if (str == null) {
+                str = "";
+            }
             int strLen = str.length();
             if (strLen >= width) {
                 str.getChars(0, width, buffer, size);

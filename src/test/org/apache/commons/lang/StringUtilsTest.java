@@ -19,9 +19,9 @@ package org.apache.commons.lang;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -31,7 +31,7 @@ import junit.textui.TestRunner;
 /**
  * Unit tests {@link org.apache.commons.lang.StringUtils}.
  *
- * @author <a href="mailto:dlr@collab.net">Daniel Rall</a>
+ * @author Daniel L. Rall
  * @author Stephen Colebourne
  * @author <a href="mailto:ridesmet@users.sourceforge.net">Ringo De Smet</a>
  * @author <a href="mailto:fredrik@westermarck.com>Fredrik Westermarck</a>
@@ -39,8 +39,9 @@ import junit.textui.TestRunner;
  * @author <a href="hps@intermeta.de">Henning P. Schmiedehausen</a>
  * @author Phil Steitz
  * @author Gary D. Gregory
+ * @author Scott Johnson
  * @author Al Chou
- * @version $Id: StringUtilsTest.java 471626 2006-11-06 04:02:09Z bayard $
+ * @version $Id: StringUtilsTest.java 618882 2008-02-06 04:32:56Z ggregory $
  */
 public class StringUtilsTest extends TestCase {
     
@@ -300,7 +301,7 @@ public class StringUtilsTest extends TestCase {
         assertEquals(TEXT_LIST, StringUtils.join(Arrays.asList(ARRAY_LIST), SEPARATOR));
     }
 
-    public void testConcatenate_Objectarray() {
+    public void testDeprecatedConcatenate_Objectarray() {
         assertEquals(null, StringUtils.concatenate(null));
         assertEquals("", StringUtils.concatenate(EMPTY_ARRAY_LIST));
         assertEquals("", StringUtils.concatenate(NULL_ARRAY_LIST));
@@ -485,6 +486,51 @@ public class StringUtilsTest extends TestCase {
         }
     }
 
+    public void testSplitByWholeSeparatorPreserveAllTokens_StringStringInt() {
+        assertEquals( null, StringUtils.splitByWholeSeparatorPreserveAllTokens( null, ".", -1 ) ) ;
+
+        assertEquals( 0, StringUtils.splitByWholeSeparatorPreserveAllTokens( "", ".", -1 ).length ) ;
+
+        // test whitespace
+        String input = "ab   de fg" ;
+        String[] expected = new String[] { "ab", "", "", "de", "fg" } ;
+
+        String[] actual = StringUtils.splitByWholeSeparatorPreserveAllTokens( input, null, -1 ) ;
+        assertEquals( expected.length, actual.length ) ;
+        for ( int i = 0 ; i < actual.length ; i+= 1 ) {
+            assertEquals( expected[i], actual[i] );
+        }
+
+        // test delimiter singlechar
+        input = "1::2:::3::::4";
+        expected = new String[] { "1", "", "2", "", "", "3", "", "", "", "4" };
+
+        actual = StringUtils.splitByWholeSeparatorPreserveAllTokens( input, ":", -1 ) ;
+        assertEquals( expected.length, actual.length ) ;
+        for ( int i = 0 ; i < actual.length ; i+= 1 ) {
+            assertEquals( expected[i], actual[i] );
+        }
+
+        // test delimiter multichar
+        input = "1::2:::3::::4";
+        expected = new String[] { "1", "2", ":3", "", "4" };
+
+        actual = StringUtils.splitByWholeSeparatorPreserveAllTokens( input, "::", -1 ) ;
+        assertEquals( expected.length, actual.length ) ;
+        for ( int i = 0 ; i < actual.length ; i+= 1 ) {
+            assertEquals( expected[i], actual[i] );
+        }
+
+        // test delimiter char with max
+        input = "1::2::3:4";
+        expected = new String[] { "1", "", "2", ":3:4" };
+
+        actual = StringUtils.splitByWholeSeparatorPreserveAllTokens( input, ":", 4 ) ;
+        assertEquals( expected.length, actual.length ) ;
+        for ( int i = 0 ; i < actual.length ; i+= 1 ) {
+            assertEquals( expected[i], actual[i] );
+        }
+    }
     
     public void testSplitPreserveAllTokens_String() {
         assertEquals(null, StringUtils.splitPreserveAllTokens(null));
@@ -846,8 +892,60 @@ public class StringUtilsTest extends TestCase {
         assertEquals(msg, "a", res[0]);
         assertEquals(msg, str.substring(2), res[1]);
     }
+
+    public void testSplitByCharacterType() {
+        assertNull(StringUtils.splitByCharacterType(null));
+        assertEquals(0, StringUtils.splitByCharacterType("").length);
+        
+        assertTrue(ArrayUtils.isEquals(new String[] { "ab", " ", "de", " ",
+        "fg" }, StringUtils.splitByCharacterType("ab de fg")));
+        
+        assertTrue(ArrayUtils.isEquals(new String[] { "ab", "   ", "de", " ",
+        "fg" }, StringUtils.splitByCharacterType("ab   de fg")));
+        
+        assertTrue(ArrayUtils.isEquals(new String[] { "ab", ":", "cd", ":",
+        "ef" }, StringUtils.splitByCharacterType("ab:cd:ef")));
+        
+        assertTrue(ArrayUtils.isEquals(new String[] { "number", "5" },
+                StringUtils.splitByCharacterType("number5")));
+        
+        assertTrue(ArrayUtils.isEquals(new String[] { "foo", "B", "ar" },
+                StringUtils.splitByCharacterType("fooBar")));
+        
+        assertTrue(ArrayUtils.isEquals(new String[] { "foo", "200", "B", "ar" },
+                StringUtils.splitByCharacterType("foo200Bar")));
+        
+        assertTrue(ArrayUtils.isEquals(new String[] { "ASFR", "ules" },
+                StringUtils.splitByCharacterType("ASFRules")));
+    }
     
-    public void testDeleteSpace_String() {
+    public void testSplitByCharacterTypeCamelCase() {
+        assertNull(StringUtils.splitByCharacterTypeCamelCase(null));
+        assertEquals(0, StringUtils.splitByCharacterTypeCamelCase("").length);
+
+        assertTrue(ArrayUtils.isEquals(new String[] { "ab", " ", "de", " ",
+                "fg" }, StringUtils.splitByCharacterTypeCamelCase("ab de fg")));
+
+        assertTrue(ArrayUtils.isEquals(new String[] { "ab", "   ", "de", " ",
+                "fg" }, StringUtils.splitByCharacterTypeCamelCase("ab   de fg")));
+
+        assertTrue(ArrayUtils.isEquals(new String[] { "ab", ":", "cd", ":",
+                "ef" }, StringUtils.splitByCharacterTypeCamelCase("ab:cd:ef")));
+        
+        assertTrue(ArrayUtils.isEquals(new String[] { "number", "5" },
+                StringUtils.splitByCharacterTypeCamelCase("number5")));
+
+        assertTrue(ArrayUtils.isEquals(new String[] { "foo", "Bar" },
+                StringUtils.splitByCharacterTypeCamelCase("fooBar")));
+
+        assertTrue(ArrayUtils.isEquals(new String[] { "foo", "200", "Bar" },
+                StringUtils.splitByCharacterTypeCamelCase("foo200Bar")));
+
+        assertTrue(ArrayUtils.isEquals(new String[] { "ASF", "Rules" },
+                StringUtils.splitByCharacterTypeCamelCase("ASFRules")));
+    }
+
+    public void testDeprecatedDeleteSpace_String() {
         assertEquals(null, StringUtils.deleteSpaces(null));
         assertEquals("", StringUtils.deleteSpaces(""));
         assertEquals("", StringUtils.deleteSpaces("    \t\t\n\n   "));
@@ -932,6 +1030,64 @@ public class StringUtilsTest extends TestCase {
         assertEquals("foofoo", StringUtils.replaceOnce("foofoofoo", "foo", ""));
     }
 
+    /**
+     * Test method for 'org.apache.commons.lang.StringUtils.replaceEach(String, String[], String[])'
+     */
+    public void testReplace_StringStringArrayStringArray() {
+
+        
+        //JAVADOC TESTS START
+        assertNull(StringUtils.replaceEach(null, new String[]{"a"}, new String[]{"b"}));
+        assertEquals(StringUtils.replaceEach("", new String[]{"a"}, new String[]{"b"}),"");
+        assertEquals(StringUtils.replaceEach("aba", null, null),"aba");
+        assertEquals(StringUtils.replaceEach("aba", new String[0], null),"aba");
+        assertEquals(StringUtils.replaceEach("aba", null, new String[0]),"aba");
+        assertEquals(StringUtils.replaceEach("aba", new String[]{"a"}, null),"aba");
+
+        assertEquals(StringUtils.replaceEach("aba", new String[]{"a"}, new String[]{""}),"b");
+        assertEquals(StringUtils.replaceEach("aba", new String[]{null}, new String[]{"a"}),"aba");
+        assertEquals(StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"w", "t"}),"wcte");
+        assertEquals(StringUtils.replaceEach("abcde", new String[]{"ab", "d"}, new String[]{"d", "t"}),"dcte");
+        //JAVADOC TESTS END
+
+        assertEquals("bcc", StringUtils.replaceEach("abc", new String[]{"a", "b"}, new String[]{"b", "c"}));
+        assertEquals("q651.506bera", StringUtils.replaceEach("d216.102oren",
+            new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", 
+                "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", 
+                "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", 
+                "U", "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9"},
+            new String[]{"n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "a", 
+                "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "N", "O", "P", "Q", 
+                "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "A", "B", "C", "D", "E", "F", "G", 
+                "H", "I", "J", "K", "L", "M", "5", "6", "7", "8", "9", "1", "2", "3", "4"}));
+    }
+
+    /**
+     * Test method for 'org.apache.commons.lang.StringUtils.replaceEachRepeatedly(String, String[], String[])'
+     */
+    public void testReplace_StringStringArrayStringArrayBoolean() {
+        //JAVADOC TESTS START
+        assertNull(StringUtils.replaceEachRepeatedly(null, new String[]{"a"}, new String[]{"b"}));
+        assertEquals(StringUtils.replaceEachRepeatedly("", new String[]{"a"}, new String[]{"b"}),"");
+        assertEquals(StringUtils.replaceEachRepeatedly("aba", null, null),"aba");
+        assertEquals(StringUtils.replaceEachRepeatedly("aba", new String[0], null),"aba");
+        assertEquals(StringUtils.replaceEachRepeatedly("aba", null, new String[0]),"aba");
+        assertEquals(StringUtils.replaceEachRepeatedly("aba", new String[0], null),"aba");
+
+        assertEquals(StringUtils.replaceEachRepeatedly("aba", new String[]{"a"}, new String[]{""}),"b");
+        assertEquals(StringUtils.replaceEachRepeatedly("aba", new String[]{null}, new String[]{"a"}),"aba");
+        assertEquals(StringUtils.replaceEachRepeatedly("abcde", new String[]{"ab", "d"}, new String[]{"w", "t"}),"wcte");
+        assertEquals(StringUtils.replaceEachRepeatedly("abcde", new String[]{"ab", "d"}, new String[]{"d", "t"}),"tcte");
+
+        try {
+            StringUtils.replaceEachRepeatedly("abcde", new String[]{"ab", "d"}, new String[]{"d", "ab"});
+            fail("Should be a circular reference");
+        } catch (IllegalStateException e) {}
+
+        //JAVADOC TESTS END
+
+    }
+    
     public void testReplaceChars_StringCharChar() {
         assertEquals(null, StringUtils.replaceChars(null, 'b', 'z'));
         assertEquals("", StringUtils.replaceChars("", 'b', 'z'));
@@ -984,7 +1140,7 @@ public class StringUtilsTest extends TestCase {
             "nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM567891234"));
     }
     
-    public void testOverlayString_StringStringIntInt() {
+    public void testDeprecatedOverlayString_StringStringIntInt() {
         assertEquals("overlayString(String, String, int, int) failed",
                      "foo foor baz", StringUtils.overlayString(SENTENCE_UNCAP, FOO_UNCAP, 4, 6) );
         assertEquals("abef", StringUtils.overlayString("abcdef", "", 2, 4));
@@ -1247,6 +1403,15 @@ public class StringUtilsTest extends TestCase {
         assertEquals("  abc", StringUtils.leftPad("abc", 5, ""));
     }
 
+    public void testLength() {
+        assertEquals(0, StringUtils.length(null));
+        assertEquals(0, StringUtils.length(""));
+        assertEquals(0, StringUtils.length(StringUtils.EMPTY));
+        assertEquals(1, StringUtils.length("A"));
+        assertEquals(1, StringUtils.length(" "));
+        assertEquals(8, StringUtils.length("ABCDEFGH"));
+    }
+    
     //-----------------------------------------------------------------------
     public void testCenter_StringInt() {
         assertEquals(null, StringUtils.center(null, -1));
@@ -1310,7 +1475,7 @@ public class StringUtilsTest extends TestCase {
         assertEquals("", StringUtils.reverseDelimited("", '.') );
     }
 
-    public void testReverseDelimitedString_StringString() {
+    public void testDeprecatedReverseDelimitedString_StringString() {
         assertEquals(null, StringUtils.reverseDelimitedString(null, null) );
         assertEquals("", StringUtils.reverseDelimitedString("", null) );
         assertEquals("", StringUtils.reverseDelimitedString("", ".") );
@@ -1339,7 +1504,7 @@ public class StringUtilsTest extends TestCase {
     }
 
     //-----------------------------------------------------------------------
-    public void testEscapeFunctions_String() {
+    public void testDeprecatedEscapeFunctions_String() {
         assertEquals("", StringUtils.escape("") );
         assertEquals("abc", StringUtils.escape("abc") );
         assertEquals("\\t", StringUtils.escape("\t") );
@@ -1486,11 +1651,12 @@ public class StringUtilsTest extends TestCase {
     }
 
     /**
-     * A sanity check for {@link StringUtils.EMPTY}.
+     * A sanity check for {@link StringUtils#EMPTY}.
      */
     public void testEMPTY() {
         assertNotNull(StringUtils.EMPTY);
         assertEquals("", StringUtils.EMPTY);
+        assertEquals(0, StringUtils.EMPTY.length());
     }
     
     public void testRemoveStart() {
@@ -1510,6 +1676,27 @@ public class StringUtilsTest extends TestCase {
         assertEquals(StringUtils.removeStart("domain.com", ""), "domain.com");        
         assertEquals(StringUtils.removeStart("domain.com", null), "domain.com");        
     }
+    
+    public void testRemoveStartIgnoreCase() {
+        // StringUtils.removeStart("", *)        = ""
+        assertNull("removeStartIgnoreCase(null, null)", StringUtils.removeStartIgnoreCase(null, null));
+        assertNull("removeStartIgnoreCase(null, \"\")", StringUtils.removeStartIgnoreCase(null, ""));
+        assertNull("removeStartIgnoreCase(null, \"a\")", StringUtils.removeStartIgnoreCase(null, "a"));
+        
+        // StringUtils.removeStart(*, null)      = *
+        assertEquals("removeStartIgnoreCase(\"\", null)", StringUtils.removeStartIgnoreCase("", null), "");
+        assertEquals("removeStartIgnoreCase(\"\", \"\")", StringUtils.removeStartIgnoreCase("", ""), "");
+        assertEquals("removeStartIgnoreCase(\"\", \"a\")", StringUtils.removeStartIgnoreCase("", "a"), "");
+        
+        // All others:
+        assertEquals("removeStartIgnoreCase(\"www.domain.com\", \"www.\")", StringUtils.removeStartIgnoreCase("www.domain.com", "www."), "domain.com");
+        assertEquals("removeStartIgnoreCase(\"domain.com\", \"www.\")", StringUtils.removeStartIgnoreCase("domain.com", "www."), "domain.com");
+        assertEquals("removeStartIgnoreCase(\"domain.com\", \"\")", StringUtils.removeStartIgnoreCase("domain.com", ""), "domain.com");        
+        assertEquals("removeStartIgnoreCase(\"domain.com\", null)", StringUtils.removeStartIgnoreCase("domain.com", null), "domain.com");        
+        
+        // Case insensitive:
+        assertEquals("removeStartIgnoreCase(\"www.domain.com\", \"WWW.\")", StringUtils.removeStartIgnoreCase("www.domain.com", "WWW."), "domain.com");
+    }
 
     public void testRemoveEnd() {
         // StringUtils.removeEnd("", *)        = ""
@@ -1528,6 +1715,28 @@ public class StringUtilsTest extends TestCase {
         assertEquals(StringUtils.removeEnd("www.domain", ".com"), "www.domain");
         assertEquals(StringUtils.removeEnd("domain.com", ""), "domain.com");   
         assertEquals(StringUtils.removeEnd("domain.com", null), "domain.com");   
+    }
+
+    public void testRemoveEndIgnoreCase() {
+        // StringUtils.removeEndIgnoreCase("", *)        = ""
+        assertNull("removeEndIgnoreCase(null, null)", StringUtils.removeEndIgnoreCase(null, null));
+        assertNull("removeEndIgnoreCase(null, \"\")", StringUtils.removeEndIgnoreCase(null, ""));
+        assertNull("removeEndIgnoreCase(null, \"a\")", StringUtils.removeEndIgnoreCase(null, "a"));
+        
+        // StringUtils.removeEnd(*, null)      = *
+        assertEquals("removeEndIgnoreCase(\"\", null)", StringUtils.removeEndIgnoreCase("", null), "");
+        assertEquals("removeEndIgnoreCase(\"\", \"\")", StringUtils.removeEndIgnoreCase("", ""), "");
+        assertEquals("removeEndIgnoreCase(\"\", \"a\")", StringUtils.removeEndIgnoreCase("", "a"), "");
+        
+        // All others:
+        assertEquals("removeEndIgnoreCase(\"www.domain.com.\", \".com\")", StringUtils.removeEndIgnoreCase("www.domain.com.", ".com"), "www.domain.com.");
+        assertEquals("removeEndIgnoreCase(\"www.domain.com\", \".com\")", StringUtils.removeEndIgnoreCase("www.domain.com", ".com"), "www.domain");
+        assertEquals("removeEndIgnoreCase(\"www.domain\", \".com\")", StringUtils.removeEndIgnoreCase("www.domain", ".com"), "www.domain");
+        assertEquals("removeEndIgnoreCase(\"domain.com\", \"\")", StringUtils.removeEndIgnoreCase("domain.com", ""), "domain.com");   
+        assertEquals("removeEndIgnoreCase(\"domain.com\", null)", StringUtils.removeEndIgnoreCase("domain.com", null), "domain.com");   
+
+        // Case insensitive:
+        assertEquals("removeEndIgnoreCase(\"www.domain.com\", \".com\")", StringUtils.removeEndIgnoreCase("www.domain.com", ".COM"), "www.domain");
     }
 
     public void testRemove_String() {
@@ -1576,4 +1785,45 @@ public class StringUtilsTest extends TestCase {
         assertEquals("queued", StringUtils.remove("queued", 'z'));
     }
 
+    
+    public void testDifferenceAt_StringArray(){        
+        assertEquals(-1, StringUtils.indexOfDifference(null));
+        assertEquals(-1, StringUtils.indexOfDifference(new String[] {}));
+        assertEquals(-1, StringUtils.indexOfDifference(new String[] {"abc"}));
+        assertEquals(-1, StringUtils.indexOfDifference(new String[] {null, null}));
+        assertEquals(-1, StringUtils.indexOfDifference(new String[] {"", ""}));
+        assertEquals(0, StringUtils.indexOfDifference(new String[] {"", null}));
+        assertEquals(0, StringUtils.indexOfDifference(new String[] {"abc", null, null}));
+        assertEquals(0, StringUtils.indexOfDifference(new String[] {null, null, "abc"}));
+        assertEquals(0, StringUtils.indexOfDifference(new String[] {"", "abc"}));
+        assertEquals(0, StringUtils.indexOfDifference(new String[] {"abc", ""}));
+        assertEquals(-1, StringUtils.indexOfDifference(new String[] {"abc", "abc"}));
+        assertEquals(1, StringUtils.indexOfDifference(new String[] {"abc", "a"}));
+        assertEquals(2, StringUtils.indexOfDifference(new String[] {"ab", "abxyz"}));
+        assertEquals(2, StringUtils.indexOfDifference(new String[] {"abcde", "abxyz"}));
+        assertEquals(0, StringUtils.indexOfDifference(new String[] {"abcde", "xyz"}));
+        assertEquals(0, StringUtils.indexOfDifference(new String[] {"xyz", "abcde"}));
+        assertEquals(7, StringUtils.indexOfDifference(new String[] {"i am a machine", "i am a robot"}));
+    }
+    
+    public void testGetCommonPrefix_StringArray(){        
+        assertEquals("", StringUtils.getCommonPrefix(null));
+        assertEquals("", StringUtils.getCommonPrefix(new String[] {}));
+        assertEquals("abc", StringUtils.getCommonPrefix(new String[] {"abc"}));
+        assertEquals("", StringUtils.getCommonPrefix(new String[] {null, null}));
+        assertEquals("", StringUtils.getCommonPrefix(new String[] {"", ""}));
+        assertEquals("", StringUtils.getCommonPrefix(new String[] {"", null}));
+        assertEquals("", StringUtils.getCommonPrefix(new String[] {"abc", null, null}));
+        assertEquals("", StringUtils.getCommonPrefix(new String[] {null, null, "abc"}));
+        assertEquals("", StringUtils.getCommonPrefix(new String[] {"", "abc"}));
+        assertEquals("", StringUtils.getCommonPrefix(new String[] {"abc", ""}));
+        assertEquals("abc", StringUtils.getCommonPrefix(new String[] {"abc", "abc"}));
+        assertEquals("a", StringUtils.getCommonPrefix(new String[] {"abc", "a"}));
+        assertEquals("ab", StringUtils.getCommonPrefix(new String[] {"ab", "abxyz"}));
+        assertEquals("ab", StringUtils.getCommonPrefix(new String[] {"abcde", "abxyz"}));
+        assertEquals("", StringUtils.getCommonPrefix(new String[] {"abcde", "xyz"}));
+        assertEquals("", StringUtils.getCommonPrefix(new String[] {"xyz", "abcde"}));
+        assertEquals("i am a ", StringUtils.getCommonPrefix(new String[] {"i am a machine", "i am a robot"}));
+    }
+ 
 }

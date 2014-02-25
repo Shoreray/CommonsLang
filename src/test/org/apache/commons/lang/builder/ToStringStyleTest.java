@@ -25,7 +25,7 @@ import junit.textui.TestRunner;
  * Test case for ToStringStyle.
  * 
  * @author Masato Tezuka
- * @version $Id: ToStringStyleTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: ToStringStyleTest.java 592643 2007-11-07 07:25:30Z bayard $
  */
 public class ToStringStyleTest extends TestCase {
 
@@ -123,4 +123,25 @@ public class ToStringStyleTest extends TestCase {
         assertEquals("", style.getSummaryObjectEndText());
     }
 
+    /**
+     * An object used to test {@link ToStringStyle}.
+     * 
+     * @author Scott Bassin
+     */
+    static class Person {
+        /**
+         * Test String field.
+         */
+        String name;
+
+        /**
+         * Test integer field.
+         */
+        int age;
+
+        /**
+         * Test boolean field.
+         */
+        boolean smoker;
+    }
 }

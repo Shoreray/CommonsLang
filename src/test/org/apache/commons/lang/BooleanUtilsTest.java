@@ -29,7 +29,7 @@ import junit.textui.TestRunner;
  *
  * @author Stephen Colebourne
  * @author Matthew Hawthorne
- * @version $Id: BooleanUtilsTest.java 492361 2007-01-04 00:10:13Z scolebourne $
+ * @version $Id: BooleanUtilsTest.java 589050 2007-10-27 05:07:45Z bayard $
  */
 public class BooleanUtilsTest extends TestCase {
 
@@ -330,6 +330,8 @@ public class BooleanUtilsTest extends TestCase {
         assertEquals(true, BooleanUtils.toBoolean("YeS"));
         assertEquals(true, BooleanUtils.toBoolean("YEs"));
         assertEquals(true, BooleanUtils.toBoolean("YES"));
+        assertEquals(false, BooleanUtils.toBoolean("yes?"));
+        assertEquals(false, BooleanUtils.toBoolean("tru"));
     }
 
     public void test_toBoolean_String_String_String() {

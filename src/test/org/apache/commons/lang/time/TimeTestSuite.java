@@ -25,7 +25,7 @@ import junit.textui.TestRunner;
  * Test suite for the Time package.
  *
  * @author Stephen Colebourne
- * @version $Id: TimeTestSuite.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: TimeTestSuite.java 617360 2008-02-01 07:12:56Z bayard $
  */
 public class TimeTestSuite extends TestCase {
     
@@ -54,6 +54,7 @@ public class TimeTestSuite extends TestCase {
         suite.addTest(DurationFormatUtilsTest.suite());
         suite.addTest(StopWatchTest.suite());
         suite.addTest(FastDateFormatTest.suite());
+        suite.addTest(DateUtilsFragmentTest.suite());
         return suite;
     }
 }

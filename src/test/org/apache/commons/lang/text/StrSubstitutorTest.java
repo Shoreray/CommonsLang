@@ -20,18 +20,18 @@ package org.apache.commons.lang.text;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.mutable.MutableObject;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+import org.apache.commons.lang.mutable.MutableObject;
+
 /**
  * Test class for StrSubstitutor.
  * 
  * @author Oliver Heger
- * @version $Id: StrSubstitutorTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StrSubstitutorTest.java 592081 2007-11-05 16:50:08Z mbenson $
  */
 public class StrSubstitutorTest extends TestCase {
 

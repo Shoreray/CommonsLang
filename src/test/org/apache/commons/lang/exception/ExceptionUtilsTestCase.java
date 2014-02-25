@@ -16,14 +16,14 @@
  */
 package org.apache.commons.lang.exception;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -52,7 +52,7 @@ import org.apache.commons.lang.SystemUtils;
  * Gary Gregory; August 16, 2006.
  * </p>
  * 
- * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ * @author Daniel L. Rall
  * @author <a href="mailto:steven@caswell.name">Steven Caswell</a>
  * @author Stephen Colebourne
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>

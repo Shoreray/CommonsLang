@@ -20,8 +20,8 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -90,7 +90,7 @@ import org.apache.commons.lang.math.NumberUtils;
  * @author Gary Gregory
  * @author Pete Gieser
  * @since 1.0
- * @version $Id: CompareToBuilder.java 447139 2006-09-17 20:36:53Z bayard $
+ * @version $Id: CompareToBuilder.java 583666 2007-10-11 01:38:13Z ggregory $
  */
 public class CompareToBuilder {
     

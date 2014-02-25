@@ -37,7 +37,7 @@ import org.apache.commons.lang.SerializationUtils;
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @author Fredrik Westermarck
  * @since 2.0
- * @version $Id: FastDateFormatTest.java 490388 2006-12-26 22:10:10Z bayard $
+ * @version $Id: FastDateFormatTest.java 590551 2007-10-31 03:58:52Z bayard $
  */
 public class FastDateFormatTest extends TestCase {
 
@@ -126,6 +126,46 @@ public class FastDateFormatTest extends TestCase {
             assertTrue(format1 != format2); // -- junit 3.8 version -- assertFalse(format1 == format2);
             assertSame(format1, format3);
             assertSame(Locale.GERMANY, format1.getLocale());
+
+        } finally {
+            Locale.setDefault(realDefaultLocale);
+        }
+    }
+
+    public void test_changeDefault_Locale_DateInstance() {
+        Locale realDefaultLocale = Locale.getDefault();
+        try {
+            Locale.setDefault(Locale.US);
+            FastDateFormat format1 = FastDateFormat.getDateInstance(FastDateFormat.FULL, Locale.GERMANY);
+            FastDateFormat format2 = FastDateFormat.getDateInstance(FastDateFormat.FULL);
+            Locale.setDefault(Locale.GERMANY);
+            FastDateFormat format3 = FastDateFormat.getDateInstance(FastDateFormat.FULL);
+
+            assertSame(Locale.GERMANY, format1.getLocale());
+            assertSame(Locale.US, format2.getLocale());
+            assertSame(Locale.GERMANY, format3.getLocale());
+            assertTrue(format1 != format2); // -- junit 3.8 version -- assertFalse(format1 == format2);
+            assertTrue(format2 != format3);
+
+        } finally {
+            Locale.setDefault(realDefaultLocale);
+        }
+    }
+
+    public void test_changeDefault_Locale_DateTimeInstance() {
+        Locale realDefaultLocale = Locale.getDefault();
+        try {
+            Locale.setDefault(Locale.US);
+            FastDateFormat format1 = FastDateFormat.getDateTimeInstance(FastDateFormat.FULL, FastDateFormat.FULL, Locale.GERMANY);
+            FastDateFormat format2 = FastDateFormat.getDateTimeInstance(FastDateFormat.FULL, FastDateFormat.FULL);
+            Locale.setDefault(Locale.GERMANY);
+            FastDateFormat format3 = FastDateFormat.getDateTimeInstance(FastDateFormat.FULL, FastDateFormat.FULL);
+
+            assertSame(Locale.GERMANY, format1.getLocale());
+            assertSame(Locale.US, format2.getLocale());
+            assertSame(Locale.GERMANY, format3.getLocale());
+            assertTrue(format1 != format2); // -- junit 3.8 version -- assertFalse(format1 == format2);
+            assertTrue(format2 != format3);
 
         } finally {
             Locale.setDefault(realDefaultLocale);

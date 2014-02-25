@@ -16,13 +16,13 @@
  */
 package org.apache.commons.lang.time;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * <p>Duration formatting utilities and constants. The following table describes the tokens 
@@ -44,7 +44,7 @@ import java.util.TimeZone;
  * @author Stephen Colebourne
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @since 2.1
- * @version $Id: DurationFormatUtils.java 491654 2007-01-01 22:04:34Z ggregory $
+ * @version $Id: DurationFormatUtils.java 583666 2007-10-11 01:38:13Z ggregory $
  */
 public class DurationFormatUtils {
 

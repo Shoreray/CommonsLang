@@ -23,6 +23,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.ClassUtils;
 
@@ -90,7 +91,7 @@ import org.apache.commons.lang.ClassUtils;
  * @author Stephen Colebourne
  * @author Pete Gieser
  * @since 2.0
- * @version $Id: ReflectionToStringBuilder.java 501986 2007-01-31 20:54:26Z bayard $
+ * @version $Id: ReflectionToStringBuilder.java 583666 2007-10-11 01:38:13Z ggregory $
  */
 public class ReflectionToStringBuilder extends ToStringBuilder {
 

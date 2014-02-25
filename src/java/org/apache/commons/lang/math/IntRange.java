@@ -23,7 +23,7 @@ import java.io.Serializable;
  *
  * @author Stephen Colebourne
  * @since 2.0
- * @version $Id: IntRange.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: IntRange.java 594398 2007-11-13 02:43:10Z bayard $
  */
 public final class IntRange extends Range implements Serializable {
     
@@ -381,4 +381,18 @@ public final class IntRange extends Range implements Serializable {
         return toString;
     }
 
+    /**
+     * <p>Returns an array containing all the integer values in the range.</p>
+     *
+     * @return the <code>int[]</code> representation of this range
+     * @since 2.4
+     */
+    public int[] toArray() {
+        int[] array = new int[max - min + 1];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = min + i;
+        }
+
+        return array;
+    }
 }

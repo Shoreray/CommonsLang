@@ -66,33 +66,64 @@ import org.apache.commons.lang.SystemUtils;
  * @author Pete Gieser
  * @author Masato Tezuka
  * @since 1.0
- * @version $Id: ToStringStyle.java 500497 2007-01-27 07:13:59Z bayard $
+ * @version $Id: ToStringStyle.java 594386 2007-11-13 01:22:21Z bayard $
  */
 public abstract class ToStringStyle implements Serializable {
 
     /**
-     * The default toString style.
+     * The default toString style. Using the Using the <code>Person</code>
+     * example from {@link ToStringBuilder}, the output would look like this:
+     * 
+     * <pre>
+     * Person@182f0db[name=John Doe,age=33,smoker=false]
+     * </pre>
      */
     public static final ToStringStyle DEFAULT_STYLE = new DefaultToStringStyle();
     
     /**
-     * The multi line toString style.
+     * The multi line toString style. Using the Using the <code>Person</code>
+     * example from {@link ToStringBuilder}, the output would look like this:
+     * 
+     * <pre>
+     * Person@182f0db[
+     *   name=John Doe
+     *   age=33
+     *   smoker=false
+     * ]
+     * </pre>
      */
     public static final ToStringStyle MULTI_LINE_STYLE = new MultiLineToStringStyle();
     
     /**
-     * The no field names toString style.
+     * The no field names toString style. Using the Using the
+     * <code>Person</code> example from {@link ToStringBuilder}, the output
+     * would look like this:
+     * 
+     * <pre>
+     * Person@182f0db[John Doe,33,false]
+     * </pre>
      */
     public static final ToStringStyle NO_FIELD_NAMES_STYLE = new NoFieldNameToStringStyle();
     
     /**
-     * The short prefix toString style.
+     * The short prefix toString style. Using the <code>Person</code> example
+     * from {@link ToStringBuilder}, the output would look like this:
+     * 
+     * <pre>
+     * Person[name=John Doe,age=33,smoker=false]
+     * </pre>
+     * 
      * @since 2.1
      */
     public static final ToStringStyle SHORT_PREFIX_STYLE = new ShortPrefixToStringStyle();
 
     /**
-     * The simple toString style.
+     * The simple toString style. Using the Using the <code>Person</code>
+     * example from {@link ToStringBuilder}, the output would look like this:
+     * 
+     * <pre>
+     * John Doe,33,false
+     * </pre>
      */
     public static final ToStringStyle SIMPLE_STYLE = new SimpleToStringStyle();
     
@@ -103,7 +134,7 @@ public abstract class ToStringStyle implements Serializable {
      * </p>
      */
     private static ThreadLocal registry = new ThreadLocal() {
-        protected synchronized Object initialValue() {
+        protected Object initialValue() {
             // The HashSet implementation is not synchronized,
             // which is just what we need here.
             return new HashSet();
@@ -282,6 +313,7 @@ public abstract class ToStringStyle implements Serializable {
 
     /**
      * <p>Append to the <code>toString</code> the superclass toString.</p>
+     * <p>NOTE: It assumes that the toString has been created from the same ToStringStyle. </p>
      * 
      * <p>A <code>null</code> <code>superToString</code> is ignored.</p>
      * 
@@ -295,6 +327,7 @@ public abstract class ToStringStyle implements Serializable {
 
     /**
      * <p>Append to the <code>toString</code> another toString.</p>
+     * <p>NOTE: It assumes that the toString has been created from the same ToStringStyle. </p>
      * 
      * <p>A <code>null</code> <code>toString</code> is ignored.</p>
      * 

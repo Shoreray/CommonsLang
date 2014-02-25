@@ -30,8 +30,8 @@ import junit.textui.TestRunner;
  * Tests the org.apache.commons.lang.exception.NestableDelegate class.
  *
  * @author <a href="mailto:steven@caswell.name">Steven Caswell</a>
- * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
- * @version $Id: NestableDelegateTestCase.java 437554 2006-08-28 06:21:41Z bayard $
+ * @author Daniel L. Rall
+ * @version $Id: NestableDelegateTestCase.java 610452 2008-01-09 16:53:06Z sebb $
  */
 public class NestableDelegateTestCase extends junit.framework.TestCase {
     private static final String CONSTRUCTOR_FAILED_MSG = 
@@ -1034,7 +1034,7 @@ class ThrowableNestedNestable extends Throwable implements Nestable
     }
     
     /**
-     * @see Nestable#getThrowableS()
+     * @see Nestable#getThrowables()
      */
     public Throwable[] getThrowables()
     {

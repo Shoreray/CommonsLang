@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * @author Stephen Colebourne
  * @since 2.2
- * @version $Id: StrLookup.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StrLookup.java 592077 2007-11-05 16:47:10Z mbenson $
  */
 public abstract class StrLookup {
 

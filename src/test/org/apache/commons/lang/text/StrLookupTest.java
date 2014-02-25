@@ -28,7 +28,7 @@ import junit.textui.TestRunner;
 /**
  * Test class for StrLookup.
  *
- * @version $Id: StrLookupTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: StrLookupTest.java 592081 2007-11-05 16:50:08Z mbenson $
  */
 public class StrLookupTest extends TestCase {
 

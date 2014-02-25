@@ -20,8 +20,8 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,11 +46,10 @@ import java.util.List;
  * <p>Typical use for the code is as follows:</p>
  * <pre>
  * public boolean equals(Object obj) {
- *   if (obj instanceof MyClass == false) {
+ *   if (obj == null) { return false; }
+ *   if (obj == this) { return true; }
+ *   if (obj.getClass() != getClass()) {
  *     return false;
- *   }
- *   if (this == obj) {
- *     return true;
  *   }
  *   MyClass rhs = (MyClass) obj;
  *   return new EqualsBuilder()
@@ -82,7 +81,7 @@ import java.util.List;
  * @author Pete Gieser
  * @author Arun Mammen Thomas
  * @since 1.0
- * @version $Id: EqualsBuilder.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: EqualsBuilder.java 611543 2008-01-13 07:00:22Z bayard $
  */
 public class EqualsBuilder {
     
@@ -378,8 +377,12 @@ public class EqualsBuilder {
         }
         Class lhsClass = lhs.getClass();
         if (!lhsClass.isArray()) {
-            // The simple case, not an array, just test the element
-            isEquals = lhs.equals(rhs);
+            if (lhs instanceof java.math.BigDecimal) {
+                isEquals = (((java.math.BigDecimal)lhs).compareTo(rhs) == 0);
+            } else {
+                // The simple case, not an array, just test the element
+                isEquals = lhs.equals(rhs);
+            }
         } else if (lhs.getClass() != rhs.getClass()) {
             // Here when we compare different dimensions, for example: a boolean[][] to a boolean[] 
             this.setEquals(false);

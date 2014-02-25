@@ -31,11 +31,11 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 /**
- * Unit tests {@link org.apache.commons.lang.util.Validate}.
+ * Unit tests {@link org.apache.commons.lang.Validate}.
  *
  * @author Stephen Colebourne
  * @author Norm Deane
- * @version $Id: ValidateTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: ValidateTest.java 610452 2008-01-09 16:53:06Z sebb $
  */
 public class ValidateTest extends TestCase {
 

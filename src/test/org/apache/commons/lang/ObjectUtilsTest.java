@@ -19,7 +19,6 @@ package org.apache.commons.lang;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.Calendar;
-import java.util.Date;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -33,7 +32,7 @@ import junit.textui.TestRunner;
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
  * @author <a href="mailto:ridesmet@users.sourceforge.net">Ringo De Smet</a>
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
- * @version $Id: ObjectUtilsTest.java 475113 2006-11-15 04:14:42Z bayard $
+ * @version $Id: ObjectUtilsTest.java 594336 2007-11-12 22:54:02Z bayard $
  */
 public class ObjectUtilsTest extends TestCase {
     private static final String FOO = "foo";
@@ -139,9 +138,22 @@ public class ObjectUtilsTest extends TestCase {
             "java.lang.String@" + Integer.toHexString(System.identityHashCode(FOO)),
             ObjectUtils.identityToString(FOO));
         Integer i = new Integer(90);
-        assertEquals(
-            "java.lang.Integer@" + Integer.toHexString(System.identityHashCode(i)),
-            ObjectUtils.identityToString(i));
+        String expected = "java.lang.Integer@" + Integer.toHexString(System.identityHashCode(i));
+        assertEquals(expected, ObjectUtils.identityToString(i));
+        StringBuffer buffer = new StringBuffer();
+        ObjectUtils.identityToString(buffer, i);
+        assertEquals(expected, buffer.toString());
+
+        try {
+            ObjectUtils.identityToString(null, "tmp");
+            fail("NullPointerException expected");
+        } catch(NullPointerException npe) {
+        }
+        try {
+            ObjectUtils.identityToString(new StringBuffer(), null);
+            fail("NullPointerException expected");
+        } catch(NullPointerException npe) {
+        }
     }
 
     public void testAppendIdentityToString() {

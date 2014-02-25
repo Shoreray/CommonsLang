@@ -38,13 +38,13 @@ import org.apache.commons.lang.SystemUtils;
  * <p>Provides utilities for manipulating and examining 
  * <code>Throwable</code> objects.</p>
  *
- * @author <a href="mailto:dlr@finemaltcoding.com">Daniel Rall</a>
+ * @author Daniel L. Rall
  * @author Dmitri Plotnikov
  * @author Stephen Colebourne
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
  * @author Pete Gieser
  * @since 1.0
- * @version $Id: ExceptionUtils.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: ExceptionUtils.java 594278 2007-11-12 19:58:30Z bayard $
  */
 public class ExceptionUtils {
     
@@ -123,7 +123,9 @@ public class ExceptionUtils {
         if (StringUtils.isNotEmpty(methodName) && !isCauseMethodName(methodName)) {            
             List list = getCauseMethodNameList();
             if (list.add(methodName)) {
-                CAUSE_METHOD_NAMES = toArray(list);
+                synchronized(CAUSE_METHOD_NAMES) {
+                    CAUSE_METHOD_NAMES = toArray(list);
+                }
             }
         }
     }
@@ -140,7 +142,9 @@ public class ExceptionUtils {
         if (StringUtils.isNotEmpty(methodName)) {
             List list = getCauseMethodNameList();
             if (list.remove(methodName)) {
-                CAUSE_METHOD_NAMES = toArray(list);
+                synchronized(CAUSE_METHOD_NAMES) {
+                    CAUSE_METHOD_NAMES = toArray(list);
+                }
             }
         }
     }
@@ -218,7 +222,9 @@ public class ExceptionUtils {
      * @return {@link #CAUSE_METHOD_NAMES} as a List.
      */
     private static ArrayList getCauseMethodNameList() {
-        return new ArrayList(Arrays.asList(CAUSE_METHOD_NAMES));
+        synchronized(CAUSE_METHOD_NAMES) {
+            return new ArrayList(Arrays.asList(CAUSE_METHOD_NAMES));
+        }
     }
 
     /**
@@ -231,7 +237,9 @@ public class ExceptionUtils {
      * @since 2.1
      */
     public static boolean isCauseMethodName(String methodName) {
-        return ArrayUtils.indexOf(CAUSE_METHOD_NAMES, methodName) >= 0;
+        synchronized(CAUSE_METHOD_NAMES) {
+            return ArrayUtils.indexOf(CAUSE_METHOD_NAMES, methodName) >= 0;
+        }
     }
 
     //-----------------------------------------------------------------------
@@ -267,7 +275,9 @@ public class ExceptionUtils {
      * @since 1.0
      */
     public static Throwable getCause(Throwable throwable) {
-        return getCause(throwable, CAUSE_METHOD_NAMES);
+        synchronized(CAUSE_METHOD_NAMES) {
+            return getCause(throwable, CAUSE_METHOD_NAMES);
+        }
     }
 
     /**
@@ -295,7 +305,9 @@ public class ExceptionUtils {
         Throwable cause = getCauseUsingWellKnownTypes(throwable);
         if (cause == null) {
             if (methodNames == null) {
-                methodNames = CAUSE_METHOD_NAMES;
+                synchronized(CAUSE_METHOD_NAMES) {
+                    methodNames = CAUSE_METHOD_NAMES;
+                }
             }
             for (int i = 0; i < methodNames.length; i++) {
                 String methodName = methodNames[i];
@@ -456,16 +468,18 @@ public class ExceptionUtils {
         }
 
         Class cls = throwable.getClass();
-        for (int i = 0, isize = CAUSE_METHOD_NAMES.length; i < isize; i++) {
-            try {
-                Method method = cls.getMethod(CAUSE_METHOD_NAMES[i], null);
-                if (method != null && Throwable.class.isAssignableFrom(method.getReturnType())) {
-                    return true;
+        synchronized(CAUSE_METHOD_NAMES) {
+            for (int i = 0, isize = CAUSE_METHOD_NAMES.length; i < isize; i++) {
+                try {
+                    Method method = cls.getMethod(CAUSE_METHOD_NAMES[i], null);
+                    if (method != null && Throwable.class.isAssignableFrom(method.getReturnType())) {
+                        return true;
+                    }
+                } catch (NoSuchMethodException ignored) {
+                    // exception ignored
+                } catch (SecurityException ignored) {
+                    // exception ignored
                 }
-            } catch (NoSuchMethodException ignored) {
-                // exception ignored
-            } catch (SecurityException ignored) {
-                // exception ignored
             }
         }
 

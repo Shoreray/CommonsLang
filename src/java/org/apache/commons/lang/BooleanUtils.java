@@ -29,7 +29,7 @@ import org.apache.commons.lang.math.NumberUtils;
  * @author Matthew Hawthorne
  * @author Gary Gregory
  * @since 2.0
- * @version $Id: BooleanUtils.java 492378 2007-01-04 01:31:24Z scolebourne $
+ * @version $Id: BooleanUtils.java 589050 2007-10-27 05:07:45Z bayard $
  */
 public class BooleanUtils {
 
@@ -594,7 +594,10 @@ public class BooleanUtils {
      * @param nullString  the String to match for <code>null</code>
      *  (case sensitive), may be <code>null</code>
      * @return the Boolean value of the string,
-     *  <code>null</code> if no match or <code>null</code> input
+     *  <code>null</code> if either the String matches <code>nullString</code>
+     *  or if <code>null</code> input and <code>nullString</code> is
+     *  <code>null</code>
+     * @throws IllegalArgumentException if the String doesn't match
      */
     public static Boolean toBooleanObject(String str, String trueString, String falseString, String nullString) {
         if (str == null) {
@@ -676,6 +679,7 @@ public class BooleanUtils {
                         (str.charAt(1) == 'E' || str.charAt(1) == 'e') &&
                         (str.charAt(2) == 'S' || str.charAt(2) == 's');
                 }
+                return false;
             }
             case 4: {
                 char ch = str.charAt(0);

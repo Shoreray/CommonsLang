@@ -23,13 +23,15 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
+
 import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang.builder.ToStringStyleTest.Person;
 
 /**
  * Unit tests {@link org.apache.commons.lang.builder.MultiLineToStringStyleTest}.
  *
  * @author <a href="mailto:scolebourne@joda.org">Stephen Colebourne</a>
- * @version $Id: MultiLineToStringStyleTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: MultiLineToStringStyleTest.java 592643 2007-11-07 07:25:30Z bayard $
  */
 public class MultiLineToStringStyleTest extends TestCase {
 
@@ -90,6 +92,15 @@ public class MultiLineToStringStyleTest extends TestCase {
         assertEquals(baseStr + "[" + SystemUtils.LINE_SEPARATOR + "  a={}" + SystemUtils.LINE_SEPARATOR + "]", new ToStringBuilder(base).append("a", new HashMap(), true).toString());
         assertEquals(baseStr + "[" + SystemUtils.LINE_SEPARATOR + "  a=<size=0>" + SystemUtils.LINE_SEPARATOR + "]", new ToStringBuilder(base).append("a", (Object) new String[0], false).toString());
         assertEquals(baseStr + "[" + SystemUtils.LINE_SEPARATOR + "  a={}" + SystemUtils.LINE_SEPARATOR + "]", new ToStringBuilder(base).append("a", (Object) new String[0], true).toString());
+    }
+
+    public void testPerson() {
+        Person p = new Person();
+        p.name = "Jane Doe";
+        p.age = 25;
+        p.smoker = true;
+        String pBaseStr = p.getClass().getName() + "@" + Integer.toHexString(System.identityHashCode(p));
+        assertEquals(pBaseStr + "[" + SystemUtils.LINE_SEPARATOR + "  name=Jane Doe" + SystemUtils.LINE_SEPARATOR + "  age=25" + SystemUtils.LINE_SEPARATOR + "  smoker=true" + SystemUtils.LINE_SEPARATOR + "]", new ToStringBuilder(p).append("name", p.name).append("age", p.age).append("smoker", p.smoker).toString());
     }
 
     public void testLong() {

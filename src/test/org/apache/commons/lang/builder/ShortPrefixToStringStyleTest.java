@@ -19,13 +19,15 @@ package org.apache.commons.lang.builder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.commons.lang.builder.ToStringStyleTest.Person;
+
 import junit.framework.TestCase;
 
 /**
- * Unit tests {@link org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE}.
+ * Unit tests {@link org.apache.commons.lang.builder.ToStringStyle#SHORT_PREFIX_STYLE}.
  * 
  * @author <a href="mailto:ggregory@seagullsw.com">Gary Gregory</a>
- * @version $Id: ShortPrefixToStringStyleTest.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: ShortPrefixToStringStyleTest.java 610452 2008-01-09 16:53:06Z sebb $
  */
 public class ShortPrefixToStringStyleTest extends TestCase {
 
@@ -72,6 +74,15 @@ public class ShortPrefixToStringStyleTest extends TestCase {
         assertEquals(baseStr + "[a={}]", new ToStringBuilder(base).append("a", new HashMap(), true).toString());
         assertEquals(baseStr + "[a=<size=0>]", new ToStringBuilder(base).append("a", (Object) new String[0], false).toString());
         assertEquals(baseStr + "[a={}]", new ToStringBuilder(base).append("a", (Object) new String[0], true).toString());
+    }
+
+    public void testPerson() {
+        Person p = new Person();
+        p.name = "John Q. Public";
+        p.age = 45;
+        p.smoker = true;
+        String pBaseStr = p.getClass().getName();
+        assertEquals(pBaseStr + "[name=John Q. Public,age=45,smoker=true]", new ToStringBuilder(p).append("name", p.name).append("age", p.age).append("smoker", p.smoker).toString());
     }
 
     public void testLong() {

@@ -18,7 +18,6 @@ package org.apache.commons.lang.time;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.FieldPosition;
@@ -67,7 +66,7 @@ import org.apache.commons.lang.Validate;
  * @author Stephen Colebourne
  * @author Nikolay Metchev
  * @since 2.0
- * @version $Id: FastDateFormat.java 504349 2007-02-06 22:44:33Z bayard $
+ * @version $Id: FastDateFormat.java 590552 2007-10-31 04:04:32Z bayard $
  */
 public class FastDateFormat extends Format {
     // A lot of the speed in this class comes from caching, but some comes
@@ -108,11 +107,11 @@ public class FastDateFormat extends Format {
     
     private static String cDefaultPattern;
 
-    private static Map cInstanceCache = new HashMap(7);
-    private static Map cDateInstanceCache = new HashMap(7);
-    private static Map cTimeInstanceCache = new HashMap(7);
-    private static Map cDateTimeInstanceCache = new HashMap(7);
-    private static Map cTimeZoneDisplayCache = new HashMap(7);
+    private static final Map cInstanceCache = new HashMap(7);
+    private static final Map cDateInstanceCache = new HashMap(7);
+    private static final Map cTimeInstanceCache = new HashMap(7);
+    private static final Map cDateTimeInstanceCache = new HashMap(7);
+    private static final Map cTimeZoneDisplayCache = new HashMap(7);
 
     /**
      * The pattern.
@@ -282,16 +281,15 @@ public class FastDateFormat extends Format {
         if (timeZone != null) {
             key = new Pair(key, timeZone);
         }
-        if (locale != null) {
-            key = new Pair(key, locale);
+
+        if (locale == null) {
+            locale = Locale.getDefault();
         }
+
+        key = new Pair(key, locale);
 
         FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);
         if (format == null) {
-            if (locale == null) {
-                locale = Locale.getDefault();
-            }
-
             try {
                 SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateInstance(style, locale);
                 String pattern = formatter.toPattern();
@@ -462,16 +460,13 @@ public class FastDateFormat extends Format {
         if (timeZone != null) {
             key = new Pair(key, timeZone);
         }
-        if (locale != null) {
-            key = new Pair(key, locale);
+        if (locale == null) {
+            locale = Locale.getDefault();
         }
+        key = new Pair(key, locale);
 
         FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache.get(key);
         if (format == null) {
-            if (locale == null) {
-                locale = Locale.getDefault();
-            }
-
             try {
                 SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateTimeInstance(dateStyle, timeStyle,
                         locale);

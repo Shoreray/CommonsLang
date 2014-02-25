@@ -35,7 +35,7 @@ import java.io.File;
  * @author Rafal Krupinski
  * @author Jason Gritman
  * @since 1.0
- * @version $Id: SystemUtils.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: SystemUtils.java 595798 2007-11-16 20:01:43Z bayard $
  */
 public class SystemUtils {
 
@@ -890,7 +890,7 @@ public class SystemUtils {
     // These MUST be declared after those above as they depend on the
     // values being set up
     // OS names from http://www.vamphq.com/os.html
-    // Selected ones included - please advise commons-dev@jakarta.apache.org
+    // Selected ones included - please advise dev@commons.apache.org
     // if you want another added or a mistake corrected
 
     /**
@@ -1069,6 +1069,17 @@ public class SystemUtils {
      * @since 2.0
      */
     public static final boolean IS_OS_WINDOWS_XP = getOSMatches(OS_NAME_WINDOWS_PREFIX, "5.1");
+
+    //-----------------------------------------------------------------------    
+    /**
+     * <p>Is <code>true</code> if this is Windows Vista.</p>
+     *
+     * <p>The field will return <code>false</code> if <code>OS_NAME</code> is
+     * <code>null</code>.</p>
+     *
+     * @since 2.4
+     */
+    public static final boolean IS_OS_WINDOWS_VISTA = getOSMatches(OS_NAME_WINDOWS_PREFIX, "6.0"); 
 
     //-----------------------------------------------------------------------    
     /**
