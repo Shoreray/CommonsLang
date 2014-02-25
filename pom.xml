@@ -22,12 +22,12 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>17</version>
+    <version>21</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>commons-lang</groupId>
-  <artifactId>commons-lang</artifactId>
-  <version>2.6</version>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-lang3</artifactId>
+  <version>3.0</version>
   <name>Commons Lang</name>
 
   <inceptionYear>2001</inceptionYear>
@@ -45,9 +45,9 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/lang/branches/LANG_2_X</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/lang/branches/LANG_2_X</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/lang/branches/LANG_2_X</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/lang/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/lang/trunk</developerConnection>
+    <url>http://svn.apache.org/viewvc/commons/proper/lang/trunk</url>
   </scm>
 
     <developers>
@@ -111,7 +111,6 @@
         <developer>
             <name>Phil Steitz</name>
             <id>psteitz</id>
-            <email>phil@steitz.com</email>
             <organization/>
             <roles>
                 <role>Java Developer</role>
@@ -289,6 +288,9 @@
             <name>Rafal Krzewski</name>
         </contributor>
         <contributor>
+            <name>Eli Lindsey</name>
+        </contributor>
+        <contributor>
             <name>Craig R. McClanahan</name>
         </contributor>
         <contributor>
@@ -340,6 +342,9 @@
             <name>Antony Riley</name>
         </contributor>
         <contributor>
+            <name>Valentin Rocher</name>
+        </contributor>
+        <contributor>
             <name>Scott Sanders</name>
         </contributor>
         <contributor>
@@ -359,6 +364,9 @@
         </contributor>
         <contributor>
             <name>Ville Skytta</name>
+        </contributor>
+        <contributor>
+            <name>David M. Sledge</name>
         </contributor>
         <contributor>
             <name>Jan Sorensen</name>
@@ -412,24 +420,31 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.7</version>
       <scope>test</scope>
     </dependency>
-  </dependencies> 
+
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>2.5.2</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compile.source>1.3</maven.compile.source>
-    <maven.compile.target>1.3</maven.compile.target>
+    <maven.compile.source>1.5</maven.compile.source>
+    <maven.compile.target>1.5</maven.compile.target>
     <commons.componentid>lang</commons.componentid>
-    <commons.release.version>2.6</commons.release.version>
-    <commons.release.desc>(Java 1.3+)</commons.release.desc>
-    <commons.release.2.version>3.0-beta</commons.release.2.version>
-    <commons.release.2.desc>(Java 5.0+)</commons.release.2.desc>
+    <commons.release.version>3.0</commons.release.version>
+    <commons.release.desc>(Java 5.0+)</commons.release.desc>
+    <commons.release.2.version>2.6</commons.release.2.version>
+    <commons.release.2.desc>(Java 1.3+)</commons.release.2.desc>
     <commons.jira.id>LANG</commons.jira.id>
     <commons.jira.pid>12310481</commons.jira.pid>
-    <random.exclude.test>**/RandomUtilsFreqTest.java</random.exclude.test>
   </properties> 
 
 
@@ -442,10 +457,6 @@
           <includes>
             <include>**/*Test.java</include>
           </includes>
-          <excludes>
-            <exclude>**/EntitiesPerformanceTest.java</exclude>
-            <exclude>${random.exclude.test}</exclude>
-          </excludes>
         </configuration>
       </plugin>
       <plugin>
@@ -458,35 +469,19 @@
           <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-
-  <profiles>
-      <!--
-        RandomUtils frequency tests have been put in a separate test case which
-        is only run when using this profile because it fails too frequently.
-        See https://issues.apache.org/jira/browse/LANG-592
-        -->
-      <profile>
-        <id>test-random-freq</id>
-        <properties>
-          <random.exclude.test/>
-        </properties> 
-        <build>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <configuration>
-                <includes>
-                  <include>**/RandomUtilsFreqTest.java</include>
-                </includes>
-              </configuration>
-            </plugin>
-          </plugins>
-        </build>
-      </profile>
-  </profiles>
 
   <reporting>
     <plugins>
@@ -535,9 +530,47 @@
         <artifactId>clirr-maven-plugin</artifactId>
         <version>2.2.2</version>
         <configuration>
-          <comparisonVersion>2.5</comparisonVersion>
+          <comparisonArtifacts>
+            <comparisonArtifact>
+              <groupId>commons-lang</groupId>
+              <artifactId>commons-lang</artifactId>
+              <version>2.6</version>
+            </comparisonArtifact>
+          </comparisonArtifacts>
           <minSeverity>info</minSeverity>
         </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <targetJdk>${maven.compile.target}</targetJdk>  
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>pmd</report>
+              <report>cpd</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <tags>
+            <tag>TODO</tag>
+            <tag>NOPMD</tag>
+            <tag>NOTE</tag>
+          </tags>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javancss-maven-plugin</artifactId>
+        <version>2.0</version>
       </plugin>
     </plugins>
   </reporting>
